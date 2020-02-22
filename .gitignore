@@ -1,0 +1,6 @@
+# vscode workspace
+.vscode/
+
+# debug output
+httpParser.out
+httpParser.out.dSYM/
