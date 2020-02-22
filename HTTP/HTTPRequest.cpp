@@ -2,7 +2,7 @@
 
 namespace greatbridf  {
 
-  HTTPRequest::HTTPRequest(std::string& req) throw() {
+  HTTPRequest::HTTPRequest(std::string& req) {
     std::istringstream ss(req);
     std::string type, version;
     ss >> type >> this->path >> version;

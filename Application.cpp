@@ -15,8 +15,11 @@ namespace greatbridf {
         [](Socket* socket) {
           std::cout << "Thread " << std::this_thread::get_id() << ": launched" << std::endl;
           std::cout << "Thread " << std::this_thread::get_id() << ": connection from " << socket->getIP() << ':' << socket->getPort() << std::endl;
-          socket->send(msg);
+          std::string data;
+          *socket >> data;
+          *socket << msg;
           delete socket;
+          std::cout << data << std::endl;
           std::cout << "Thread " << std::this_thread::get_id() << ": exits" << std::endl;
         }, socket
       };

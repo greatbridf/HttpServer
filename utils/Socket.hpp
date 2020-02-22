@@ -11,6 +11,8 @@ namespace greatbridf {
 
   class Socket {
     public:
+      const static unsigned long BUFSIZE = 1024;
+
       enum class SocketType {
         TCP = IPPROTO_TCP,
         UDP = IPPROTO_UDP
@@ -27,6 +29,9 @@ namespace greatbridf {
       int getPort() const;
 
       void close();
+
+      Socket& operator<<(const std::string& data);
+      Socket& operator>>(std::string& target);
 
     protected:
       int socket;

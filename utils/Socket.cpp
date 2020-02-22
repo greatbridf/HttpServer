@@ -56,4 +56,20 @@ namespace greatbridf {
     return this->port;
   }
 
+  Socket& Socket::operator<<(const std::string& data) {
+    this->send(data);
+    return *this;
+  }
+
+  Socket& Socket::operator>>(std::string& target) {
+    char* buf = new char[this->BUFSIZE];
+    int nRecv = 0;
+    while ((nRecv = ::recv(this->socket, buf, this->BUFSIZE-1, 0)) > 0) {
+      buf[nRecv] = 0x00;
+      target.append(buf);
+      if (target.find("\r\n\r\n") != std::string::npos) break;
+    }
+    return *this;
+  }
+
 }
