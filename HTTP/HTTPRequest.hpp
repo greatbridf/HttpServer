@@ -21,7 +21,7 @@ namespace greatbridf {
       };
 
       HTTPRequest(std::string& req);
-      const std::string& getHeader(std::string& key) const;
+      const std::string getHeader(const char* key) const;
       const std::string& getQueryPath() const;
       RequestType getRequestType() const;
       HTTPVersion getHTTPVersion() const;

@@ -31,8 +31,8 @@ namespace greatbridf  {
     }
   }
 
-  const std::string& HTTPRequest::getHeader(std::string& key) const {
-    return this->headers.at(key);
+  const std::string HTTPRequest::getHeader(const char* key) const {
+    return this->headers.find(key) != this->headers.end() ? this->headers.at(key) : "";
   }
 
   const std::string& HTTPRequest::getQueryPath() const {

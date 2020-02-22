@@ -5,28 +5,37 @@ const static std::string msg = "HTTP/1.1 200 OK\r\nContent-Type: text/html; char
 
 namespace greatbridf {
 
+  Application::~Application() {
+    delete this->ss;
+  }
+
   int Application::run() {
-    ServerSocket ss = ServerSocket(Socket::SocketType::TCP, 8080);
-    ss.listen();
+    this->ss = new ServerSocket(Socket::SocketType::TCP, 8080);
+    this->ss->listen();
 
-    for (int i = 0; i < 10; ++i) {
-      Socket* socket = ss.accept();
-      std::thread th {
-        [](Socket* socket) {
-          std::cout << "Thread " << std::this_thread::get_id() << ": launched" << std::endl;
-          std::cout << "Thread " << std::this_thread::get_id() << ": connection from " << socket->getIP() << ':' << socket->getPort() << std::endl;
-          std::string data;
-          *socket >> data;
-          *socket << msg;
-          delete socket;
-          std::cout << data << std::endl;
-          std::cout << "Thread " << std::this_thread::get_id() << ": exits" << std::endl;
-        }, socket
-      };
-      th.detach();
+    try {
+      for (int i = 0; i < 10; ++i) {
+        Socket* socket = this->ss->accept();
+        std::thread th {
+          [](Socket* socket) {
+            std::cout << "Thread " << std::this_thread::get_id() << ": launched" << std::endl;
+            std::cout << "Thread " << std::this_thread::get_id() << ": connection from " << socket->getIP() << ':' << socket->getPort() << std::endl;
+            std::string data;
+            *socket >> data;
+            *socket << msg;
+            delete socket;
+            auto re = data.substr(0, data.find("\r\n\r\n"));
+            HTTPRequest req(re);
+            std::cout << "request body:" << std::endl << data.substr(data.find("\r\n\r\n")+4, data.size()-1) << std::endl;
+            std::cout << "Thread " << std::this_thread::get_id() << ": exits" << std::endl;
+          }, socket
+        };
+        th.detach();
+      }
+    } catch (Exception& e) {
+      std::cerr << "Error encountered: " << e.what() << std::endl;
+      return -1;
     }
-
-    ss.close();
     return 0;
   }
 
