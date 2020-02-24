@@ -18,7 +18,7 @@ namespace greatbridf {
 
       void run() override {
         try {
-          log("Connection from" + socket->getIP() + ':' + std::to_string(socket->getPort()));
+          log("Connection from " + socket->getIP() + ':' + std::to_string(socket->getPort()));
           std::string data;
           *socket >> data;
           *socket << msg;

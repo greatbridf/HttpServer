@@ -4,3 +4,6 @@
 # debug output
 httpParser.out
 httpParser.out.dSYM/
+
+# cmake
+cmake-build-debug/

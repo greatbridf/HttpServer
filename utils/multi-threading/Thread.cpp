@@ -24,7 +24,7 @@ namespace greatbridf {
       [](ITask* task, std::queue<std::thread::id>* queue, std::mutex* mtx) {
         task->run();
 
-        std::lock_guard lck(*mtx);
+        std::lock_guard<std::mutex> lck(*mtx);
         queue->push(std::this_thread::get_id());
       }, task, &this->finQueue, &this->mtx
     };
