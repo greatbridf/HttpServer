@@ -1,7 +1,7 @@
 #include "Thread.hpp"
 
 namespace greatbridf {
-  ThreadPool::ThreadPool() {}
+  ThreadPool::ThreadPool() = default;
 
   ThreadPool::~ThreadPool() {
     this->recycle();

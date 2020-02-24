@@ -13,7 +13,7 @@ namespace greatbridf {
 
   class Task : public ITask {
     public:
-      Task(Socket* socket): socket(socket) {}
+      explicit Task(Socket* socket): socket(socket) {};
       ~Task() override {
         delete this->socket;
       }
@@ -66,11 +66,11 @@ namespace greatbridf {
         }
       }
 
-      inline void log(std::string msg, std::ostream& stream) {
+      inline static void log(std::string msg, std::ostream& stream) {
         stream << "[Thread " << std::this_thread::get_id() << "] " << msg << std::endl;
       }
 
-      inline void log(std::string msg) {
+      inline static void log(std::string msg) {
         log(msg, std::cout);
       }
 

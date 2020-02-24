@@ -6,7 +6,7 @@ namespace greatbridf {
     this->msg = msg;
   }
 
-  const char* Exception::what() const throw() {
+  const char* Exception::what() const noexcept {
     return this->msg.c_str();
   }
 

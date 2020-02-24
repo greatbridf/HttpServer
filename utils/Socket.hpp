@@ -38,7 +38,7 @@ namespace greatbridf {
 
       std::string ip;
       int port;
-      sockaddr_in addr;
+      sockaddr_in addr{};
 
       bool closed = false;
   };

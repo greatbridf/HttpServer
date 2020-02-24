@@ -9,16 +9,16 @@ namespace greatbridf {
       throw std::runtime_error("unable to bind port");
   }
 
-  ServerSocket::~ServerSocket() {}
+  ServerSocket::~ServerSocket() = default;
 
   void ServerSocket::listen() {
-    int code = ::listen(this->socket, this->queueLength);
+    int code = ::listen(this->socket, queueLength);
     if (code < 0)
       throw std::runtime_error("unable to listen");
   }
 
   Socket* ServerSocket::accept() {
-    sockaddr_in addr;
+    sockaddr_in addr{};
     int len = sizeof(sockaddr_in);
 
     int socket = ::accept(this->socket, (sockaddr*)&addr, (socklen_t*)&len);

@@ -38,7 +38,7 @@ namespace greatbridf {
     unsigned long long s = ::send(this->socket, data, size, 0);
     if (s != size) {
       std::string msg = "unable to send (";
-      msg += s;
+      msg += std::to_string(s);
       msg += " byte(s) sent)";
       throw std::runtime_error(msg);
     }
@@ -62,9 +62,9 @@ namespace greatbridf {
   }
 
   Socket& Socket::operator>>(std::string& target) {
-    char* buf = new char[this->BUFSIZE];
+    char* buf = new char[BUFSIZE];
     int nRecv = 0;
-    while ((nRecv = ::recv(this->socket, buf, this->BUFSIZE-1, 0)) > 0) {
+    while ((nRecv = ::recv(this->socket, buf, BUFSIZE-1, 0)) > 0) {
       buf[nRecv] = 0x00;
       target.append(buf);
       if (target.find("\r\n\r\n") != std::string::npos) break;

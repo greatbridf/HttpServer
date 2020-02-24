@@ -7,9 +7,9 @@ namespace greatbridf {
 
   class Exception : public std::exception{
     public:
-      Exception(const char* msg);
+      explicit Exception(const char* msg);
 
-      const char* what() const throw() override;
+      const char* what() const noexcept override;
 
     private:
       std::string msg;
