@@ -2,7 +2,40 @@
 
 namespace greatbridf  {
 
-  HTTPRequest::HTTPRequest(std::string& req) {
+  HTTPRequest::HTTPRequest(std::string& req): type(RequestType::NONE), version(HTTPVersion::NONE) {
+    auto pos = req.find("\r\n\r\n");
+    if (pos == std::string::npos) {
+      throw Exception("Bad request");
+    }
+
+    this->parseRequestHead(req.substr(0, pos));
+
+    this->body = req.substr(pos+4, req.size()-1);
+  }
+
+  HTTPRequest::HTTPRequest(): type(RequestType::NONE), version(HTTPVersion::NONE) {}
+
+  const std::string& HTTPRequest::getHeader(const char* key) const {
+    return this->headers.find(key) != this->headers.end() ? this->headers.at(key) : NULL_STRING;
+  }
+
+  const std::string& HTTPRequest::getQueryPath() const {
+    return this->path;
+  }
+
+  HTTPRequest::RequestType HTTPRequest::getRequestType() const {
+    return this->type;
+  }
+
+  HTTPRequest::HTTPVersion HTTPRequest::getHTTPVersion() const {
+    return this->version;
+  }
+
+  const std::string& HTTPRequest::getRequestBody() const {
+      return this->body;
+  }
+
+  void HTTPRequest::parseRequestHead(const std::string &req) {
     std::istringstream ss(req);
     std::string type, version;
     ss >> type >> this->path >> version;
@@ -29,22 +62,6 @@ namespace greatbridf  {
       std::getline(ss, value, '\r');
       this->headers.insert(std::make_pair(key, value));
     }
-  }
-
-  const std::string HTTPRequest::getHeader(const char* key) const {
-    return this->headers.find(key) != this->headers.end() ? this->headers.at(key) : "";
-  }
-
-  const std::string& HTTPRequest::getQueryPath() const {
-    return this->path;
-  }
-
-  HTTPRequest::RequestType HTTPRequest::getRequestType() const {
-    return this->type;
-  }
-
-  HTTPRequest::HTTPVersion HTTPRequest::getHTTPVersion() const {
-    return this->version;
   }
 
 }

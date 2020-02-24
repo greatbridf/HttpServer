@@ -1,9 +1,11 @@
 #include "Application.h"
 
-const static std::string msg = "HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=UTF-8\r\nConnection: close\r\nContent-Length: 61\r\n\r\n"
-"<!DOCTYPE html><html><body><h1>HelloWorld!</h1></body></html>";
-
 namespace greatbridf {
+
+  const static std::string getRet = "HTTP/1.1 200 OK\r\n"
+                                    "Content-Type: text/html\r\n"
+                                    "Connection: close\r\n"
+                                    "Content-Length: ";
 
   Application::~Application() {
     delete this->ss;
@@ -21,13 +23,41 @@ namespace greatbridf {
           log("Connection from " + socket->getIP() + ':' + std::to_string(socket->getPort()));
           std::string data;
           *socket >> data;
-          *socket << msg;
 
-          auto re = data.substr(0, data.find("\r\n\r\n"));
-          HTTPRequest req(re);
+          HTTPRequest req(data);
 
           log("Request body: ");
-          std::cout << data.substr(data.find("\r\n\r\n")+4, data.size()-1) << std::endl;
+          std::cout << req.getRequestBody() << std::endl;
+
+          switch (req.getRequestType()) {
+            default:
+              log("Unsupported request type");
+              break;
+
+            case HTTPRequest::RequestType::GET:
+              auto path = req.getQueryPath();
+              if (path == "/") {
+                path = "/index.html";
+              }
+
+              std::fstream fs("." + path);
+              if (!fs.good()) {
+                throw Exception("Not found");
+              }
+
+              fs.seekg(0, std::ios::end);
+              *socket << getRet << std::to_string(fs.tellg()) << "\r\n\r\n";
+              fs.seekg(0, std::ios::beg);
+
+              std::string tmp;
+              while (!fs.eof()) {
+                std::getline(fs, tmp, '\n');
+                *socket << tmp << "\n";
+              }
+              *socket << "\r\n";
+
+              break;
+          }
 
           log("Exited");
 
@@ -53,7 +83,7 @@ namespace greatbridf {
     this->ss->listen();
 
     try {
-      for (int i = 0; i < 10; ++i) {
+      for (int i = 0; i < 3; ++i) {
         Socket* socket = this->ss->accept();
         this->pool.add(new Task(socket));
       }

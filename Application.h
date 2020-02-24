@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 
 #include "utils/ServerSocket.hpp"
 #include "HTTP/HTTPRequest.hpp"
