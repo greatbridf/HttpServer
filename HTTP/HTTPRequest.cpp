@@ -2,7 +2,7 @@
 
 namespace greatbridf  {
 
-  HTTPRequest::HTTPRequest(std::string& req): type(RequestType::NONE), version(HTTPVersion::NONE) {
+  HTTPRequest::HTTPRequest(std::string& req): type(HTTPRequestType::NONE), version(HTTPVersion::NONE) {
     auto pos = req.find("\r\n\r\n");
     if (pos == std::string::npos) {
       throw Exception("Bad request");
@@ -13,7 +13,7 @@ namespace greatbridf  {
     this->body = req.substr(pos+4, req.size()-1);
   }
 
-  HTTPRequest::HTTPRequest(): type(RequestType::NONE), version(HTTPVersion::NONE) {}
+  HTTPRequest::HTTPRequest(): type(HTTPRequestType::NONE), version(HTTPVersion::NONE) {}
 
   const std::string& HTTPRequest::getHeader(const char* key) const {
     return this->headers.find(key) != this->headers.end() ? this->headers.at(key) : NULL_STRING;
@@ -23,11 +23,11 @@ namespace greatbridf  {
     return this->path;
   }
 
-  HTTPRequest::RequestType HTTPRequest::getRequestType() const {
+  HTTPRequestType HTTPRequest::getRequestType() const {
     return this->type;
   }
 
-  HTTPRequest::HTTPVersion HTTPRequest::getHTTPVersion() const {
+  HTTPVersion HTTPRequest::getHTTPVersion() const {
     return this->version;
   }
 
@@ -40,8 +40,8 @@ namespace greatbridf  {
     std::string type, version;
     ss >> type >> this->path >> version;
 
-    if (type == "GET") this->type = RequestType::GET;
-    else if (type == "POST") this->type = RequestType::POST;
+    if (type == "GET") this->type = HTTPRequestType::GET;
+    else if (type == "POST") this->type = HTTPRequestType::POST;
     else throw Exception("unexpected query type");
 
     if (version == "HTTP/1.1") this->version = HTTPVersion::ONE;

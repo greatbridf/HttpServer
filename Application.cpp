@@ -1,11 +1,7 @@
+#include <HTTP/HTTPResponse.hpp>
 #include "Application.h"
 
 namespace greatbridf {
-
-  const static std::string getRet = "HTTP/1.1 200 OK\r\n"
-                                    "Content-Type: text/html\r\n"
-                                    "Connection: close\r\n"
-                                    "Content-Length: ";
 
   Application::~Application() {
     delete this->ss;
@@ -30,11 +26,8 @@ namespace greatbridf {
           std::cout << req.getRequestBody() << std::endl;
 
           switch (req.getRequestType()) {
-            default:
-              log("Unsupported request type");
-              break;
 
-            case HTTPRequest::RequestType::GET:
+            case HTTPRequestType::GET: {
               auto path = req.getQueryPath();
               if (path == "/") {
                 path = "/index.html";
@@ -42,21 +35,30 @@ namespace greatbridf {
 
               std::fstream fs("." + path);
               if (!fs.good()) {
-                throw Exception("Not found");
+                HTTPResponse response(404);
+                *socket << response.toString();
+                break;
               }
 
               fs.seekg(0, std::ios::end);
-              *socket << getRet << std::to_string(fs.tellg()) << "\r\n\r\n";
+              size_t fileSize = fs.tellg();
               fs.seekg(0, std::ios::beg);
 
-              std::string tmp;
-              while (!fs.eof()) {
-                std::getline(fs, tmp, '\n');
-                *socket << tmp << "\n";
-              }
-              *socket << "\r\n";
+              char* content = new char[fileSize+1];
+              fs.read(content, fileSize);
+              content[fileSize] = 0x00;
+              HTTPResponse response(200, HTTPVersion::ONE, content);
+              *socket << response.toString();
+              delete [] content;
 
               break;
+            }
+
+            default: {
+              HTTPResponse response(400);
+              *socket << response.toString();
+              break;
+            }
           }
 
           log("Exited");

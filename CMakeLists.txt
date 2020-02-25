@@ -22,4 +22,4 @@ add_executable(HttpParser
         utils/Socket.hpp
         Application.cpp
         Application.h
-        main.cpp)
+        main.cpp HTTP/HTTPResponse.hpp HTTP/HTTPResponse.cpp utils/Foundation/Serializable.hpp HTTP/HTTPResponseHead.hpp HTTP/Base.hpp)

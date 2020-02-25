@@ -4,7 +4,8 @@
 #include <sstream>
 #include <map>
 
-#include "../utils/Exception.hpp"
+#include <utils/Exception.hpp>
+#include "Base.hpp"
 
 namespace greatbridf {
 
@@ -12,30 +13,19 @@ namespace greatbridf {
 
   class HTTPRequest {
     public:
-      enum class RequestType {
-        GET,
-        POST,
-        NONE,
-      };
-
-      enum class HTTPVersion {
-        ONE,
-        TWO,
-        NONE,
-      };
 
       explicit HTTPRequest(std::string& req);
       HTTPRequest();
 
       const std::string& getHeader(const char* key) const;
       const std::string& getQueryPath() const;
-      RequestType getRequestType() const;
+      HTTPRequestType getRequestType() const;
       HTTPVersion getHTTPVersion() const;
 
       const std::string& getRequestBody() const;
 
     private:
-      RequestType type;
+      HTTPRequestType type;
       HTTPVersion version;
       std::string path;
 
