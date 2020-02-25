@@ -1,3 +1,6 @@
+#ifndef HTTPPARSER_SOCKET_HTTP
+#define HTTPPARSER_SOCKET_HTTP
+
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <memory.h>
@@ -44,3 +47,5 @@ namespace greatbridf {
   };
 
 }
+
+#endif
