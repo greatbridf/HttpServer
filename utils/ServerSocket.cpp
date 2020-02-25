@@ -4,6 +4,9 @@ namespace greatbridf {
 
   ServerSocket::ServerSocket(Socket::SocketType type, int port) : Socket(type, "127.0.0.1", port) {
 
+    const static int opt = 1;
+    ::setsockopt(this->socket, SOL_SOCKET, SO_REUSEPORT, &opt, sizeof(opt));
+
     int code = bind(this->socket, (sockaddr*)&this->addr, sizeof(sockaddr));
     if (code < 0)
       throw std::runtime_error("unable to bind port");
