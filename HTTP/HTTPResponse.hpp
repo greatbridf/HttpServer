@@ -9,6 +9,7 @@
 #include <map>
 
 #include <utils/Foundation/Serializable.hpp>
+#include <utils/Socket.hpp>
 #include "HTTPResponseHead.hpp"
 
 
@@ -17,17 +18,16 @@ namespace greatbridf {
   class HTTPResponse : public Serializable {
 
   public:
-    explicit HTTPResponse(unsigned int code = 400, HTTPVersion version = HTTPVersion::ONE, std::string _data = "");
+    explicit HTTPResponse(unsigned int code = 400, HTTPVersion version = HTTPVersion::ONE);
 
     std::string toString() const override;
+    friend Socket& operator<<(Socket& socket, const HTTPResponse& response);
 
-    void setContent(std::string _data);
     void setHeader(const char* key, const char* value);
 
   private:
     HTTPResponseHead head;
     std::map<std::string, std::string> headers;
-    std::string data;
   };
 }
 

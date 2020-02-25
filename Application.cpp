@@ -27,6 +27,7 @@ namespace greatbridf {
 
           switch (req.getRequestType()) {
 
+            // TODO New File class
             case HTTPRequestType::GET: {
               auto path = req.getQueryPath();
               if (path == "/") {
@@ -44,11 +45,12 @@ namespace greatbridf {
               size_t fileSize = fs.tellg();
               fs.seekg(0, std::ios::beg);
 
-              char* content = new char[fileSize+1];
+              char* content = new char[fileSize];
               fs.read(content, fileSize);
-              content[fileSize] = 0x00;
-              HTTPResponse response(200, HTTPVersion::ONE, content);
-              *socket << response.toString();
+              HTTPResponse response(200, HTTPVersion::ONE);
+              response.setHeader("Content-Length", std::to_string(fileSize).c_str());
+              *socket << response;
+              socket->send(content, fileSize);
               delete [] content;
 
               break;
@@ -85,7 +87,7 @@ namespace greatbridf {
     this->ss->listen();
 
     try {
-      for (int i = 0; i < 3; ++i) {
+      while (true) {
         Socket* socket = this->ss->accept();
         this->pool.add(new Task(socket));
       }

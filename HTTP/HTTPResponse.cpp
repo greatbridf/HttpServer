@@ -6,13 +6,13 @@
 
 namespace greatbridf {
 
-  HTTPResponse::HTTPResponse(unsigned int code, HTTPVersion version, std::string _data)
-      : head(code, version), data(std::move(_data)) {
-    this->setContent(this->data);
+  HTTPResponse::HTTPResponse(unsigned int code, HTTPVersion version)
+      : head(code, version) {
 
     this->setHeader("Content-Type", "text/html; charset=UTF-8");
+    this->setHeader(("Content-Length"), "0");
     this->setHeader("Connection", "close");
-  };
+  }
 
   std::string HTTPResponse::toString() const {
     std::ostringstream os;
@@ -23,18 +23,16 @@ namespace greatbridf {
     }
     os << CRLF;
 
-    os << data;
-
     return os.str();
-  }
-
-  void HTTPResponse::setContent(std::string _data) {
-    this->headers["Content-Length"] = std::to_string(_data.size());
-    this->data = std::move(_data);
   }
 
   void HTTPResponse::setHeader(const char *key, const char *value) {
     this->headers[key] = value;
+  }
+
+  Socket& operator<<(Socket& socket, const HTTPResponse& response) {
+    socket << response.toString();
+    return socket;
   }
 
 }
