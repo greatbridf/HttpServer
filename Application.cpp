@@ -1,4 +1,5 @@
 #include <HTTP/HTTPResponse.hpp>
+#include <utils/SocketIO/SocketBuffer.hpp>
 #include "Application.h"
 
 namespace greatbridf {
@@ -17,13 +18,14 @@ namespace greatbridf {
       void run() override {
         try {
           log("Connection from " + socket->getIP() + ':' + std::to_string(socket->getPort()));
-          std::string data;
-          *socket >> data;
+          SocketBuffer buffer(*socket);
+          std::iostream stream(&buffer);
 
-          HTTPRequest req(data);
+          HTTPRequest req;
+          stream >> req;
 
           log("Request body: ");
-          std::cout << req.getRequestBody() << std::endl;
+          log(stream.eof() ? "EOF" : "NOT_EOF");
 
           switch (req.getRequestType()) {
 
@@ -36,8 +38,7 @@ namespace greatbridf {
 
               std::fstream fs("." + path);
               if (!fs.good()) {
-                HTTPResponse response(404);
-                *socket << response.toString();
+                stream << HTTPResponse(404);
                 break;
               }
 
@@ -49,16 +50,16 @@ namespace greatbridf {
               fs.read(content, fileSize);
               HTTPResponse response(200, HTTPVersion::ONE);
               response.setHeader("Content-Length", std::to_string(fileSize).c_str());
-              *socket << response;
-              socket->send(content, fileSize);
+              stream << response;
+              stream.write(content, fileSize);
+              stream.flush();
               delete [] content;
 
               break;
             }
 
             default: {
-              HTTPResponse response(400);
-              *socket << response.toString();
+              stream << HTTPResponse(400);
               break;
             }
           }
@@ -70,11 +71,11 @@ namespace greatbridf {
         }
       }
 
-      inline static void log(std::string msg, std::ostream& stream) {
+      inline static void log(const std::string& msg, std::ostream& stream) {
         stream << "[Thread " << std::this_thread::get_id() << "] " << msg << std::endl;
       }
 
-      inline static void log(std::string msg) {
+      inline static void log(const std::string& msg) {
         log(msg, std::cout);
       }
 
