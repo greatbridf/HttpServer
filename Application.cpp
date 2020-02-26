@@ -2,6 +2,7 @@
 #include <utils/SocketIO/SocketBuffer.hpp>
 #include <utils/Foundation/File.hpp>
 #include <utils/Foundation/StreamIOHelper.hpp>
+#include <utils/Foundation/BasicIO.hpp>
 #include "Application.h"
 
 namespace greatbridf
@@ -28,7 +29,7 @@ namespace greatbridf
         {
           try
           {
-            log("Connection from " + socket->getIP() + ':' + std::to_string(socket->getPort()));
+            IO::log("Connection from " + socket->getIP() + ':' + std::to_string(socket->getPort()));
             SocketBuffer buffer(*socket);
             std::iostream stream(&buffer);
 
@@ -76,7 +77,7 @@ namespace greatbridf
               else
               {
                 stream << response << std::flush;
-                log("Request body empty");
+                IO::log("Request body empty");
               }
 
               break;
@@ -89,23 +90,13 @@ namespace greatbridf
             }
             }
 
-            log("Exited");
+            IO::log("Exited");
 
           }
           catch (Exception& e)
           {
-            log(std::string("Error encountered: ") + e.what(), std::cerr);
+            IO::log(std::string("Error encountered: ") + e.what(), std::cerr);
           }
-        }
-
-        inline static void log(const std::string& msg, std::ostream& stream)
-        {
-          stream << "[Thread " << std::this_thread::get_id() << "] " << msg << std::endl;
-        }
-
-        inline static void log(const std::string& msg)
-        {
-          log(msg, std::cout);
         }
 
      private:
