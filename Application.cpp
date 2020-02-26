@@ -55,7 +55,7 @@ namespace greatbridf
               }
 
               HTTPResponse response(200, HTTPVersion::ONE);
-              response.setHeader("Content-Length", std::to_string(file.fileSize()).c_str());
+              response.setHeader("Content-Length", file.fileSize());
               stream << response;
               redirectStream(stream, file, file.fileSize());
 
@@ -70,7 +70,7 @@ namespace greatbridf
               auto length = req.bodySize();
               if (length > 0)
               {
-                response.setHeader("Content-Length", std::to_string(length).c_str());
+                response.setHeader("Content-Length", length);
                 stream << response;
                 redirectStream(stream, stream, length);
               }

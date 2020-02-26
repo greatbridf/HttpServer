@@ -30,9 +30,4 @@ namespace greatbridf
       return os.str();
     }
 
-    void HTTPResponse::setHeader(const char* key, const char* value)
-    {
-      this->headers[key] = value;
-    }
-
 }
