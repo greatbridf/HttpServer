@@ -60,4 +60,12 @@ namespace greatbridf  {
     return is;
   }
 
+  size_t HTTPRequest::bodySize() const {
+    auto str = this->getHeader("Content-Length");
+    if (str.empty()) {
+      return -1;
+    }
+    return std::stoi(str);
+  }
+
 }

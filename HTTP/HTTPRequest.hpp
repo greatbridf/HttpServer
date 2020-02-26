@@ -22,6 +22,8 @@ namespace greatbridf {
       HTTPRequestType getRequestType() const;
       HTTPVersion getHTTPVersion() const;
 
+      size_t bodySize() const;
+
       friend std::istream& operator>>(std::istream& is, HTTPRequest& request);
 
     private:
