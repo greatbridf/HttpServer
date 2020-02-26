@@ -10,37 +10,40 @@
 #include <stdexcept>
 #include <string>
 
-namespace greatbridf {
+namespace greatbridf
+{
 
-  class Socket {
-    friend class SocketBuffer;
+    class Socket
+    {
+        friend class SocketBuffer;
 
-    public:
-      const static unsigned long BUFSIZE = 1024;
+     public:
+        const static unsigned long BUFSIZE = 1024;
 
-      enum class SocketType {
-        TCP = IPPROTO_TCP,
-        UDP = IPPROTO_UDP
-      };
+        enum class SocketType
+        {
+            TCP = IPPROTO_TCP,
+            UDP = IPPROTO_UDP
+        };
 
-      Socket(SocketType type, const char* ip, int port);
-      Socket(int socket, sockaddr_in addr);
-      ~Socket();
+        Socket(SocketType type, const char* ip, int port);
+        Socket(int socket, sockaddr_in addr);
+        ~Socket();
 
-      const std::string& getIP() const;
-      int getPort() const;
+        const std::string& getIP() const;
+        int getPort() const;
 
-      void close();
+        void close();
 
-    protected:
-      int socket;
+     protected:
+        int socket;
 
-      std::string ip;
-      int port;
-      sockaddr_in addr{};
+        std::string ip;
+        int port;
+        sockaddr_in addr{};
 
-      bool closed = false;
-  };
+        bool closed = false;
+    };
 
 }
 

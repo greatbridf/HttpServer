@@ -8,18 +8,21 @@
 #include <string>
 #include <ostream>
 
-namespace greatbridf {
+namespace greatbridf
+{
 
-  class Serializable {
-  public:
-    virtual std::string toString() const = 0;
+    class Serializable
+    {
+     public:
+        virtual std::string toString() const = 0;
 
-    friend std::ostream& operator<<(std::ostream& os, const Serializable& obj) {
-      os << obj.toString();
-      return os;
-    }
+        friend std::ostream& operator<<(std::ostream& os, const Serializable& obj)
+        {
+            os << obj.toString();
+            return os;
+        }
 
-  };
+    };
 
 }
 

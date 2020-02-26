@@ -5,21 +5,24 @@
 #ifndef HTTPPARSER_BASE_HPP
 #define HTTPPARSER_BASE_HPP
 
-namespace greatbridf {
+namespace greatbridf
+{
 
-  const static char* CRLF = "\r\n";
+    const static char* CRLF = "\r\n";
 
-  enum class HTTPRequestType {
-    GET,
-    POST,
-    NONE,
-  };
+    enum class HTTPRequestType
+    {
+        GET,
+        POST,
+        NONE,
+    };
 
-  enum class HTTPVersion {
-    ONE,
-    TWO,
-    NONE,
-  };
+    enum class HTTPVersion
+    {
+        ONE,
+        TWO,
+        NONE,
+    };
 
 }
 

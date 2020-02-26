@@ -3,16 +3,18 @@
 #include <exception>
 #include <string>
 
-namespace greatbridf {
+namespace greatbridf
+{
 
-  class Exception : public std::exception{
-    public:
-      explicit Exception(const char* msg);
+    class Exception : public std::exception
+    {
+     public:
+        explicit Exception(const char* msg);
 
-      const char* what() const noexcept override;
+        const char* what() const noexcept override;
 
-    private:
-      std::string msg;
-  };
+     private:
+        std::string msg;
+    };
 
 }

@@ -4,30 +4,30 @@
 
 #include "HTTPResponse.hpp"
 
-namespace greatbridf {
+namespace greatbridf
+{
 
-  HTTPResponse::HTTPResponse(unsigned int code, HTTPVersion version)
-      : head(code, version) {
+    HTTPResponse::HTTPResponse(unsigned int code, HTTPVersion version)
+        : head(code, version)
+    {
 
-    this->setHeader("Content-Type", "text/html; charset=UTF-8");
-    this->setHeader(("Content-Length"), "0");
-    this->setHeader("Connection", "close");
-  }
-
-  std::string HTTPResponse::toString() const {
-    std::ostringstream os;
-
-    os << this->head;
-    for (auto& item : this->headers) {
-      os << item.first << ": " << item.second << CRLF;
+      this->setHeader("Content-Type", "text/html; charset=UTF-8");
+      this->setHeader(("Content-Length"), "0");
+      this->setHeader("Connection", "close");
     }
-    os << CRLF;
 
-    return os.str();
-  }
+    std::string HTTPResponse::toString() const
+    {
+      std::ostringstream os;
 
-  void HTTPResponse::setHeader(const char *key, const char *value) {
-    this->headers[key] = value;
-  }
+      os << this->head;
+      for (auto& item : this->headers)
+      {
+        os << item.first << ": " << item.second << CRLF;
+      }
+      os << CRLF;
+
+      return os.str();
+    }
 
 }
