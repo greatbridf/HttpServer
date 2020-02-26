@@ -33,4 +33,4 @@ add_executable(HttpParser
         utils/SocketIO/SocketBuffer.hpp
         utils/Foundation/File.cpp
         utils/Foundation/File.hpp
-        )
+        utils/Foundation/StreamIOHelper.hpp)

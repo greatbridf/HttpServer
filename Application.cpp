@@ -1,5 +1,7 @@
 #include <HTTP/HTTPResponse.hpp>
 #include <utils/SocketIO/SocketBuffer.hpp>
+#include <utils/Foundation/File.hpp>
+#include <utils/Foundation/StreamIOHelper.hpp>
 #include "Application.h"
 
 namespace greatbridf
@@ -45,25 +47,17 @@ namespace greatbridf
                 path = "/index.html";
               }
 
-              std::fstream fs("." + path);
-              if (!fs.good())
+              File file("." + path);
+              if (!file.good())
               {
                 stream << HTTPResponse(404) << std::flush;
                 break;
               }
 
-              fs.seekg(0, std::ios::end);
-              size_t fileSize = fs.tellg();
-              fs.seekg(0, std::ios::beg);
-
-              char* content = new char[fileSize];
-              fs.read(content, fileSize);
               HTTPResponse response(200, HTTPVersion::ONE);
-              response.setHeader("Content-Length", std::to_string(fileSize).c_str());
+              response.setHeader("Content-Length", std::to_string(file.fileSize()).c_str());
               stream << response;
-              stream.write(content, fileSize);
-              stream.flush();
-              delete[] content;
+              redirectStream(stream, file, file.fileSize());
 
               break;
             }
@@ -78,26 +72,7 @@ namespace greatbridf
               {
                 response.setHeader("Content-Length", std::to_string(length).c_str());
                 stream << response;
-
-                log("---   Request body   ---");
-
-                size_t fin = 0;
-                const static size_t buf_size = 512; // default
-                auto buf = new char[buf_size];
-
-                while (fin < length)
-                {
-                  auto n = std::min(buf_size, length - fin);
-                  stream.read(buf, n);
-                  stream.write(buf, n);
-
-                  fin += n;
-                }
-
-                delete[] buf;
-                stream << std::flush;
-
-                log("--- Request body end ---");
+                redirectStream(stream, stream, length);
               }
               else
               {
