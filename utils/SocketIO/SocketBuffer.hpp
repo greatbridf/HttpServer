@@ -20,6 +20,7 @@ namespace greatbridf
         explicit SocketBuffer(Socket& socket);
         ~SocketBuffer() override;
 
+     protected:
         // For input (or read)
         int underflow() override;
 
