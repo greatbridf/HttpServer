@@ -34,4 +34,6 @@ add_executable(HttpParser
         utils/Foundation/File.cpp
         utils/Foundation/File.hpp
         utils/Foundation/StreamIOHelper.hpp
+        Handler/GETHandler.hpp
+        Handler/GETHandler.cpp
         utils/Foundation/BasicIO.hpp)
