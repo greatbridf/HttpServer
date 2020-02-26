@@ -1,7 +1,3 @@
-#include <HTTP/HTTPResponse.hpp>
-#include <utils/SocketIO/SocketBuffer.hpp>
-#include <utils/Foundation/File.hpp>
-#include <utils/Foundation/StreamIOHelper.hpp>
 #include "Application.h"
 
 namespace greatbridf
@@ -9,7 +5,7 @@ namespace greatbridf
 
     Application::~Application()
     {
-      delete this->ss;
+        delete this->ss;
     }
 
     class Task : public ITask
@@ -21,92 +17,58 @@ namespace greatbridf
         };
         ~Task() override
         {
-          delete this->socket;
+            delete this->socket;
         }
 
         void run() override
         {
-          try
-          {
-            log("Connection from " + socket->getIP() + ':' + std::to_string(socket->getPort()));
-            SocketBuffer buffer(*socket);
-            std::iostream stream(&buffer);
-
-            HTTPRequest req;
-            stream >> req;
-
-            switch (req.getRequestType())
+            try
             {
+                IO::log("Connection from " + socket->getIP() + ':' + std::to_string(socket->getPort()));
+                SocketBuffer buffer(*socket);
+                std::iostream stream(&buffer);
 
-              // TODO New File class
-            case HTTPRequestType::GET:
+                HTTPRequest request;
+                bool keep_alive = false;
+                while (stream >> request)
+                {
+                    HTTPResponse response;
+                    if (request.getHeader("Connection") == "keep-alive")
+                    {
+                        socket->setTimeout(5); // default
+                        response.setHeader("Keep-Alive", "timeout=" + std::to_string(socket->getTimeout()));
+                        keep_alive = true;
+                    }
+                    else
+                    {
+                        response.setHeader("Connection", "close");
+                        keep_alive = false;
+                    }
+
+                    switch (request.getRequestType())
+                    {
+                    case HTTPRequestType::GET:
+                        Handler::GET(request, stream, response);
+                        break;
+                    case HTTPRequestType::POST:
+                        Handler::POST(request, stream, response);
+                        break;
+                    default:
+                        response.setResponseCode(400);
+                        stream << response << std::flush;
+                        break;
+                    }
+
+                    if (!keep_alive) break;
+                }
+
+                stream.setstate(std::ios::eofbit);
+            }
+            catch (Exception& e)
             {
-              auto path = req.getQueryPath();
-              if (path == "/")
-              {
-                path = "/index.html";
-              }
-
-              File file("." + path);
-              if (!file.good())
-              {
-                stream << HTTPResponse(404) << std::flush;
-                break;
-              }
-
-              HTTPResponse response(200, HTTPVersion::ONE);
-              response.setHeader("Content-Length", file.fileSize());
-              stream << response;
-              redirectStream(stream, file, file.fileSize());
-
-              break;
+                IO::log("Error encountered", std::cerr);
+                IO::log(e.what(), std::cerr);
             }
-
-            case HTTPRequestType::POST:
-            {
-
-              HTTPResponse response(200);
-
-              auto length = req.bodySize();
-              if (length > 0)
-              {
-                response.setHeader("Content-Length", length);
-                stream << response;
-                redirectStream(stream, stream, length);
-              }
-              else
-              {
-                stream << response << std::flush;
-                log("Request body empty");
-              }
-
-              break;
-            }
-
-            default:
-            {
-              stream << HTTPResponse(400) << std::flush;
-              break;
-            }
-            }
-
-            log("Exited");
-
-          }
-          catch (Exception& e)
-          {
-            log(std::string("Error encountered: ") + e.what(), std::cerr);
-          }
-        }
-
-        inline static void log(const std::string& msg, std::ostream& stream)
-        {
-          stream << "[Thread " << std::this_thread::get_id() << "] " << msg << std::endl;
-        }
-
-        inline static void log(const std::string& msg)
-        {
-          log(msg, std::cout);
         }
 
      private:
@@ -115,23 +77,24 @@ namespace greatbridf
 
     int Application::run()
     {
-      this->ss = new ServerSocket(Socket::SocketType::TCP, 8080);
-      this->ss->listen();
+        this->ss = new ServerSocket(Socket::SocketType::TCP, 8080);
+        this->ss->listen();
 
-      try
-      {
-        while (true)
+        try
         {
-          Socket* socket = this->ss->accept();
-          this->pool.add(new Task(socket));
+            while (true)
+            {
+                Socket* socket = this->ss->accept();
+                this->pool.add(new Task(socket));
+            }
         }
-      }
-      catch (Exception& e)
-      {
-        std::cerr << "[Main Thread] Error encountered: " << e.what() << std::endl;
-        return -1;
-      }
-      return 0;
+        catch (Exception& e)
+        {
+            IO::log("Error encountered", std::cerr);
+            IO::log(e.what(), std::cerr);
+            return -1;
+        }
+        return 0;
     }
 
 }

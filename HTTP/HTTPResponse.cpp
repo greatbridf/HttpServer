@@ -11,23 +11,27 @@ namespace greatbridf
         : head(code, version)
     {
 
-      this->setHeader("Content-Type", "text/html; charset=UTF-8");
-      this->setHeader(("Content-Length"), "0");
-      this->setHeader("Connection", "close");
+        this->setHeader("Content-Type", "text/html; charset=UTF-8");
+        this->setHeader(("Content-Length"), "0");
+        this->setHeader("Connection", "keep-alive");
     }
 
     std::string HTTPResponse::toString() const
     {
-      std::ostringstream os;
+        std::ostringstream os;
 
-      os << this->head;
-      for (auto& item : this->headers)
-      {
-        os << item.first << ": " << item.second << CRLF;
-      }
-      os << CRLF;
+        os << this->head;
+        for (auto& item : this->headers)
+        {
+            os << item.first << ": " << item.second << CRLF;
+        }
+        os << CRLF;
 
-      return os.str();
+        return os.str();
+    }
+    void HTTPResponse::setResponseCode(unsigned int code)
+    {
+        head.code = code;
     }
 
 }
