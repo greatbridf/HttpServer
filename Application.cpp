@@ -24,30 +24,6 @@ namespace greatbridf {
           HTTPRequest req;
           stream >> req;
 
-          auto length = req.bodySize();
-          if (length > 0) {
-            log("---   Request body   ---");
-
-            size_t fin = 0;
-            const static size_t buf_size = 512; // default
-            auto buf = new char[buf_size];
-
-            while (fin < length) {
-              auto n = std::min(buf_size, length - fin);
-              stream.read(buf, n);
-              std::cout.write(buf, n);
-
-              fin += n;
-              log("flush");
-            }
-
-            delete [] buf;
-
-            log("--- Request body end ---");
-          } else {
-            log("Request body empty");
-          }
-
           switch (req.getRequestType()) {
 
             // TODO New File class
@@ -75,6 +51,41 @@ namespace greatbridf {
               stream.write(content, fileSize);
               stream.flush();
               delete [] content;
+
+              break;
+            }
+
+            case HTTPRequestType::POST: {
+
+              HTTPResponse response(200);
+
+              auto length = req.bodySize();
+              if (length > 0) {
+                response.setHeader("Content-Length", std::to_string(length).c_str());
+                stream << response;
+
+                log("---   Request body   ---");
+
+                size_t fin = 0;
+                const static size_t buf_size = 512; // default
+                auto buf = new char[buf_size];
+
+                while (fin < length) {
+                  auto n = std::min(buf_size, length - fin);
+                  stream.read(buf, n);
+                  stream.write(buf, n);
+
+                  fin += n;
+                }
+
+                delete [] buf;
+                stream << std::flush;
+
+                log("--- Request body end ---");
+              } else {
+                stream << response << std::flush;
+                log("Request body empty");
+              }
 
               break;
             }
