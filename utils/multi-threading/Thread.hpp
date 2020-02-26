@@ -7,22 +7,24 @@
 
 #include "ITask.hpp"
 
-namespace greatbridf {
+namespace greatbridf
+{
 
-  class ThreadPool {
-    public:
-      ThreadPool();
-      ~ThreadPool();
+    class ThreadPool
+    {
+     public:
+        ThreadPool();
+        ~ThreadPool();
 
-      void add(ITask* task);
-      void recycle();
+        void add(ITask* task);
+        void recycle();
 
-    private:
-      std::map<std::thread::id, ITask*> tasks;
-      std::map<std::thread::id, std::thread> workers;
-      std::queue<std::thread::id> finQueue;
+     private:
+        std::map<std::thread::id, ITask*> tasks;
+        std::map<std::thread::id, std::thread> workers;
+        std::queue<std::thread::id> finQueue;
 
-      std::mutex mtx;
-  };
+        std::mutex mtx;
+    };
 
 }

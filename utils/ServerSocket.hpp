@@ -1,16 +1,18 @@
 #include "Socket.hpp"
 
-namespace greatbridf {
-  
-  class ServerSocket : public Socket {
-    public:
-      ServerSocket(Socket::SocketType type, int port);
-      ~ServerSocket();
+namespace greatbridf
+{
 
-      void listen();
-      Socket* accept();
+    class ServerSocket : public Socket
+    {
+     public:
+        ServerSocket(Socket::SocketType type, int port);
+        ~ServerSocket();
 
-      const static unsigned int queueLength = 5;
-  };
+        void listen();
+        Socket* accept();
+
+        const static unsigned int queueLength = 5;
+    };
 
 }

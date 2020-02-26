@@ -1,13 +1,16 @@
 #include "Exception.hpp"
 
-namespace greatbridf {
+namespace greatbridf
+{
 
-  Exception::Exception(const char* msg) {
-    this->msg = msg;
-  }
+    Exception::Exception(const char* msg)
+    {
+        this->msg = msg;
+    }
 
-  const char* Exception::what() const noexcept {
-    return this->msg.c_str();
-  }
+    const char* Exception::what() const noexcept
+    {
+        return this->msg.c_str();
+    }
 
 }

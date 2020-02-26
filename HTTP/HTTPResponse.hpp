@@ -5,29 +5,29 @@
 #ifndef HTTPPARSER_HTTPRESPONSE_HPP
 #define HTTPPARSER_HTTPRESPONSE_HPP
 
-
 #include <map>
 
 #include <utils/Foundation/Serializable.hpp>
 #include <utils/Socket.hpp>
 #include "HTTPResponseHead.hpp"
 
+namespace greatbridf
+{
 
-namespace greatbridf {
+    class HTTPResponse : public Serializable
+    {
 
-  class HTTPResponse : public Serializable {
+     public:
+        explicit HTTPResponse(unsigned int code = 400, HTTPVersion version = HTTPVersion::ONE);
 
-  public:
-    explicit HTTPResponse(unsigned int code = 400, HTTPVersion version = HTTPVersion::ONE);
+        std::string toString() const override;
 
-    std::string toString() const override;
+        void setHeader(const char* key, const char* value);
 
-    void setHeader(const char* key, const char* value);
-
-  private:
-    HTTPResponseHead head;
-    std::map<std::string, std::string> headers;
-  };
+     private:
+        HTTPResponseHead head;
+        std::map<std::string, std::string> headers;
+    };
 }
 
 #endif //HTTPPARSER_HTTPRESPONSE_HPP

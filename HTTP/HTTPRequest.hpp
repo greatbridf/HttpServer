@@ -7,31 +7,33 @@
 #include <utils/Exception.hpp>
 #include "Base.hpp"
 
-namespace greatbridf {
+namespace greatbridf
+{
 
-  const static std::string NULL_STRING;
+    const static std::string NULL_STRING;
 
-  class HTTPRequest {
-    public:
+    class HTTPRequest
+    {
+     public:
 
-      HTTPRequest();
+        HTTPRequest();
 
-      const std::string& getHeader(const char* key) const;
-      const std::map<std::string, std::string>& getHeaders() const;
-      const std::string& getQueryPath() const;
-      HTTPRequestType getRequestType() const;
-      HTTPVersion getHTTPVersion() const;
+        const std::string& getHeader(const char* key) const;
+        const std::map<std::string, std::string>& getHeaders() const;
+        const std::string& getQueryPath() const;
+        HTTPRequestType getRequestType() const;
+        HTTPVersion getHTTPVersion() const;
 
-      size_t bodySize() const;
+        size_t bodySize() const;
 
-      friend std::istream& operator>>(std::istream& is, HTTPRequest& request);
+        friend std::istream& operator>>(std::istream& is, HTTPRequest& request);
 
-    private:
-      HTTPRequestType type;
-      HTTPVersion version;
-      std::string path;
+     private:
+        HTTPRequestType type;
+        HTTPVersion version;
+        std::string path;
 
-      std::map<std::string, std::string> headers;
-  };
+        std::map<std::string, std::string> headers;
+    };
 
 }

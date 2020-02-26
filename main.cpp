@@ -1,6 +1,7 @@
 #include "Application.h"
 
-int main() {
-  greatbridf::Application app;
-  return app.run();
+int main()
+{
+    greatbridf::Application app;
+    return app.run();
 }
