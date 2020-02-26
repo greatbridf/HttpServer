@@ -13,7 +13,7 @@ namespace greatbridf
 {
     namespace Handler
     {
-        void POST(HTTPRequest& request, std::iostream& stream);
+        void POST(HTTPRequest& request, std::iostream& stream, HTTPResponse& response);
     }
 }
 

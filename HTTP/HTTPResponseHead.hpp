@@ -15,6 +15,9 @@ namespace greatbridf
     class HTTPResponseHead : public Serializable
     {
      public:
+        unsigned int code;
+        HTTPVersion version = HTTPVersion::ONE;
+
         explicit HTTPResponseHead(unsigned int code)
             : code(code)
         {
@@ -63,11 +66,6 @@ namespace greatbridf
 
             return os.str();
         }
-
-     private:
-        unsigned int code;
-        HTTPVersion version = HTTPVersion::ONE;
-
     };
 
 }

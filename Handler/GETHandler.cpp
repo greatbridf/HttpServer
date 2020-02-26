@@ -8,7 +8,7 @@ namespace greatbridf
 {
     namespace Handler
     {
-        void GET(HTTPRequest& request, std::iostream& stream)
+        void GET(HTTPRequest& request, std::iostream& stream, HTTPResponse& response)
         {
             auto path = request.getQueryPath();
             if (path == "/")
@@ -19,11 +19,12 @@ namespace greatbridf
             File file("." + path);
             if (!file.good())
             {
-                stream << HTTPResponse(404) << std::flush;
+                response.setResponseCode(404);
+                stream << response << std::flush;
                 return;
             }
 
-            HTTPResponse response(200, HTTPVersion::ONE);
+            response.setResponseCode(200);
             response.setHeader("Content-Length", file.fileSize());
             stream << response;
             redirectStream(stream, file, file.fileSize());

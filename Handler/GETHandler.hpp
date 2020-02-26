@@ -15,7 +15,7 @@ namespace greatbridf
 {
     namespace Handler
     {
-        void GET(HTTPRequest& request, std::iostream& stream);
+        void GET(HTTPRequest& request, std::iostream& stream, HTTPResponse& response);
     }
 }
 

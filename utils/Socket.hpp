@@ -33,6 +33,9 @@ namespace greatbridf
         const std::string& getIP() const;
         int getPort() const;
 
+        void setTimeout(int _timeout);
+        int getTimeout();
+
         void close();
 
      protected:
@@ -42,6 +45,7 @@ namespace greatbridf
         int port;
         sockaddr_in addr{};
 
+        int timeout;
         bool closed = false;
     };
 

@@ -29,20 +29,39 @@ namespace greatbridf
                 std::iostream stream(&buffer);
 
                 HTTPRequest request;
-                stream >> request;
-
-                switch (request.getRequestType())
+                bool keep_alive = false;
+                while (stream >> request)
                 {
-                case HTTPRequestType::GET:
-                    Handler::GET(request, stream);
-                    break;
-                case HTTPRequestType::POST:
-                    Handler::POST(request, stream);
-                    break;
-                default:
-                    stream << HTTPResponse(400) << std::flush;
-                    break;
+                    HTTPResponse response;
+                    if (request.getHeader("Connection") == "keep-alive")
+                    {
+                        socket->setTimeout(5); // default
+                        response.setHeader("Keep-Alive", "timeout=" + std::to_string(socket->getTimeout()));
+                        keep_alive = true;
+                    }
+                    else
+                    {
+                        response.setHeader("Connection", "close");
+                        keep_alive = false;
+                    }
+
+                    switch (request.getRequestType())
+                    {
+                    case HTTPRequestType::GET:
+                        Handler::GET(request, stream, response);
+                        break;
+                    case HTTPRequestType::POST:
+                        Handler::POST(request, stream, response);
+                        break;
+                    default:
+                        response.setResponseCode(400);
+                        stream << response << std::flush;
+                        break;
+                    }
+
+                    if (!keep_alive) break;
                 }
+
                 stream.setstate(std::ios::eofbit);
             }
             catch (Exception& e)

@@ -8,9 +8,9 @@ namespace greatbridf
 {
     namespace Handler
     {
-        void POST(HTTPRequest& request, std::iostream& stream)
+        void POST(HTTPRequest& request, std::iostream& stream, HTTPResponse& response)
         {
-            HTTPResponse response(200);
+            response.setResponseCode(200);
 
             auto length = request.bodySize();
             if (length > 0)
