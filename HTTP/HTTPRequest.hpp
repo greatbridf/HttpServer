@@ -9,31 +9,29 @@
 
 namespace greatbridf {
 
-  const static std::string NULL_STRING = "";
+  const static std::string NULL_STRING;
 
   class HTTPRequest {
     public:
 
-      explicit HTTPRequest(std::string& req);
       HTTPRequest();
 
       const std::string& getHeader(const char* key) const;
+      const std::map<std::string, std::string>& getHeaders() const;
       const std::string& getQueryPath() const;
       HTTPRequestType getRequestType() const;
       HTTPVersion getHTTPVersion() const;
 
-      const std::string& getRequestBody() const;
+      size_t bodySize() const;
+
+      friend std::istream& operator>>(std::istream& is, HTTPRequest& request);
 
     private:
       HTTPRequestType type;
       HTTPVersion version;
       std::string path;
 
-      std::string body;
-
       std::map<std::string, std::string> headers;
-
-      void parseRequestHead(const std::string& req);
   };
 
 }

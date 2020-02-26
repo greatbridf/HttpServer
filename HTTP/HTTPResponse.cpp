@@ -30,9 +30,4 @@ namespace greatbridf {
     this->headers[key] = value;
   }
 
-  Socket& operator<<(Socket& socket, const HTTPResponse& response) {
-    socket << response.toString();
-    return socket;
-  }
-
 }

@@ -2,18 +2,11 @@
 
 namespace greatbridf  {
 
-  HTTPRequest::HTTPRequest(std::string& req): type(HTTPRequestType::NONE), version(HTTPVersion::NONE) {
-    auto pos = req.find("\r\n\r\n");
-    if (pos == std::string::npos) {
-      throw Exception("Bad request");
-    }
-
-    this->parseRequestHead(req.substr(0, pos));
-
-    this->body = req.substr(pos+4, req.size()-1);
-  }
-
   HTTPRequest::HTTPRequest(): type(HTTPRequestType::NONE), version(HTTPVersion::NONE) {}
+
+  const std::map<std::string, std::string>& HTTPRequest::getHeaders() const {
+    return this->headers;
+  }
 
   const std::string& HTTPRequest::getHeader(const char* key) const {
     return this->headers.find(key) != this->headers.end() ? this->headers.at(key) : NULL_STRING;
@@ -31,37 +24,48 @@ namespace greatbridf  {
     return this->version;
   }
 
-  const std::string& HTTPRequest::getRequestBody() const {
-      return this->body;
-  }
+  std::istream& operator>>(std::istream &is, HTTPRequest &request) {
+    std::string tmp;
 
-  void HTTPRequest::parseRequestHead(const std::string &req) {
-    std::istringstream ss(req);
-    std::string type, version;
-    ss >> type >> this->path >> version;
+    // parse request type
+    is >> tmp;
+    if (tmp == "GET") request.type = HTTPRequestType::GET;
+    else if (tmp == "POST") request.type = HTTPRequestType::POST;
+    else throw Exception("Unexpected query type");
 
-    if (type == "GET") this->type = HTTPRequestType::GET;
-    else if (type == "POST") this->type = HTTPRequestType::POST;
-    else throw Exception("unexpected query type");
+    // parse request path
+    is >> request.path;
 
-    if (version == "HTTP/1.1") this->version = HTTPVersion::ONE;
-    else if (version == "HTTP/2") this->version = HTTPVersion::TWO;
+    // parse http version
+    is >> tmp;
+    if (tmp == "HTTP/1.1") request.version = HTTPVersion::ONE;
+    else if (tmp == "HTTP/2") request.version = HTTPVersion::TWO;
     else throw Exception("unexpected http version");
 
-    // parse headers
-    char c = 0x00;
     std::string key, value;
-    while (ss.good()) {
-      c = ss.peek();
-      if (c == '\r' or c == '\n' or c == EOF) {
-        ss.ignore(1);
-        continue;
-      }
-      std::getline(ss, key, ':');
-      if (ss.peek() == ' ') ss.ignore(1);
-      std::getline(ss, value, '\r');
-      this->headers.insert(std::make_pair(key, value));
+
+    // parse request head
+    is.ignore(2);
+
+    while (is.good() and is.peek() != '\r') {
+      std::getline(is, key, ':');
+      if (is.peek() == ' ') is.ignore();
+      std::getline(is, value, '\r');
+      is.ignore();
+
+      request.headers.insert(std::make_pair(key, value));
     }
+    is.ignore(2);
+
+    return is;
+  }
+
+  size_t HTTPRequest::bodySize() const {
+    auto str = this->getHeader("Content-Length");
+    if (str.empty()) {
+      return -1;
+    }
+    return std::stoi(str);
   }
 
 }

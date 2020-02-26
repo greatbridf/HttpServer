@@ -13,6 +13,8 @@
 namespace greatbridf {
 
   class Socket {
+    friend class SocketBuffer;
+
     public:
       const static unsigned long BUFSIZE = 1024;
 
@@ -25,16 +27,10 @@ namespace greatbridf {
       Socket(int socket, sockaddr_in addr);
       ~Socket();
 
-      void send(const char* data, unsigned long long size) const;
-      void send(const std::string& data) const;
-
       const std::string& getIP() const;
       int getPort() const;
 
       void close();
-
-      Socket& operator<<(const std::string& data);
-      Socket& operator>>(std::string& target);
 
     protected:
       int socket;

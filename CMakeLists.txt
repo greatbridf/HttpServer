@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.15)
 project(HttpParser)
 
 set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_FLAGS "-O3 ${CMAKE_CXX_FLAGS}")
 
 include_directories(.)
 include_directories(HTTP)
@@ -22,4 +23,4 @@ add_executable(HttpParser
         utils/Socket.hpp
         Application.cpp
         Application.h
-        main.cpp HTTP/HTTPResponse.hpp HTTP/HTTPResponse.cpp utils/Foundation/Serializable.hpp HTTP/HTTPResponseHead.hpp HTTP/Base.hpp)
+        main.cpp HTTP/HTTPResponse.hpp HTTP/HTTPResponse.cpp utils/Foundation/Serializable.hpp HTTP/HTTPResponseHead.hpp HTTP/Base.hpp utils/SocketIO/SocketBuffer.cpp utils/SocketIO/SocketBuffer.hpp)

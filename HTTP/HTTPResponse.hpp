@@ -21,7 +21,6 @@ namespace greatbridf {
     explicit HTTPResponse(unsigned int code = 400, HTTPVersion version = HTTPVersion::ONE);
 
     std::string toString() const override;
-    friend Socket& operator<<(Socket& socket, const HTTPResponse& response);
 
     void setHeader(const char* key, const char* value);
 

@@ -1,4 +1,5 @@
 #include <HTTP/HTTPResponse.hpp>
+#include <utils/SocketIO/SocketBuffer.hpp>
 #include "Application.h"
 
 namespace greatbridf {
@@ -17,13 +18,11 @@ namespace greatbridf {
       void run() override {
         try {
           log("Connection from " + socket->getIP() + ':' + std::to_string(socket->getPort()));
-          std::string data;
-          *socket >> data;
+          SocketBuffer buffer(*socket);
+          std::iostream stream(&buffer);
 
-          HTTPRequest req(data);
-
-          log("Request body: ");
-          std::cout << req.getRequestBody() << std::endl;
+          HTTPRequest req;
+          stream >> req;
 
           switch (req.getRequestType()) {
 
@@ -36,8 +35,7 @@ namespace greatbridf {
 
               std::fstream fs("." + path);
               if (!fs.good()) {
-                HTTPResponse response(404);
-                *socket << response.toString();
+                stream << HTTPResponse(404) << std::flush;
                 break;
               }
 
@@ -49,16 +47,51 @@ namespace greatbridf {
               fs.read(content, fileSize);
               HTTPResponse response(200, HTTPVersion::ONE);
               response.setHeader("Content-Length", std::to_string(fileSize).c_str());
-              *socket << response;
-              socket->send(content, fileSize);
+              stream << response;
+              stream.write(content, fileSize);
+              stream.flush();
               delete [] content;
 
               break;
             }
 
+            case HTTPRequestType::POST: {
+
+              HTTPResponse response(200);
+
+              auto length = req.bodySize();
+              if (length > 0) {
+                response.setHeader("Content-Length", std::to_string(length).c_str());
+                stream << response;
+
+                log("---   Request body   ---");
+
+                size_t fin = 0;
+                const static size_t buf_size = 512; // default
+                auto buf = new char[buf_size];
+
+                while (fin < length) {
+                  auto n = std::min(buf_size, length - fin);
+                  stream.read(buf, n);
+                  stream.write(buf, n);
+
+                  fin += n;
+                }
+
+                delete [] buf;
+                stream << std::flush;
+
+                log("--- Request body end ---");
+              } else {
+                stream << response << std::flush;
+                log("Request body empty");
+              }
+
+              break;
+            }
+
             default: {
-              HTTPResponse response(400);
-              *socket << response.toString();
+              stream << HTTPResponse(400) << std::flush;
               break;
             }
           }
@@ -70,11 +103,11 @@ namespace greatbridf {
         }
       }
 
-      inline static void log(std::string msg, std::ostream& stream) {
+      inline static void log(const std::string& msg, std::ostream& stream) {
         stream << "[Thread " << std::this_thread::get_id() << "] " << msg << std::endl;
       }
 
-      inline static void log(std::string msg) {
+      inline static void log(const std::string& msg) {
         log(msg, std::cout);
       }
 
