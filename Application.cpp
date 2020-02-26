@@ -38,7 +38,7 @@ namespace greatbridf {
 
               std::fstream fs("." + path);
               if (!fs.good()) {
-                stream << HTTPResponse(404);
+                stream << HTTPResponse(404) << std::flush;
                 break;
               }
 
@@ -59,7 +59,7 @@ namespace greatbridf {
             }
 
             default: {
-              stream << HTTPResponse(400);
+              stream << HTTPResponse(400) << std::flush;
               break;
             }
           }
