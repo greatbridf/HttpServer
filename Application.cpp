@@ -38,7 +38,6 @@ namespace greatbridf
             switch (req.getRequestType())
             {
 
-              // TODO New File class
             case HTTPRequestType::GET:
             {
               auto path = req.getQueryPath();
