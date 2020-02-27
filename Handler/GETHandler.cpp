@@ -26,6 +26,7 @@ namespace greatbridf
 
             response.setResponseCode(200);
             response.setHeader("Content-Length", file.fileSize());
+            response.setHeader("Content-Type", std::move(file.getMimeType()));
             stream << response;
             redirectStream(stream, file, file.fileSize());
         }

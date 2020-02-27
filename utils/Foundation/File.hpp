@@ -7,6 +7,7 @@
 
 #include <string>
 #include <fstream>
+#include <Static/MIMETypes.hpp>
 
 namespace greatbridf
 {
@@ -15,6 +16,8 @@ namespace greatbridf
      public:
         explicit File(std::string name);
         size_t fileSize();
+
+        std::string getMimeType() const;
 
      private:
         std::string _filename;

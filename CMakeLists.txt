@@ -42,4 +42,6 @@ add_executable(HttpParser
         Handler/POSTHandler.hpp
         HTTP/HTTPEscapedString.cpp
         HTTP/HTTPEscapedString.hpp
-        HTTP/HTTPEscapedString.hpp)
+        HTTP/HTTPEscapedString.hpp
+        Static/MIMETypes.hpp
+        Static/MIMETypes.cpp)

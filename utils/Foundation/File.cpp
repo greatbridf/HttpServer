@@ -18,4 +18,22 @@ namespace greatbridf
     {
         return _fileSize;
     }
+    std::string File::getMimeType() const
+    {
+        auto const& mimeTypes = Static::mimeTypes();
+        auto pos = _filename.rfind('.');
+        if (pos == std::string::npos)
+        {
+            return mimeTypes.at("");
+        }
+        std::string ext = _filename.substr(pos + 1);
+        if (mimeTypes.find(ext) == mimeTypes.end())
+        {
+            return mimeTypes.at("");
+        }
+        else
+        {
+            return mimeTypes.at(ext);
+        }
+    }
 }
