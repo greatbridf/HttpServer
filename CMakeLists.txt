@@ -39,4 +39,7 @@ add_executable(HttpParser
         utils/Foundation/BasicIO.hpp
         utils/Foundation/StreamIOHelper.cpp
         Handler/POSTHandler.cpp
-        Handler/POSTHandler.hpp)
+        Handler/POSTHandler.hpp
+        HTTP/HTTPEscapedString.cpp
+        HTTP/HTTPEscapedString.hpp
+        HTTP/HTTPEscapedString.hpp)

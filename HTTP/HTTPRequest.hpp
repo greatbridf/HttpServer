@@ -6,6 +6,7 @@
 
 #include <utils/Exception.hpp>
 #include "Base.hpp"
+#include "HTTPEscapedString.hpp"
 
 namespace greatbridf
 {
@@ -31,7 +32,7 @@ namespace greatbridf
      private:
         HTTPRequestType type;
         HTTPVersion version;
-        std::string path;
+        HTTPEscapedString path;
 
         std::map<std::string, std::string> headers;
 
