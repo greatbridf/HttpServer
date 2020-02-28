@@ -16,7 +16,7 @@ namespace greatbridf
                 path = "/index.html";
             }
 
-            File file("." + path);
+            File file(std::filesystem::path("." + path));
             if (!file.good())
             {
                 response.setResponseCode(404);
