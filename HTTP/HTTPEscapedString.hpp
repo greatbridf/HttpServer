@@ -10,9 +10,11 @@
 
 namespace greatbridf
 {
-    class HTTPEscapedString : public std::string
+    class HTTPEscapedString
     {
+     public:
         friend std::istream& operator>>(std::istream& is, HTTPEscapedString& str);
+        std::string str;
     };
 }
 

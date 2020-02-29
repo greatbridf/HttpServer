@@ -20,7 +20,7 @@ namespace greatbridf
 
     const std::string& HTTPRequest::getQueryPath() const
     {
-        return this->path;
+        return this->path.str;
     }
 
     HTTPRequestType HTTPRequest::getRequestType() const
@@ -47,6 +47,10 @@ namespace greatbridf
 
         // parse request path
         is >> request.path;
+        if (request.path.str == "/")
+        {
+            request.path.str = "/index.html";
+        }
 
         // parse http version
         is >> tmp;
@@ -87,7 +91,7 @@ namespace greatbridf
     void HTTPRequest::clear()
     {
         type = HTTPRequestType::NONE;
-        path.clear();
+        path.str.clear();
         version = HTTPVersion::NONE;
         headers.clear();
     }
