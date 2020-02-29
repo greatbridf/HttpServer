@@ -4,7 +4,7 @@ namespace greatbridf
 {
 
     ServerSocket::ServerSocket(Socket::SocketType type, int port)
-        : Socket(type, "127.0.0.1", port)
+        : Socket(type, "", port)
     {
 
         const static int opt = 1;
