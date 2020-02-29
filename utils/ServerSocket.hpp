@@ -1,3 +1,6 @@
+#ifndef __SERVERSOCKET_HPP_
+#define __SERVERSOCKET_HPP_
+
 #include "Socket.hpp"
 #include <memory>
 
@@ -17,3 +20,5 @@ namespace greatbridf
     };
 
 }
+
+#endif

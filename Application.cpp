@@ -64,8 +64,16 @@ namespace greatbridf
         }
     };
 
+    Application* app = nullptr;
+
     int Application::run()
     {
+        app = this;
+        signal(SIGINT, [](int)
+        {
+            IO::log("Closing...");
+            app->ss->close();
+        });
         this->ss = std::make_unique<ServerSocket>(Socket::SocketType::TCP, 8080);
         this->ss->listen();
 
@@ -77,6 +85,10 @@ namespace greatbridf
                 this->pool.add(std::make_unique<Task>(std::move(socket)));
             }
         }
+        catch (ExitApplication& exit)
+        {
+            return exit.code();
+        }
         catch (Exception& e)
         {
             IO::log("Error encountered", std::cerr);
@@ -85,5 +97,12 @@ namespace greatbridf
         }
         return 0;
     }
-
+    Application::ExitApplication::ExitApplication(int _code)
+        : Exception(""), __code(_code)
+    {
+    }
+    int Application::ExitApplication::code() const
+    {
+        return this->__code;
+    }
 }

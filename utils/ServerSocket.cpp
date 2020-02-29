@@ -1,3 +1,5 @@
+#include <Application.h>
+#include <cerrno>
 #include "ServerSocket.hpp"
 
 namespace greatbridf
@@ -31,7 +33,16 @@ namespace greatbridf
 
         int socket = ::accept(this->socket, (sockaddr*)&addr, (socklen_t*)&len);
         if (socket < 0)
-            throw std::runtime_error("cannot accept connection");
+        {
+            if (errno == 9)
+            {
+                throw Application::ExitApplication();
+            }
+            else
+            {
+                throw std::runtime_error("cannot accept connection");
+            }
+        }
 
         return std::make_unique<Socket>(socket, addr);
     }
