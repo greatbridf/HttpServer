@@ -24,7 +24,7 @@ namespace greatbridf
             throw std::runtime_error("unable to listen");
     }
 
-    Socket* ServerSocket::accept()
+    std::unique_ptr<Socket> ServerSocket::accept()
     {
         sockaddr_in addr{};
         int len = sizeof(sockaddr_in);
@@ -33,7 +33,7 @@ namespace greatbridf
         if (socket < 0)
             throw std::runtime_error("cannot accept connection");
 
-        return new Socket(socket, addr);
+        return std::make_unique<Socket>(socket, addr);
     }
 
 }

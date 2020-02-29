@@ -10,14 +10,12 @@ namespace greatbridf
 
     class Task : public ITask
     {
+     private:
+        std::unique_ptr<Socket> socket;
      public:
-        explicit Task(Socket* socket)
-            : socket(socket)
+        explicit Task(std::unique_ptr<Socket> _socket)
+            : socket(std::move(_socket))
         {
-        };
-        ~Task() override
-        {
-            delete this->socket;
         }
 
         void run() override
@@ -70,9 +68,6 @@ namespace greatbridf
                 IO::log(e.what(), std::cerr);
             }
         }
-
-     private:
-        Socket* socket = nullptr;
     };
 
     int Application::run()
@@ -84,8 +79,8 @@ namespace greatbridf
         {
             while (true)
             {
-                Socket* socket = this->ss->accept();
-                this->pool.add(new Task(socket));
+                auto socket = this->ss->accept();
+                this->pool.add(new Task(std::move(socket)));
             }
         }
         catch (Exception& e)

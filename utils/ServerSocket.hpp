@@ -1,4 +1,5 @@
 #include "Socket.hpp"
+#include <memory>
 
 namespace greatbridf
 {
@@ -10,7 +11,7 @@ namespace greatbridf
         ~ServerSocket();
 
         void listen();
-        Socket* accept();
+        std::unique_ptr<Socket> accept();
 
         const static unsigned int queueLength = 5;
     };
