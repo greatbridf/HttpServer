@@ -44,4 +44,6 @@ add_executable(HttpParser
         HTTP/HTTPEscapedString.hpp
         HTTP/HTTPEscapedString.hpp
         Static/MIMETypes.hpp
-        Static/MIMETypes.cpp)
+        Static/MIMETypes.cpp
+        Static/HTTPResponseCodes.hpp
+        Static/HTTPResponseCodes.cpp)
