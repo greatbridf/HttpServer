@@ -8,15 +8,12 @@
 #include <iostream>
 #include <thread>
 
-namespace greatbridf
+namespace greatbridf::IO
 {
-    namespace IO
+    template<typename T>
+    void log(T msg, std::ostream& os = std::cout)
     {
-        template<typename T>
-        void log(T msg, std::ostream& os = std::cout)
-        {
-            os << "[Thread " << std::this_thread::get_id() << "] " << msg << std::endl;
-        }
+        os << "[Thread " << std::this_thread::get_id() << "] " << msg << std::endl;
     }
 }
 
