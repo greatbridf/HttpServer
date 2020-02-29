@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <memory>
 
 #include <Handler/GETHandler.hpp>
 #include <Handler/POSTHandler.hpp>
@@ -18,11 +19,18 @@ namespace greatbridf
     class Application
     {
      public:
+        class ExitApplication : public Exception
+        {
+         public:
+            explicit ExitApplication(int _code = 0);
+            int code() const;
+         private:
+            int __code = -1;
+        };
         int run();
-        ~Application();
 
      private:
-        ServerSocket* ss = nullptr;
+        std::unique_ptr<ServerSocket> ss;
         ThreadPool pool;
     };
 }

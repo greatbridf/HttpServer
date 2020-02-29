@@ -2,12 +2,6 @@
 
 namespace greatbridf
 {
-
-    Application::~Application()
-    {
-        delete this->ss;
-    }
-
     class Task : public ITask
     {
      private:
@@ -70,9 +64,17 @@ namespace greatbridf
         }
     };
 
+    Application* app = nullptr;
+
     int Application::run()
     {
-        this->ss = new ServerSocket(Socket::SocketType::TCP, 8080);
+        app = this;
+        signal(SIGINT, [](int)
+        {
+            IO::log("Closing...");
+            app->ss->close();
+        });
+        this->ss = std::make_unique<ServerSocket>(Socket::SocketType::TCP, 8080);
         this->ss->listen();
 
         try
@@ -80,8 +82,12 @@ namespace greatbridf
             while (true)
             {
                 auto socket = this->ss->accept();
-                this->pool.add(new Task(std::move(socket)));
+                this->pool.add(std::make_unique<Task>(std::move(socket)));
             }
+        }
+        catch (ExitApplication& exit)
+        {
+            return exit.code();
         }
         catch (Exception& e)
         {
@@ -91,5 +97,12 @@ namespace greatbridf
         }
         return 0;
     }
-
+    Application::ExitApplication::ExitApplication(int _code)
+        : Exception(""), __code(_code)
+    {
+    }
+    int Application::ExitApplication::code() const
+    {
+        return this->__code;
+    }
 }
