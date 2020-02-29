@@ -40,7 +40,7 @@ namespace greatbridf
 
         // parse request type
         is >> tmp;
-        if (is.eof()) return is;
+        if (!is.good()) return is;
         if (tmp == "GET") request.type = HTTPRequestType::GET;
         else if (tmp == "POST") request.type = HTTPRequestType::POST;
         else throw Exception("Unexpected query type");
