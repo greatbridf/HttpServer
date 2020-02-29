@@ -9,12 +9,9 @@
 #include <HTTP/HTTPResponse.hpp>
 #include <utils/Foundation/StreamIOHelper.hpp>
 
-namespace greatbridf
+namespace greatbridf::Handler
 {
-    namespace Handler
-    {
-        void POST(HTTPRequest& request, std::iostream& stream, HTTPResponse& response);
-    }
+    void POST(HTTPRequest& request, std::iostream& stream, HTTPResponse& response);
 }
 
 #endif //_POSTHANDLER_HPP_

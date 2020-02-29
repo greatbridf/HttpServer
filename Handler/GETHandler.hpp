@@ -11,12 +11,9 @@
 #include <utils/Foundation/StreamIOHelper.hpp>
 #include <utils/Foundation/BasicIO.hpp>
 
-namespace greatbridf
+namespace greatbridf::Handler
 {
-    namespace Handler
-    {
-        void GET(HTTPRequest& request, std::iostream& stream, HTTPResponse& response);
-    }
+    void GET(HTTPRequest& request, std::iostream& stream, HTTPResponse& response);
 }
 
 #endif //_GETHANDLER_HPP_

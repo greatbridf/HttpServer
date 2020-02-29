@@ -26,7 +26,7 @@ namespace greatbridf
     int SocketBuffer::underflow()
     {
         if (socket.closed) return EOF;
-        size_t n = ::recv(socket.socket, eback(), BUF_SIZE, 0);
+        ssize_t n = ::recv(socket.socket, eback(), BUF_SIZE, 0);
 
         if (n <= 0)
         {
@@ -50,7 +50,7 @@ namespace greatbridf
 
         while (sent < total)
         {
-            size_t n = ::send(socket.socket, writeBuf, total - sent, 0);
+            ssize_t n = ::send(socket.socket, writeBuf, total - sent, 0);
 
             if (n > 0)
             {

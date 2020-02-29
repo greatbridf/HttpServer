@@ -8,12 +8,9 @@
 #include <map>
 #include <sstream>
 
-namespace greatbridf
+namespace greatbridf::Static
 {
-    namespace Static
-    {
-        const std::map<std::string, std::string>& mimeTypes();
-    }
+    const std::map<std::string, std::string>& mimeTypes();
 }
 
 #endif //_MIMETYPES_HPP_

@@ -4,25 +4,22 @@
 
 #include "POSTHandler.hpp"
 
-namespace greatbridf
+namespace greatbridf::Handler
 {
-    namespace Handler
+    void POST(HTTPRequest& request, std::iostream& stream, HTTPResponse& response)
     {
-        void POST(HTTPRequest& request, std::iostream& stream, HTTPResponse& response)
-        {
-            response.setResponseCode(200);
+        response.setResponseCode(200);
 
-            auto length = request.bodySize();
-            if (length > 0)
-            {
-                response.setHeader("Content-Length", length);
-                stream << response;
-                redirectStream(stream, stream, length);
-            }
-            else
-            {
-                stream << response << std::flush;
-            }
+        auto length = request.bodySize();
+        if (length > 0)
+        {
+            response.setHeader("Content-Length", length);
+            stream << response;
+            redirectStream(stream, stream, length);
+        }
+        else
+        {
+            stream << response << std::flush;
         }
     }
 }
