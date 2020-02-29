@@ -66,6 +66,7 @@ namespace greatbridf
             std::getline(is, value, '\r');
             is.ignore();
 
+            std::transform(value.begin(), value.end(), value.begin(), ::tolower);
             request.headers.insert(std::make_pair(key, value));
         }
         is.ignore(2);
