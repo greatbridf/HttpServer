@@ -2,12 +2,6 @@
 
 namespace greatbridf
 {
-
-    Application::~Application()
-    {
-        delete this->ss;
-    }
-
     class Task : public ITask
     {
      private:
@@ -72,7 +66,7 @@ namespace greatbridf
 
     int Application::run()
     {
-        this->ss = new ServerSocket(Socket::SocketType::TCP, 8080);
+        this->ss = std::make_unique<ServerSocket>(Socket::SocketType::TCP, 8080);
         this->ss->listen();
 
         try

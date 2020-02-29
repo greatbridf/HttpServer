@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <memory>
 
 #include <Handler/GETHandler.hpp>
 #include <Handler/POSTHandler.hpp>
@@ -19,10 +20,9 @@ namespace greatbridf
     {
      public:
         int run();
-        ~Application();
 
      private:
-        ServerSocket* ss = nullptr;
+        std::unique_ptr<ServerSocket> ss;
         ThreadPool pool;
     };
 }
