@@ -90,4 +90,27 @@ namespace greatbridf
         version = HTTPVersion::NONE;
         headers.clear();
     }
+    std::vector<std::pair<size_t, size_t>> HTTPRequest::getRange() const
+    {
+        auto const& str = getHeader("Range");
+        std::vector<std::pair<size_t, size_t>> ret;
+        if (str.empty())
+        {
+            return ret;
+        }
+        std::istringstream is(str);
+        char c;
+        size_t start, end = -1;
+        while ((c = is.peek()) < '0' or c > '9') is.ignore();
+        while (is.good())
+        {
+            is >> start;
+            is.ignore();
+            is >> end;
+            ret.push_back(std::move(std::make_pair(start, end)));
+            end = -1;
+            while (is.good() and ((c = is.peek()) < '0' or c > '9')) is.ignore();
+        }
+        return ret;
+    }
 }

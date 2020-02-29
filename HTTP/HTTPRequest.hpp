@@ -3,6 +3,7 @@
 #include <string>
 #include <sstream>
 #include <map>
+#include <vector>
 
 #include <utils/Exception.hpp>
 #include "Base.hpp"
@@ -22,6 +23,7 @@ namespace greatbridf
         const std::string& getHeader(const char* key) const;
         const std::map<std::string, std::string>& getHeaders() const;
         const std::string& getQueryPath() const;
+        std::vector<std::pair<size_t, size_t>> getRange() const;
         HTTPRequestType getRequestType() const;
         HTTPVersion getHTTPVersion() const;
 
