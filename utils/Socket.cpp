@@ -14,7 +14,7 @@ namespace greatbridf
         this->port = port;
         memset(&this->addr, 0, sizeof(sockaddr_in));
         this->addr.sin_family = AF_INET;
-        this->addr.sin_addr.s_addr = inet_addr(ip);
+        this->addr.sin_addr.s_addr = strcmp(ip, "") == 0 ? INADDR_ANY : inet_addr(ip);
         this->addr.sin_port = htons(port);
     }
 
@@ -35,6 +35,7 @@ namespace greatbridf
     void Socket::close()
     {
         if (this->closed) return;
+        this->closed = true;
         ::close(this->socket);
         this->socket = 0;
     }

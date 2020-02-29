@@ -86,7 +86,7 @@ namespace greatbridf
     void HTTPRequest::clear()
     {
         type = HTTPRequestType::NONE;
-        path = "";
+        path.clear();
         version = HTTPVersion::NONE;
         headers.clear();
     }

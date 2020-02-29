@@ -16,7 +16,7 @@ namespace greatbridf
                 path = "/index.html";
             }
 
-            File file("." + path);
+            File file(std::filesystem::path("." + path));
             if (!file.good())
             {
                 response.setResponseCode(404);
@@ -26,6 +26,7 @@ namespace greatbridf
 
             response.setResponseCode(200);
             response.setHeader("Content-Length", file.fileSize());
+            response.setHeader("Content-Type", std::move(file.getMimeType()));
             stream << response;
             redirectStream(stream, file, file.fileSize());
         }

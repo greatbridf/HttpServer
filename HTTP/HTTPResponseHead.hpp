@@ -7,6 +7,7 @@
 
 #include <sstream>
 #include <utils/Exception.hpp>
+#include <Static/HTTPResponseCodes.hpp>
 #include "Base.hpp"
 
 namespace greatbridf
@@ -45,23 +46,14 @@ namespace greatbridf
                 break;
             }
 
-            switch (this->code)
+            auto& responseCodes = Static::httpResponseCodes();
+            if (responseCodes.find(this->code) == responseCodes.end())
             {
-            case 200:
-                os << 200 << " OK" << CRLF;
-                break;
-
-            case 400:
-                os << 400 << " Bad Request" << CRLF;
-                break;
-
-            case 404:
-                os << 404 << " Not Found" << CRLF;
-                break;
-
-            default:
-                os << 500 << " Internal Server Error" << CRLF;
-                break;
+                os << 500 << ' ' << responseCodes.at(500) << CRLF;
+            }
+            else
+            {
+                os << this->code << ' ' << responseCodes.at(this->code) << CRLF;
             }
 
             return os.str();
