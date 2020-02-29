@@ -7,3 +7,6 @@ httpParser.out.dSYM/
 
 # cmake
 cmake-build-debug/
+
+# macos stuff
+.DS_Store
