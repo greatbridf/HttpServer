@@ -35,6 +35,7 @@ namespace greatbridf
     void Socket::close()
     {
         if (this->closed) return;
+        this->closed = true;
         ::close(this->socket);
         this->socket = 0;
     }
