@@ -74,7 +74,7 @@ namespace greatbridf
             while (true)
             {
                 auto socket = this->ss->accept();
-                this->pool.add(new Task(std::move(socket)));
+                this->pool.add(std::make_unique<Task>(std::move(socket)));
             }
         }
         catch (Exception& e)

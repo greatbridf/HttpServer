@@ -2,8 +2,6 @@
 
 namespace greatbridf
 {
-    ThreadPool::ThreadPool() = default;
-
     ThreadPool::~ThreadPool()
     {
         this->recycle();
@@ -15,45 +13,35 @@ namespace greatbridf
                 item.second.join();
             }
         }
-
-        for (auto& item : tasks)
-        {
-            delete item.second;
-        }
     }
 
-    void ThreadPool::add(ITask* task)
+    void ThreadPool::add(std::unique_ptr<ITask> task)
     {
         this->recycle();
 
         std::thread th{
-            [](ITask* task, std::queue<std::thread::id>* queue, std::mutex* mtx)
+            [](std::unique_ptr<ITask> task, std::queue<std::thread::id>& queue, std::mutex& _mtx)
             {
                 task->run();
 
-                std::lock_guard<std::mutex> lck(*mtx);
-                queue->push(std::this_thread::get_id());
-            }, task, &this->finQueue, &this->mtx
+                std::lock_guard<std::mutex> lck(_mtx);
+                queue.push(std::this_thread::get_id());
+            }, std::move(task), std::ref(this->finQueue), std::ref(this->mtx)
         };
         auto id = th.get_id();
-        this->tasks.insert(std::make_pair(id, task));
         this->workers.insert(std::make_pair(id, std::move(th)));
     }
 
     void ThreadPool::recycle()
     {
-
         while (!this->finQueue.empty())
         {
-
             auto id = this->finQueue.front();
-            if (this->workers.at(id).joinable()) this->workers.at(id).join();
-
+            if (this->workers.at(id).joinable())
+            {
+                this->workers.at(id).join();
+            }
             this->workers.erase(id);
-
-            delete this->tasks.at(id);
-            this->tasks.erase(id);
-
             this->finQueue.pop();
         }
     }
