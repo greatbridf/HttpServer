@@ -18,11 +18,11 @@ namespace greatbridf
             if (c == '%')
             {
                 is >> std::hex >> h >> std::dec;
-                str += static_cast<char>(h);
+                str.str += static_cast<char>(h);
             }
             else
             {
-                str += c;
+                str.str += c;
             }
         }
         return is;

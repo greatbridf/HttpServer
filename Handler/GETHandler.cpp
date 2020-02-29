@@ -38,11 +38,7 @@ namespace greatbridf::Handler
     }
     void GET(HTTPRequest& request, std::iostream& stream, HTTPResponse& response)
     {
-        auto path = request.getQueryPath();
-        if (path == "/")
-        {
-            path = "/index.html";
-        }
+        auto& path = request.getQueryPath();
 
         File file(std::filesystem::path("." + path));
         if (!file.good())
