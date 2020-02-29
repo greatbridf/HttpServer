@@ -25,10 +25,12 @@ namespace greatbridf
 
     int SocketBuffer::underflow()
     {
+        if (socket.closed) return EOF;
         size_t n = ::recv(socket.socket, eback(), BUF_SIZE, 0);
 
         if (n <= 0)
         {
+            socket.close();
             return EOF;
         }
         else
@@ -56,6 +58,7 @@ namespace greatbridf
             }
             else
             {
+                socket.close();
                 return EOF;
             }
         }
