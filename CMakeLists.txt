@@ -46,4 +46,6 @@ add_executable(HttpParser
         Static/MIMETypes.hpp
         Static/MIMETypes.cpp
         Static/HTTPResponseCodes.hpp
-        Static/HTTPResponseCodes.cpp)
+        Static/HTTPResponseCodes.cpp
+        utils/Foundation/LifeManagement/ArgumentParser.cpp
+        utils/Foundation/LifeManagement/ArgumentParser.hpp)
