@@ -2,7 +2,10 @@
 #define __SERVERSOCKET_HPP_
 
 #include "Socket.hpp"
+#include <cerrno>
 #include <memory>
+
+#include <utils/Foundation/Exceptions/ExitException.hpp>
 
 namespace greatbridf
 {

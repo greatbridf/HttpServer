@@ -47,4 +47,6 @@ add_executable(HttpParser
         Static/HTTPResponseCodes.hpp
         Static/HTTPResponseCodes.cpp
         utils/Foundation/LifeManagement/ArgumentParser.cpp
-        utils/Foundation/LifeManagement/ArgumentParser.hpp)
+        utils/Foundation/LifeManagement/ArgumentParser.hpp
+        utils/Foundation/Exceptions/ExitException.cpp
+        utils/Foundation/Exceptions/ExitException.hpp)
