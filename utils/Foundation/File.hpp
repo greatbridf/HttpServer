@@ -18,6 +18,9 @@ namespace greatbridf
         size_t fileSize();
 
         std::string getMimeType() const;
+        bool readable() const;
+        bool writable() const;
+        bool exist() const;
 
      private:
         std::string _filename;

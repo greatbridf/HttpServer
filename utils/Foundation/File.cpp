@@ -3,6 +3,7 @@
 //
 
 #include "File.hpp"
+#include <zconf.h>
 
 namespace greatbridf
 {
@@ -35,5 +36,17 @@ namespace greatbridf
         {
             return mimeTypes.at(ext);
         }
+    }
+    bool File::readable() const
+    {
+        return access(_filename.c_str(), 4) == 0;
+    }
+    bool File::writable() const
+    {
+        return access(_filename.c_str(), 2) == 0;
+    }
+    bool File::exist() const
+    {
+        return access(_filename.c_str(), 0) == 0;
     }
 }
