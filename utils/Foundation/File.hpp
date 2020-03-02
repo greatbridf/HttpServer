@@ -11,10 +11,12 @@
 
 namespace greatbridf
 {
-    class File : public std::fstream
+    // definitions
+    template<typename T>
+    class basic_file : public T
     {
      public:
-        explicit File(std::string name);
+        explicit basic_file(std::string name);
         size_t fileSize();
 
         std::string getMimeType() const;
@@ -27,7 +29,61 @@ namespace greatbridf
         size_t _fileSize;
 
     };
+    typedef basic_file<std::fstream> File;
+    typedef basic_file<std::ifstream> InputFile;
+    typedef basic_file<std::ofstream> OutputFile;
 
+    // realizations
+    template<typename T>
+    basic_file<T>::basic_file(std::string _name)
+        : _filename(std::move(_name)), T(_name), _fileSize(-1)
+    {
+    }
+    template<typename T>
+    size_t basic_file<T>::fileSize()
+    {
+        if (_fileSize == -1)
+        {
+            this->seekg(0, std::ios::end);
+            _fileSize = this->tellg();
+            this->seekg(0, std::ios::beg);
+        }
+        return _fileSize;
+    }
+    template<typename T>
+    std::string basic_file<T>::getMimeType() const
+    {
+        auto const& mimeTypes = Static::mimeTypes();
+        auto pos = _filename.rfind('.');
+        if (pos == std::string::npos)
+        {
+            return mimeTypes.at("");
+        }
+        std::string ext = _filename.substr(pos + 1);
+        if (mimeTypes.find(ext) == mimeTypes.end())
+        {
+            return mimeTypes.at("");
+        }
+        else
+        {
+            return mimeTypes.at(ext);
+        }
+    }
+    template<typename T>
+    bool basic_file<T>::readable() const
+    {
+        return access(_filename.c_str(), 4) == 0;
+    }
+    template<typename T>
+    bool basic_file<T>::writable() const
+    {
+        return access(_filename.c_str(), 2) == 0;
+    }
+    template<typename T>
+    bool basic_file<T>::exist() const
+    {
+        return access(_filename.c_str(), 0) == 0;
+    }
 }
 
 #endif //HTTPPARSER_FILE_HPP

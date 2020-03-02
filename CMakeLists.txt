@@ -31,7 +31,6 @@ add_executable(HttpParser
         HTTP/Base.hpp
         utils/SocketIO/SocketBuffer.cpp
         utils/SocketIO/SocketBuffer.hpp
-        utils/Foundation/File.cpp
         utils/Foundation/File.hpp
         utils/Foundation/StreamIOHelper.hpp
         Handler/GETHandler.hpp
