@@ -5,7 +5,7 @@
 #include <map>
 #include <vector>
 
-#include <utils/Exception.hpp>
+#include <utils/Foundation/Exceptions/Exception.hpp>
 #include "Base.hpp"
 #include "HTTPEscapedString.hpp"
 

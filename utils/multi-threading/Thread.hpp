@@ -14,6 +14,9 @@ namespace greatbridf
     class ThreadPool
     {
      public:
+        ThreadPool() = default;
+        ThreadPool(ThreadPool& tp) = delete;
+        ThreadPool(const ThreadPool& tp) = delete;
         ~ThreadPool();
 
         void add(std::unique_ptr<ITask> task);

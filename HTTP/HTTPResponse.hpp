@@ -8,7 +8,6 @@
 #include <map>
 
 #include <utils/Foundation/Serializable.hpp>
-#include <utils/Socket.hpp>
 #include "HTTPResponseHead.hpp"
 
 namespace greatbridf

@@ -14,6 +14,8 @@ namespace greatbridf
     {
      public:
         ServerSocket(Socket::SocketType type, int port);
+        ServerSocket(ServerSocket& ss) = delete;
+        ServerSocket(const ServerSocket& ss) = delete;
         ~ServerSocket();
 
         void listen();

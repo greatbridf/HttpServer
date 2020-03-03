@@ -28,6 +28,8 @@ namespace greatbridf
 
         Socket(SocketType type, const char* ip, int port);
         Socket(int socket, sockaddr_in addr);
+        Socket(Socket& obj) = delete;
+        Socket(const Socket& obj) = delete;
         ~Socket();
 
         const std::string& getIP() const;

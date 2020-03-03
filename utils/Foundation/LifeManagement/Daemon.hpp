@@ -15,6 +15,8 @@ namespace greatbridf
     {
      public:
         explicit Daemon(std::string _appName);
+        Daemon(Daemon& obj) = delete;
+        Daemon(const Daemon& obj) = delete;
         pid_t check();
 
         ExitCode start(const std::function<int()>& func);
