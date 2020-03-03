@@ -31,7 +31,6 @@ add_executable(HttpParser
         HTTP/Base.hpp
         utils/SocketIO/SocketBuffer.cpp
         utils/SocketIO/SocketBuffer.hpp
-        utils/Foundation/File.cpp
         utils/Foundation/File.hpp
         utils/Foundation/StreamIOHelper.hpp
         Handler/GETHandler.hpp
@@ -46,4 +45,12 @@ add_executable(HttpParser
         Static/MIMETypes.hpp
         Static/MIMETypes.cpp
         Static/HTTPResponseCodes.hpp
-        Static/HTTPResponseCodes.cpp)
+        Static/HTTPResponseCodes.cpp
+        utils/Foundation/LifeManagement/ArgumentParser.cpp
+        utils/Foundation/LifeManagement/ArgumentParser.hpp
+        utils/Foundation/Exceptions/ExitException.cpp
+        utils/Foundation/Exceptions/ExitException.hpp
+        utils/Foundation/File.cpp
+        Static/CommandLineOutput.hpp
+        utils/Foundation/LifeManagement/Daemon.cpp
+        utils/Foundation/LifeManagement/Daemon.hpp)

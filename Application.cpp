@@ -85,7 +85,7 @@ namespace greatbridf
                 this->pool.add(std::make_unique<Task>(std::move(socket)));
             }
         }
-        catch (ExitApplication& exit)
+        catch (ExitException& exit)
         {
             return exit.code();
         }
@@ -96,13 +96,5 @@ namespace greatbridf
             return -1;
         }
         return 0;
-    }
-    Application::ExitApplication::ExitApplication(int _code)
-        : Exception(""), __code(_code)
-    {
-    }
-    int Application::ExitApplication::code() const
-    {
-        return this->__code;
     }
 }

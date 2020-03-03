@@ -1,5 +1,3 @@
-#include <Application.h>
-#include <cerrno>
 #include "ServerSocket.hpp"
 
 namespace greatbridf
@@ -36,7 +34,7 @@ namespace greatbridf
         {
             if (errno == 9)
             {
-                throw Application::ExitApplication();
+                throw ExitException(ExitCode::Normal);
             }
             else
             {
