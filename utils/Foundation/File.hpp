@@ -7,6 +7,7 @@
 
 #include <string>
 #include <fstream>
+#include <unistd.h>
 #include <Static/MIMETypes.hpp>
 
 namespace greatbridf
@@ -23,6 +24,8 @@ namespace greatbridf
         bool readable() const;
         bool writable() const;
         bool exist() const;
+
+        bool remove();
 
      private:
         std::string _filename;
@@ -86,6 +89,13 @@ namespace greatbridf
     bool basic_file<T>::exist() const
     {
         return access(_filename.c_str(), 0) == 0;
+    }
+    template<typename T>
+    bool basic_file<T>::remove()
+    {
+        if (!this->exist()) return true;
+        if (this->is_open()) this->close();
+        return std::filesystem::remove(this->_filename);
     }
 }
 
