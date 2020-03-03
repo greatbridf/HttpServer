@@ -33,6 +33,9 @@ namespace greatbridf
     typedef basic_file<std::ifstream> InputFile;
     typedef basic_file<std::ofstream> OutputFile;
 
+    template<> bool InputFile::writable() const;
+    template<> bool OutputFile::readable() const;
+
     // realizations
     template<typename T>
     basic_file<T>::basic_file(std::string _name)
