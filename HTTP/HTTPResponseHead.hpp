@@ -6,7 +6,7 @@
 #define HTTPPARSER_HTTPRESPONSEHEAD_HPP
 
 #include <sstream>
-#include <utils/Exception.hpp>
+#include <utils/Foundation/Exceptions/Exception.hpp>
 #include <Static/HTTPResponseCodes.hpp>
 #include "Base.hpp"
 

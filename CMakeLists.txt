@@ -15,12 +15,12 @@ add_executable(HttpParser
         utils/multi-threading/ITask.hpp
         utils/multi-threading/Thread.cpp
         utils/multi-threading/Thread.hpp
-        utils/Exception.cpp
-        utils/Exception.hpp
-        utils/ServerSocket.cpp
-        utils/ServerSocket.hpp
-        utils/Socket.cpp
-        utils/Socket.hpp
+        utils/Foundation/Exceptions/Exception.cpp
+        utils/Foundation/Exceptions/Exception.hpp
+        utils/SocketIO/ServerSocket.cpp
+        utils/SocketIO/ServerSocket.hpp
+        utils/SocketIO/Socket.cpp
+        utils/SocketIO/Socket.hpp
         Application.cpp
         Application.h
         main.cpp

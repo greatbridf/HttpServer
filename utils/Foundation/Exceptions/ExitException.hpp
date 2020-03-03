@@ -5,7 +5,7 @@
 #ifndef _EXITEXCEPTION_HPP_
 #define _EXITEXCEPTION_HPP_
 
-#include <utils/Exception.hpp>
+#include <utils/Foundation/Exceptions/Exception.hpp>
 
 namespace greatbridf
 {
