@@ -50,4 +50,7 @@ add_executable(HttpParser
         utils/Foundation/LifeManagement/ArgumentParser.hpp
         utils/Foundation/Exceptions/ExitException.cpp
         utils/Foundation/Exceptions/ExitException.hpp
-        utils/Foundation/File.cpp)
+        utils/Foundation/File.cpp
+        Static/CommandLineOutput.hpp
+        utils/Foundation/LifeManagement/Daemon.cpp
+        utils/Foundation/LifeManagement/Daemon.hpp)
