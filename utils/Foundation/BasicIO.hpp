@@ -13,6 +13,8 @@ namespace greatbridf::IO
     template<typename T>
     void log(T msg, std::ostream& os = std::cout)
     {
+        static std::mutex mtx;
+        std::lock_guard<std::mutex> lock(mtx);
         os << "[Thread " << std::this_thread::get_id() << "] " << msg << std::endl;
     }
 }

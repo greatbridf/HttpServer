@@ -10,6 +10,8 @@ int run()
 
 int main(int argn, const char** argv)
 {
+    std::ios::sync_with_stdio(false);
+
     auto args = greatbridf::ArgumentParser(argn, argv);
     auto daemon = greatbridf::Daemon("HttpParser");
 
