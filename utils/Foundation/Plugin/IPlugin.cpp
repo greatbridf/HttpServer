@@ -17,3 +17,7 @@ greatbridf::IPlugin::PluginType greatbridf::IPlugin::getType() const
 {
     return this->type;
 }
+greatbridf::IHTTPHandler* greatbridf::IPlugin::handlerType() const
+{
+    return (greatbridf::IHTTPHandler*)this->impl;
+}

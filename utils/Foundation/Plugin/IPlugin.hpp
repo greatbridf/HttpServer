@@ -5,6 +5,8 @@
 #ifndef _IPLUGIN_HPP_
 #define _IPLUGIN_HPP_
 
+#include <Handler/IHTTPHandler.hpp>
+
 namespace greatbridf
 {
     class IPlugin
@@ -21,6 +23,7 @@ namespace greatbridf
 
         const char* getName() const;
         PluginType getType() const;
+        IHTTPHandler* handlerType() const;
      protected:
         const char* name = nullptr;
         void* impl = nullptr;
