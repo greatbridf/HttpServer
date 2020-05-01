@@ -1,10 +1,12 @@
 //
-// Created by David Mike on 2020/2/26.
+// Created by David Mike on 2020/5/1.
 //
 
-#include "GETHandler.hpp"
+#include <utils/Foundation/File.hpp>
+#include <utils/Foundation/StreamIOHelper.hpp>
+#include "GetHandler.hpp"
 
-namespace greatbridf::Handler
+namespace greatbridf
 {
     void ServeStaticResource(std::ostream& stream, HTTPResponse& response, File& file)
     {
@@ -36,7 +38,16 @@ namespace greatbridf::Handler
         stream << response << std::flush;
         redirectStream(stream, file, range.first, size);
     }
-    void GET(HTTPRequest& request, std::iostream& stream, HTTPResponse& response)
+
+    GetHandler::~GetHandler() = default;
+
+    bool GetHandler::isSuitable(HTTPRequest& request)
+    {
+        return request.getRequestType() == HTTPRequestType::GET;
+    }
+
+    IHTTPHandler::HandleResult
+    GetHandler::handle(HTTPRequest& request, std::iostream& stream, HTTPResponse& response)
     {
         auto& path = request.getQueryPath();
 
@@ -47,20 +58,20 @@ namespace greatbridf::Handler
             response.setHeader("Content-Length", 0);
             response.setHeader("Content-Type", "text/plain");
             stream << response << std::flush;
-            return;
+            return IHTTPHandler::HandleResult::SUCCESS;
         }
 
         auto const&& mime = std::move(file.getMimeType());
         if (mime == "text/html" or mime == "application/x-javascript" or mime == "text/css")
         {
             ServeStaticResource(stream, response, file);
-            return;
+            return IHTTPHandler::HandleResult::SUCCESS;
         }
         response.setHeader("Accept-Range", "bytes");
         if (request.getHeader("Range").empty())
         {
             ServeStaticResource(stream, response, file);
-            return;
+            return IHTTPHandler::HandleResult::SUCCESS;
         }
         auto range = std::move(request.getRange());
         if (range.size() == 1)
@@ -74,6 +85,15 @@ namespace greatbridf::Handler
             response.setHeader("Content-Type", "text/plain");
             stream << response << std::flush;
         }
+        return IHTTPHandler::HandleResult::SUCCESS;
     }
-
+    Plugin::Plugin()
+        : IPlugin("http_request_handler_get", PluginType::Handler)
+    {
+        this->impl = (void*)new GetHandler();
+    }
+    Plugin::~Plugin()
+    {
+        delete (GetHandler*)this->impl;
+    };
 }

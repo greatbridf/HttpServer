@@ -9,7 +9,7 @@ include_directories(HTTP)
 include_directories(utils)
 include_directories(utils/multi-threading)
 
-add_executable(HttpParser
+add_library(HttpParser_Core STATIC
         HTTP/HTTPRequest.cpp
         HTTP/HTTPRequest.hpp
         utils/multi-threading/ITask.hpp
@@ -23,7 +23,6 @@ add_executable(HttpParser
         utils/SocketIO/Socket.hpp
         Application.cpp
         Application.h
-        main.cpp
         HTTP/HTTPResponse.hpp
         HTTP/HTTPResponse.cpp
         utils/Foundation/Serializable.hpp
@@ -33,12 +32,8 @@ add_executable(HttpParser
         utils/SocketIO/SocketBuffer.hpp
         utils/Foundation/File.hpp
         utils/Foundation/StreamIOHelper.hpp
-        Handler/GETHandler.hpp
-        Handler/GETHandler.cpp
         utils/Foundation/BasicIO.hpp
         utils/Foundation/StreamIOHelper.cpp
-        Handler/POSTHandler.cpp
-        Handler/POSTHandler.hpp
         HTTP/HTTPEscapedString.cpp
         HTTP/HTTPEscapedString.hpp
         HTTP/HTTPEscapedString.hpp
@@ -53,4 +48,14 @@ add_executable(HttpParser
         utils/Foundation/File.cpp
         Static/CommandLineOutput.hpp
         utils/Foundation/LifeManagement/Daemon.cpp
-        utils/Foundation/LifeManagement/Daemon.hpp)
+        utils/Foundation/LifeManagement/Daemon.hpp
+        Handler/IHTTPHandler.hpp
+        utils/Foundation/Plugin/IPlugin.hpp
+        utils/Foundation/Plugin/IPlugin.cpp
+        utils/Foundation/Plugin/PluginManager.cpp
+        utils/Foundation/Plugin/PluginManager.hpp)
+
+add_executable(HttpParser main.cpp)
+target_link_libraries(HttpParser HttpParser_Core)
+
+add_subdirectory(Handler/Base)

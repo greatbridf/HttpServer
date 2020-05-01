@@ -6,9 +6,10 @@ namespace greatbridf
     {
      private:
         std::unique_ptr<Socket> socket;
+        PluginManager& manager;
      public:
-        explicit Task(std::unique_ptr<Socket> _socket)
-            : socket(std::move(_socket))
+        explicit Task(std::unique_ptr<Socket> _socket, PluginManager& _manager)
+            : socket(std::move(_socket)), manager(_manager)
         {
         }
 
@@ -37,18 +38,23 @@ namespace greatbridf
                         keep_alive = false;
                     }
 
-                    switch (request.getRequestType())
+                    bool handled = false;
+                    for (const auto& item : this->manager.getPlugins())
                     {
-                    case HTTPRequestType::GET:
-                        Handler::GET(request, stream, response);
-                        break;
-                    case HTTPRequestType::POST:
-                        Handler::POST(request, stream, response);
-                        break;
-                    default:
+                        if (item->getType() != IPlugin::PluginType::Handler) continue;
+                        auto handler = item->handlerType();
+                        if (handler->isSuitable(request))
+                        {
+                            handler->handle(request, stream, response);
+                            handled = true;
+                            break;
+                        }
+                    }
+
+                    if (!handled)
+                    {
                         response.setResponseCode(400);
                         stream << response << std::flush;
-                        break;
                     }
 
                     if (!keep_alive) break;
@@ -74,6 +80,12 @@ namespace greatbridf
             IO::log("Closing...");
             app->ss->close();
         });
+        signal(SIGTERM, [](int)
+        {
+            IO::log("Closing...");
+            app->ss->close();
+        });
+        signal(SIGPIPE, SIG_IGN);
         this->ss = std::make_unique<ServerSocket>(Socket::SocketType::TCP, 8080);
         this->ss->listen();
 
@@ -82,7 +94,7 @@ namespace greatbridf
             while (true)
             {
                 auto socket = this->ss->accept();
-                this->pool.add(std::make_unique<Task>(std::move(socket)));
+                this->pool.add(std::make_unique<Task>(std::move(socket), std::ref(this->manager)));
             }
         }
         catch (ExitException& exit)
@@ -96,5 +108,9 @@ namespace greatbridf
             return -1;
         }
         return 0;
+    }
+    Application::Application()
+    {
+        this->manager.loadPlugins();
     }
 }
