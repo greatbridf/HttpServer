@@ -85,6 +85,7 @@ namespace greatbridf
             IO::log("Closing...");
             app->ss->close();
         });
+        signal(SIGPIPE, SIG_IGN);
         this->ss = std::make_unique<ServerSocket>(Socket::SocketType::TCP, 8080);
         this->ss->listen();
 
