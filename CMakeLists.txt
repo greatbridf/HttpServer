@@ -32,12 +32,8 @@ add_library(HttpParser_Core STATIC
         utils/SocketIO/SocketBuffer.hpp
         utils/Foundation/File.hpp
         utils/Foundation/StreamIOHelper.hpp
-        Handler/GETHandler.hpp
-        Handler/GETHandler.cpp
         utils/Foundation/BasicIO.hpp
         utils/Foundation/StreamIOHelper.cpp
-        Handler/POSTHandler.cpp
-        Handler/POSTHandler.hpp
         HTTP/HTTPEscapedString.cpp
         HTTP/HTTPEscapedString.hpp
         HTTP/HTTPEscapedString.hpp

@@ -5,8 +5,6 @@
 #include <fstream>
 #include <memory>
 
-#include <Handler/GETHandler.hpp>
-#include <Handler/POSTHandler.hpp>
 #include <HTTP/HTTPRequest.hpp>
 #include <HTTP/HTTPResponse.hpp>
 #include <utils/SocketIO/SocketBuffer.hpp>
