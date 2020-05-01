@@ -11,9 +11,11 @@ namespace greatbridf
 {
     PluginManager::~PluginManager()
     {
-        for (auto& item : this->plugins)
+        auto len = this->plugins.size();
+        for (int i = 0; i < len; ++i)
         {
-            delete item;
+            delete this->plugins[i];
+            dlclose(this->handles[i]);
         }
     }
     void PluginManager::loadPlugins()
@@ -31,7 +33,7 @@ namespace greatbridf
                 name = name.substr(3);
                 auto func = (IPlugin* (*)())dlsym(handle, "registerPlugin");
                 this->plugins.push_back(func());
-                dlclose(handle);
+                this->handles.push_back(handle);
             }
         }
     }
