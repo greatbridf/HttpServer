@@ -16,6 +16,7 @@ namespace greatbridf
      public:
         ~PluginManager();
         void loadPlugins();
+        const std::vector<IPlugin*>& getPlugins() const;
      private:
         std::vector<IPlugin*> plugins;
     };

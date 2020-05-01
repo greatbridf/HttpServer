@@ -35,4 +35,8 @@ namespace greatbridf
             }
         }
     }
+    const std::vector<IPlugin*>& PluginManager::getPlugins() const
+    {
+        return this->plugins;
+    }
 }
