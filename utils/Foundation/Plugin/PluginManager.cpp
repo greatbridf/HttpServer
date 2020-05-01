@@ -20,7 +20,15 @@ namespace greatbridf
     }
     void PluginManager::loadPlugins()
     {
-        auto iter = std::filesystem::directory_iterator("./");
+        std::filesystem::directory_iterator iter;
+        if (std::filesystem::exists("./plugins"))
+        {
+            iter = std::filesystem::directory_iterator("./plugins/");
+        }
+        else
+        {
+            iter = std::filesystem::directory_iterator("./");
+        }
         std::filesystem::directory_iterator end;
         std::error_code err;
         for (; iter != end and !err; iter.increment(err))
@@ -29,7 +37,7 @@ namespace greatbridf
             if (ext == ".dylib")
             {
                 auto name = iter->path().filename().stem().string();
-                auto handle = dlopen((name + ext).c_str(), RTLD_NOW);
+                auto handle = dlopen(std::string("./plugins/").append(name).append(ext).c_str(), RTLD_NOW);
                 name = name.substr(3);
                 auto func = (IPlugin* (*)())dlsym(handle, "registerPlugin");
                 this->plugins.push_back(func());
