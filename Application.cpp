@@ -1,4 +1,5 @@
 #include "Application.h"
+#include <signal.h>
 
 namespace greatbridf
 {

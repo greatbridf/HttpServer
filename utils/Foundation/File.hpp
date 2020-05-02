@@ -9,6 +9,7 @@
 #include <fstream>
 #include <unistd.h>
 #include <Static/MIMETypes.hpp>
+#include <filesystem>
 
 namespace greatbridf
 {

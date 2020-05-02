@@ -8,6 +8,7 @@
 #include <utils/Foundation/File.hpp>
 #include <utils/Foundation/Exceptions/ExitException.hpp>
 #include <zconf.h>
+#include <functional>
 
 namespace greatbridf
 {
