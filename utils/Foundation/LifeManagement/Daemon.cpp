@@ -6,6 +6,7 @@
 #include <iostream>
 #include <sys/stat.h>
 #include <utility>
+#include <functional>
 
 #include "Daemon.hpp"
 #include <Static/CommandLineOutput.hpp>

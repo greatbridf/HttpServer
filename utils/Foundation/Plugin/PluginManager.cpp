@@ -7,6 +7,12 @@
 #include <filesystem>
 #include <dlfcn.h>
 
+#ifdef __APPLE__
+#define PLUGIN_EXTENSION ".dylib"
+#else
+#define PLUGIN_EXTENSION ".so"
+#endif
+
 namespace greatbridf
 {
     PluginManager::~PluginManager()
@@ -34,7 +40,7 @@ namespace greatbridf
         for (; iter != end and !err; iter.increment(err))
         {
             auto ext = iter->path().extension().string();
-            if (ext == ".dylib")
+            if (ext == PLUGIN_EXTENSION)
             {
                 auto name = iter->path().filename().stem().string();
                 auto handle = dlopen(std::string("./plugins/").append(name).append(ext).c_str(), RTLD_NOW);

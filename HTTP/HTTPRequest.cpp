@@ -73,7 +73,7 @@ namespace greatbridf
             std::transform(value.begin(), value.end(), value.begin(), ::tolower);
             request.headers.insert(std::make_pair(key, value));
         }
-        is.ignore(2);
+        is.ignore(2, '\n');
 
         return is;
     }

@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.15)
 project(HttpParser)
 
 set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_FLAGS "-O3 ${CMAKE_CXX_FLAGS}")
+set(CMAKE_CXX_FLAGS "-O3 -fPIC ${CMAKE_CXX_FLAGS}")
 
 include_directories(.)
 include_directories(HTTP)
@@ -56,6 +56,6 @@ add_library(HttpParser_Core STATIC
         utils/Foundation/Plugin/PluginManager.hpp)
 
 add_executable(HttpParser main.cpp)
-target_link_libraries(HttpParser HttpParser_Core)
+target_link_libraries(HttpParser HttpParser_Core pthread dl)
 
 add_subdirectory(Handler/Base)

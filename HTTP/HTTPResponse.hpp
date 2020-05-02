@@ -6,6 +6,7 @@
 #define HTTPPARSER_HTTPRESPONSE_HPP
 
 #include <map>
+#include <string>
 
 #include <utils/Foundation/Serializable.hpp>
 #include "HTTPResponseHead.hpp"
@@ -29,22 +30,16 @@ namespace greatbridf
             this->headers[key] = std::to_string(value);
         }
 
-        template<>
-        void setHeader(const char* key, std::string value)
-        {
-            this->headers[key] = std::move(value);
-        }
-
-        template<>
-        void setHeader(const char* key, const char* value)
-        {
-            this->headers[key] = value;
-        }
-
      private:
         HTTPResponseHead head;
         std::map<std::string, std::string> headers;
     };
+
+    template<>
+    void HTTPResponse::setHeader<std::string>(const char* key, std::string value);
+
+    template<>
+    void HTTPResponse::setHeader<const char*>(const char* key, const char* value);
 }
 
 #endif //HTTPPARSER_HTTPRESPONSE_HPP

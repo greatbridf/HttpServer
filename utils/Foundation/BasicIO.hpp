@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <thread>
+#include <mutex>
 
 namespace greatbridf::IO
 {

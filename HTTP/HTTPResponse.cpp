@@ -33,5 +33,15 @@ namespace greatbridf
     {
         head.code = code;
     }
+    template<>
+    void HTTPResponse::setHeader<std::string>(const char* key, std::string value)
+    {
+        this->headers[key] = std::move(value);
+    }
 
+    template<>
+    void HTTPResponse::setHeader<const char*>(const char* key, const char* value)
+    {
+        this->headers[key] = value;
+    }
 }
