@@ -1,5 +1,5 @@
 #include "Application.h"
-#include <signal.h>
+#include <csignal>
 
 namespace greatbridf
 {

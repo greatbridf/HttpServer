@@ -35,11 +35,11 @@ namespace greatbridf
         std::map<std::string, std::string> headers;
     };
 
-	template<>
-	void HTTPResponse::setHeader<std::string>(const char* key, std::string value);
+    template<>
+    void HTTPResponse::setHeader<std::string>(const char* key, std::string value);
 
-	template<>
-	void HTTPResponse::setHeader<const char*>(const char* key, const char* value);
+    template<>
+    void HTTPResponse::setHeader<const char*>(const char* key, const char* value);
 }
 
 #endif //HTTPPARSER_HTTPRESPONSE_HPP
