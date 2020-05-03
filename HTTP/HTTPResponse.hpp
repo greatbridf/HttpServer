@@ -27,6 +27,8 @@ namespace greatbridf
 
         HTTPHeaders& headers();
 
+        friend std::istream& operator>>(std::istream& is, HTTPResponse& response);
+
      private:
         HTTPResponseHead head;
         HTTPHeaders _headers;

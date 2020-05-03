@@ -27,6 +27,7 @@ add_library(HttpParser_Core STATIC
         HTTP/HTTPResponse.cpp
         utils/Foundation/Serializable.hpp
         HTTP/HTTPResponseHead.hpp
+        HTTP/HTTPResponseHead.cpp
         HTTP/Base.hpp
         utils/SocketIO/SocketBuffer.cpp
         utils/SocketIO/SocketBuffer.hpp

@@ -36,4 +36,10 @@ namespace greatbridf
     {
         return this->_headers;
     }
+    std::istream& operator>>(std::istream& is, HTTPResponse& response)
+    {
+        is >> response.head;
+        is >> response._headers;
+        return is;
+    }
 }

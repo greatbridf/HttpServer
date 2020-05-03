@@ -8,6 +8,7 @@
 #include <sstream>
 #include <utils/Foundation/Exceptions/Exception.hpp>
 #include <Static/HTTPResponseCodes.hpp>
+#include <utils/Foundation/Serializable.hpp>
 #include "Base.hpp"
 
 namespace greatbridf
@@ -19,45 +20,13 @@ namespace greatbridf
         unsigned int code;
         HTTPVersion version = HTTPVersion::ONE;
 
-        explicit HTTPResponseHead(unsigned int code)
-            : code(code)
-        {
-        };
-        explicit HTTPResponseHead(unsigned int code, HTTPVersion version)
-            : code(code), version(version)
-        {
-        };
+        explicit HTTPResponseHead(unsigned int code);
 
-        std::string toString() const override
-        {
-            std::ostringstream os("");
+        explicit HTTPResponseHead(unsigned int code, HTTPVersion version);
 
-            switch (this->version)
-            {
-            case HTTPVersion::NONE:
-                throw Exception("Bad protocol version");
+        std::string toString() const override;
 
-            case HTTPVersion::ONE:
-                os << "HTTP/1.1 ";
-                break;
-
-            case HTTPVersion::TWO:
-                os << "HTTP/2 ";
-                break;
-            }
-
-            auto& responseCodes = Static::httpResponseCodes();
-            if (responseCodes.find(this->code) == responseCodes.end())
-            {
-                os << 500 << ' ' << responseCodes.at(500) << CRLF;
-            }
-            else
-            {
-                os << this->code << ' ' << responseCodes.at(this->code) << CRLF;
-            }
-
-            return os.str();
-        }
+        friend std::istream& operator>>(std::istream& is, HTTPResponseHead& head);
     };
 
 }
