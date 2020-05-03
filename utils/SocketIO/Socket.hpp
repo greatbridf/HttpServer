@@ -38,6 +38,9 @@ namespace greatbridf
         void setTimeout(int _timeout);
         int getTimeout();
 
+        // TODO add state flag
+        void connect();
+
         void close();
 
      protected:

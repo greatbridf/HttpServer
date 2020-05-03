@@ -1,3 +1,4 @@
+#include <utils/Foundation/Exceptions/Exception.hpp>
 #include "Socket.hpp"
 
 namespace greatbridf
@@ -30,6 +31,15 @@ namespace greatbridf
     Socket::~Socket()
     {
         this->close();
+    }
+
+    void Socket::connect()
+    {
+        auto result = ::connect(this->socket, (sockaddr*)&this->addr, sizeof(this->addr));
+        if (result < 0)
+        {
+            throw Exception("cannot connect to target ip");
+        }
     }
 
     void Socket::close()
