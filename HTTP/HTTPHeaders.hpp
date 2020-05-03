@@ -31,6 +31,8 @@ namespace greatbridf
 
         const std::map<std::string, std::string>& raw() const;
 
+        friend std::istream& operator>>(std::istream& is, HTTPHeaders& headers);
+
      private:
         std::map<std::string, std::string> _headers;
     };

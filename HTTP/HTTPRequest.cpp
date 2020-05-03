@@ -56,17 +56,7 @@ namespace greatbridf
         // parse request head
         is.ignore(2);
 
-        while (is.good() and is.peek() != '\r')
-        {
-            std::getline(is, key, ':');
-            if (is.peek() == ' ') is.ignore();
-            std::getline(is, value, '\r');
-            is.ignore();
-
-            std::transform(value.begin(), value.end(), value.begin(), ::tolower);
-            request._headers.set(key, value);
-        }
-        is.ignore(2, '\n');
+        is >> request._headers;
 
         return is;
     }

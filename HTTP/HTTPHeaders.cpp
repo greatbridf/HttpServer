@@ -29,4 +29,20 @@ namespace greatbridf
     {
         return this->_headers;
     }
+    std::istream& operator>>(std::istream& is, HTTPHeaders& headers)
+    {
+        std::string key, value;
+        while (is.good() and is.peek() != '\r')
+        {
+            std::getline(is, key, ':');
+            if (is.peek() == ' ') is.ignore();
+            std::getline(is, value, '\r');
+            is.ignore();
+
+            std::transform(value.begin(), value.end(), value.begin(), ::tolower);
+            headers.set(key, value);
+        }
+        is.ignore(2, '\n');
+        return is;
+    }
 }
