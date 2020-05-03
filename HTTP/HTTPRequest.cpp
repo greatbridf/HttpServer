@@ -1,4 +1,5 @@
 #include "HTTPRequest.hpp"
+#include <utils/Foundation/StringStream.hpp>
 
 namespace greatbridf
 {
@@ -117,5 +118,22 @@ namespace greatbridf
             while (is.good() and ((c = is.peek()) < '0' or c > '9')) is.ignore();
         }
         return ret;
+    }
+    std::string HTTPRequest::toString() const
+    {
+        OStringStream oss;
+        oss << greatbridf::toString(this->type) << " "
+            << this->path.str << " " << greatbridf::toString(this->version) << CRLF;
+        for (const auto& item : this->headers)
+        {
+            oss << item.first << ": " << item.second << CRLF;
+        }
+        oss << CRLF;
+        return oss.str();
+    }
+    std::ostream& operator<<(std::ostream& os, HTTPRequest& request)
+    {
+        os << request.toString();
+        return os;
     }
 }

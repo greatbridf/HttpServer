@@ -6,6 +6,7 @@
 #include <vector>
 
 #include <utils/Foundation/Exceptions/Exception.hpp>
+#include <utils/Foundation/Serializable.hpp>
 #include "Base.hpp"
 #include "HTTPEscapedString.hpp"
 
@@ -14,11 +15,13 @@ namespace greatbridf
 
     const static std::string NULL_STRING;
 
-    class HTTPRequest
+    class HTTPRequest : public Serializable
     {
      public:
 
         HTTPRequest();
+
+        std::string toString() const override;
 
         const std::string& getHeader(const char* key) const;
         const std::map<std::string, std::string>& getHeaders() const;
@@ -31,7 +34,7 @@ namespace greatbridf
 
         friend std::istream& operator>>(std::istream& is, HTTPRequest& request);
 
-     private:
+     protected:
         HTTPRequestType type;
         HTTPVersion version;
         HTTPEscapedString path;

@@ -24,6 +24,8 @@ namespace greatbridf
         NONE,
     };
 
+    const char* toString(HTTPRequestType obj);
+    const char* toString(HTTPVersion obj);
 }
 
 #endif //HTTPPARSER_BASE_HPP
