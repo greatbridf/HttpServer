@@ -9,6 +9,12 @@ namespace greatbridf
     {
     }
 
+    HTTPRequest::HTTPRequest(HTTPRequestType _type, std::string&& _path, HTTPVersion _version)
+        : type(_type), version(_version)
+    {
+        this->path.str = _path;
+    }
+
     const std::map<std::string, std::string>& HTTPRequest::getHeaders() const
     {
         return this->headers;
@@ -130,6 +136,10 @@ namespace greatbridf
         }
         oss << CRLF;
         return oss.str();
+    }
+    void HTTPRequest::setHeader(const std::string& key, const std::string& value)
+    {
+        this->headers[key] = value;
     }
     std::ostream& operator<<(std::ostream& os, HTTPRequest& request)
     {

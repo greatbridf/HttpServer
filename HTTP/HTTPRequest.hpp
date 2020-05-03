@@ -21,10 +21,21 @@ namespace greatbridf
 
         HTTPRequest();
 
+        /// Make a new request with default values
+        HTTPRequest(HTTPRequestType _type, std::string&& _path, HTTPVersion _version);
+
         std::string toString() const override;
 
         const std::string& getHeader(const char* key) const;
         const std::map<std::string, std::string>& getHeaders() const;
+
+        /*!
+         * Insert a header line into the headers list
+         * @param key key
+         * @param value value
+         */
+        void setHeader(const std::string& key, const std::string& value);
+
         const std::string& getQueryPath() const;
         std::vector<std::pair<size_t, size_t>> getRange() const;
         HTTPRequestType getRequestType() const;
