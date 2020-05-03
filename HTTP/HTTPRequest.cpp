@@ -141,9 +141,4 @@ namespace greatbridf
     {
         this->headers[key] = value;
     }
-    std::ostream& operator<<(std::ostream& os, HTTPRequest& request)
-    {
-        os << request.toString();
-        return os;
-    }
 }
