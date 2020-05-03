@@ -59,3 +59,4 @@ add_executable(HttpParser main.cpp)
 target_link_libraries(HttpParser HttpParser_Core pthread dl)
 
 add_subdirectory(Handler/Base)
+add_subdirectory(Test)
