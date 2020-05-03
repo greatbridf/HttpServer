@@ -56,7 +56,9 @@ add_library(HttpParser_Core STATIC
         utils/Foundation/Plugin/PluginManager.hpp
         utils/Foundation/StringStream.hpp
         utils/Foundation/StringStream.cpp
-        HTTP/EnumToString.cpp)
+        HTTP/EnumToString.cpp
+        HTTP/HTTPHeaders.cpp
+        HTTP/HTTPHeaders.hpp)
 
 add_executable(HttpParser main.cpp)
 target_link_libraries(HttpParser HttpParser_Core pthread dl)

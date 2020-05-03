@@ -10,6 +10,7 @@
 
 #include <utils/Foundation/Serializable.hpp>
 #include "HTTPResponseHead.hpp"
+#include "HTTPHeaders.hpp"
 
 namespace greatbridf
 {
@@ -24,22 +25,12 @@ namespace greatbridf
 
         void setResponseCode(unsigned int code);
 
-        template<typename T>
-        void setHeader(const char* key, T value)
-        {
-            this->headers[key] = std::to_string(value);
-        }
+        HTTPHeaders& headers();
 
      private:
         HTTPResponseHead head;
-        std::map<std::string, std::string> headers;
+        HTTPHeaders _headers;
     };
-
-    template<>
-    void HTTPResponse::setHeader<std::string>(const char* key, std::string value);
-
-    template<>
-    void HTTPResponse::setHeader<const char*>(const char* key, const char* value);
 }
 
 #endif //HTTPPARSER_HTTPRESPONSE_HPP

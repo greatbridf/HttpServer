@@ -22,7 +22,7 @@ namespace greatbridf
         auto length = request.bodySize();
         if (length > 0)
         {
-            response.setHeader("Content-Length", length);
+            response.headers().set("Content-Length", length);
             stream << response;
             redirectStream(stream, stream, length);
         }

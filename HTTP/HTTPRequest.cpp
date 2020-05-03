@@ -15,16 +15,6 @@ namespace greatbridf
         this->path.str = _path;
     }
 
-    const std::map<std::string, std::string>& HTTPRequest::getHeaders() const
-    {
-        return this->headers;
-    }
-
-    const std::string& HTTPRequest::getHeader(const char* key) const
-    {
-        return this->headers.find(key) != this->headers.end() ? this->headers.at(key) : NULL_STRING;
-    }
-
     const std::string& HTTPRequest::getQueryPath() const
     {
         return this->path.str;
@@ -78,7 +68,7 @@ namespace greatbridf
             is.ignore();
 
             std::transform(value.begin(), value.end(), value.begin(), ::tolower);
-            request.headers.insert(std::make_pair(key, value));
+            request._headers.set(key, value);
         }
         is.ignore(2, '\n');
 
@@ -87,7 +77,7 @@ namespace greatbridf
 
     size_t HTTPRequest::bodySize() const
     {
-        auto str = this->getHeader("Content-Length");
+        auto str = _headers.get("Content-Length");
         if (str.empty())
         {
             return -1;
@@ -100,11 +90,11 @@ namespace greatbridf
         type = HTTPRequestType::NONE;
         path.str.clear();
         version = HTTPVersion::NONE;
-        headers.clear();
+        _headers.clear();
     }
     std::vector<std::pair<size_t, size_t>> HTTPRequest::getRange() const
     {
-        auto const& str = getHeader("Range");
+        auto const& str = _headers.get("Range");
         std::vector<std::pair<size_t, size_t>> ret;
         if (str.empty())
         {
@@ -130,15 +120,15 @@ namespace greatbridf
         OStringStream oss;
         oss << greatbridf::toString(this->type) << " "
             << this->path.str << " " << greatbridf::toString(this->version) << CRLF;
-        for (const auto& item : this->headers)
+        for (const auto& item : this->_headers.raw())
         {
             oss << item.first << ": " << item.second << CRLF;
         }
         oss << CRLF;
         return oss.str();
     }
-    void HTTPRequest::setHeader(const std::string& key, const std::string& value)
+    HTTPHeaders& HTTPRequest::headers()
     {
-        this->headers[key] = value;
+        return this->_headers;
     }
 }

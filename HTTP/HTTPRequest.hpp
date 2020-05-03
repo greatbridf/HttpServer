@@ -9,6 +9,7 @@
 #include <utils/Foundation/Serializable.hpp>
 #include "Base.hpp"
 #include "HTTPEscapedString.hpp"
+#include "HTTPHeaders.hpp"
 
 namespace greatbridf
 {
@@ -26,16 +27,6 @@ namespace greatbridf
 
         std::string toString() const override;
 
-        const std::string& getHeader(const char* key) const;
-        const std::map<std::string, std::string>& getHeaders() const;
-
-        /*!
-         * Insert a header line into the headers list
-         * @param key key
-         * @param value value
-         */
-        void setHeader(const std::string& key, const std::string& value);
-
         const std::string& getQueryPath() const;
         std::vector<std::pair<size_t, size_t>> getRange() const;
         HTTPRequestType getRequestType() const;
@@ -45,12 +36,13 @@ namespace greatbridf
 
         friend std::istream& operator>>(std::istream& is, HTTPRequest& request);
 
+        HTTPHeaders& headers();
+
      protected:
         HTTPRequestType type;
         HTTPVersion version;
         HTTPEscapedString path;
-
-        std::map<std::string, std::string> headers;
+        HTTPHeaders _headers;
 
         void clear();
     };

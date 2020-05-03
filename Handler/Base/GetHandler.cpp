@@ -11,8 +11,8 @@ namespace greatbridf
     void ServeStaticResource(std::ostream& stream, HTTPResponse& response, File& file)
     {
         response.setResponseCode(200);
-        response.setHeader("Content-Length", file.fileSize());
-        response.setHeader("Content-Type", file.getMimeType());
+        response.headers().set("Content-Length", file.fileSize());
+        response.headers().set("Content-Type", file.getMimeType());
         stream << response << std::flush;
         redirectStream(stream, file, file.fileSize());
     }
@@ -33,8 +33,8 @@ namespace greatbridf
         strRange += std::to_string(file.fileSize());
 
         response.setResponseCode(206);
-        response.setHeader("Content-Length", size);
-        response.setHeader("Content-Range", strRange);
+        response.headers().set("Content-Length", size);
+        response.headers().set("Content-Range", strRange);
         stream << response << std::flush;
         redirectStream(stream, file, range.first, size);
     }
@@ -55,8 +55,8 @@ namespace greatbridf
         if (!file.good())
         {
             response.setResponseCode(404);
-            response.setHeader("Content-Length", 0);
-            response.setHeader("Content-Type", "text/plain");
+            response.headers().set("Content-Length", 0);
+            response.headers().set("Content-Type", "text/plain");
             stream << response << std::flush;
             return IHTTPHandler::HandleResult::SUCCESS;
         }
@@ -67,8 +67,8 @@ namespace greatbridf
             ServeStaticResource(stream, response, file);
             return IHTTPHandler::HandleResult::SUCCESS;
         }
-        response.setHeader("Accept-Range", "bytes");
-        if (request.getHeader("Range").empty())
+        response.headers().set("Accept-Range", "bytes");
+        if (request.headers().get("Range").empty())
         {
             ServeStaticResource(stream, response, file);
             return IHTTPHandler::HandleResult::SUCCESS;
@@ -81,8 +81,8 @@ namespace greatbridf
         else
         {
             response.setResponseCode(500);
-            response.setHeader("Content-Length", 0);
-            response.setHeader("Content-Type", "text/plain");
+            response.headers().set("Content-Length", 0);
+            response.headers().set("Content-Type", "text/plain");
             stream << response << std::flush;
         }
         return IHTTPHandler::HandleResult::SUCCESS;

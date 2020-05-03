@@ -10,10 +10,9 @@ namespace greatbridf
     HTTPResponse::HTTPResponse(unsigned int code, HTTPVersion version)
         : head(code, version)
     {
-
-        this->setHeader("Content-Type", "text/html; charset=UTF-8");
-        this->setHeader(("Content-Length"), "0");
-        this->setHeader("Connection", "keep-alive");
+        this->_headers.set("Content-Type", "text/html; charset=UTF-8");
+        this->_headers.set(("Content-Length"), "0");
+        this->_headers.set("Connection", "keep-alive");
     }
 
     std::string HTTPResponse::toString() const
@@ -21,7 +20,7 @@ namespace greatbridf
         std::ostringstream os;
 
         os << this->head;
-        for (auto& item : this->headers)
+        for (auto& item : this->_headers.raw())
         {
             os << item.first << ": " << item.second << CRLF;
         }
@@ -33,15 +32,8 @@ namespace greatbridf
     {
         head.code = code;
     }
-    template<>
-    void HTTPResponse::setHeader<std::string>(const char* key, std::string value)
+    HTTPHeaders& HTTPResponse::headers()
     {
-        this->headers[key] = std::move(value);
-    }
-
-    template<>
-    void HTTPResponse::setHeader<const char*>(const char* key, const char* value)
-    {
-        this->headers[key] = value;
+        return this->_headers;
     }
 }

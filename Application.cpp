@@ -27,15 +27,15 @@ namespace greatbridf
                 while (stream >> request)
                 {
                     HTTPResponse response;
-                    if (request.getHeader("Connection") == "keep-alive")
+                    if (request.headers().get("Connection") == "keep-alive")
                     {
                         socket->setTimeout(5); // default
-                        response.setHeader("Keep-Alive", "timeout=" + std::to_string(socket->getTimeout()));
+                        response.headers().set("Keep-Alive", "timeout=" + std::to_string(socket->getTimeout()));
                         keep_alive = true;
                     }
                     else
                     {
-                        response.setHeader("Connection", "close");
+                        response.headers().set("Connection", "close");
                         keep_alive = false;
                     }
 
