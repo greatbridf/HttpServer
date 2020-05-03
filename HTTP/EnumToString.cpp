@@ -3,6 +3,8 @@
 //
 
 #include "Base.hpp"
+#include <string>
+#include <utils/Foundation/Exceptions/Exception.hpp>
 
 namespace greatbridf
 {
@@ -28,6 +30,36 @@ namespace greatbridf
             return "HTTP/2";
         default:
             return nullptr;
+        }
+    }
+    HTTPRequestType Parse::RequestType(const std::string& str)
+    {
+        if (str == "GET")
+        {
+            return HTTPRequestType::GET;
+        }
+        else if (str == "POST")
+        {
+            return HTTPRequestType::POST;
+        }
+        else
+        {
+            throw Exception("unexpected request type");
+        }
+    }
+    HTTPVersion Parse::Version(const std::string& str)
+    {
+        if (str == "HTTP/1.1")
+        {
+            return HTTPVersion::ONE;
+        }
+        else if (str == "HTTP/2")
+        {
+            return HTTPVersion::TWO;
+        }
+        else
+        {
+            throw Exception("unexpected protocol version");
         }
     }
 }

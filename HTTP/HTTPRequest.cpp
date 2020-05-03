@@ -38,9 +38,7 @@ namespace greatbridf
         // parse request type
         is >> tmp;
         if (!is.good()) return is;
-        if (tmp == "GET") request.type = HTTPRequestType::GET;
-        else if (tmp == "POST") request.type = HTTPRequestType::POST;
-        else throw Exception("Unexpected query type");
+        request.type = Parse::RequestType(tmp);
 
         // parse request path
         is >> request.path;
@@ -51,9 +49,7 @@ namespace greatbridf
 
         // parse http version
         is >> tmp;
-        if (tmp == "HTTP/1.1") request.version = HTTPVersion::ONE;
-        else if (tmp == "HTTP/2") request.version = HTTPVersion::TWO;
-        else throw Exception("unexpected http version");
+        request.version = Parse::Version(tmp);
 
         std::string key, value;
 
