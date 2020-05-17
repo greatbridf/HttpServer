@@ -64,5 +64,9 @@ add_library(HttpParser_Core STATIC
 add_executable(HttpParser main.cpp)
 target_link_libraries(HttpParser HttpParser_Core pthread dl)
 
+# plugins
+
+file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/plugins/)
+
 add_subdirectory(Handler/Base)
 add_subdirectory(Test)

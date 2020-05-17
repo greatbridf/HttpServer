@@ -14,5 +14,4 @@ add_library(PostHandler SHARED
         PostHandler.cpp)
 target_link_libraries(GetHandler HttpParser_Core)
 target_link_libraries(PostHandler HttpParser_Core)
-file(MAKE_DIRECTORY ${PROJECT_SOURCE_DIR}/../../cmake-build-debug/plugins/)
-set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/../../cmake-build-debug/plugins/)
+set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/plugins/)
