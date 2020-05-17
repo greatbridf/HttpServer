@@ -70,7 +70,7 @@ namespace greatbridf
         }
         return code;
     }
-    ExitCode Daemon::start(const std::function<int()>& func)
+    ExitCode Daemon::start(const std::function<int(int, const char**)>& func, int argn, const char** argv)
     {
         if (this->check())
         {
@@ -100,6 +100,6 @@ namespace greatbridf
         // Set UMask
         umask(0);
         // TODO: close stdio
-        return static_cast<ExitCode>(func());
+        return static_cast<ExitCode>(func(argn, argv));
     }
 }

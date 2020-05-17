@@ -12,19 +12,21 @@
 #include <utils/Foundation/Plugin/PluginManager.hpp>
 #include <utils/SocketIO/ServerSocket.hpp>
 #include <utils/multi-threading/Thread.hpp>
+#include <utils/Foundation/LifeManagement/ArgumentParser.hpp>
 
 namespace greatbridf
 {
     class Application
     {
      public:
-        explicit Application();
+        explicit Application(int argn, const char** argv);
         int run();
 
      private:
         std::unique_ptr<ServerSocket> ss;
         ThreadPool pool;
         PluginManager manager{};
+        ArgumentParser args;
     };
 }
 

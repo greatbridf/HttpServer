@@ -87,7 +87,8 @@ namespace greatbridf
             app->ss->close();
         });
         signal(SIGPIPE, SIG_IGN);
-        this->ss = std::make_unique<ServerSocket>(Socket::SocketType::TCP, 8080);
+        auto port = this->args.hasOption("-p") ? this->args.getOption("-p") : "8080";
+        this->ss = std::make_unique<ServerSocket>(Socket::SocketType::TCP, atoi(port.c_str()));
         this->ss->listen();
 
         try
@@ -110,7 +111,8 @@ namespace greatbridf
         }
         return 0;
     }
-    Application::Application()
+    Application::Application(int argn, const char** argv)
+        : args(argn, argv)
     {
         this->manager.loadPlugins();
     }

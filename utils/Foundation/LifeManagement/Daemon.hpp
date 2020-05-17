@@ -20,7 +20,7 @@ namespace greatbridf
         Daemon(const Daemon& obj) = delete;
         pid_t check();
 
-        ExitCode start(const std::function<int()>& func);
+        ExitCode start(const std::function<int(int, const char**)>& func, int argn, const char** argv);
         ExitCode stop(pid_t pid);
         static int pError(ExitCode code);
      private:

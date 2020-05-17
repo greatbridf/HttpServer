@@ -2,9 +2,9 @@
 #include <utils/Foundation/LifeManagement/ArgumentParser.hpp>
 #include <utils/Foundation/LifeManagement/Daemon.hpp>
 
-int run()
+int run(int argn, const char** argv)
 {
-    greatbridf::Application app;
+    greatbridf::Application app(argn, argv);
     return app.run();
 }
 
@@ -16,7 +16,7 @@ int main(int argn, const char** argv)
     auto daemon = greatbridf::Daemon("HttpParser");
 
     if (!args.hasOption("-d"))
-        return run();
+        return run(argn, argv);
 
     auto op = std::move(args.getOption("-d"));
     if (op.empty())
@@ -24,5 +24,5 @@ int main(int argn, const char** argv)
     if (op == "stop")
         return greatbridf::Daemon::pError(daemon.stop(daemon.check()));
     if (op == "start")
-        return greatbridf::Daemon::pError(daemon.start(run));
+        return greatbridf::Daemon::pError(daemon.start(run, argn, argv));
 }
