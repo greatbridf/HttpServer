@@ -19,12 +19,6 @@ namespace greatbridf
             this->_headers[key] = std::to_string(value);
         }
 
-        template<>
-        void set<std::string>(const std::string& key, std::string value);
-
-        template<>
-        void set<const char*>(const std::string& key, const char* value);
-
         const std::string& get(const std::string& key) const;
 
         void clear();
@@ -36,6 +30,12 @@ namespace greatbridf
      private:
         std::map<std::string, std::string> _headers;
     };
+
+    template<>
+    void HTTPHeaders::set<std::string>(const std::string& key, std::string value);
+
+    template<>
+    void HTTPHeaders::set<const char*>(const std::string& key, const char* value);
 }
 
 #endif //_HTTPHEADERS_HPP_
