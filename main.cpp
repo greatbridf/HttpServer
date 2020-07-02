@@ -1,6 +1,6 @@
 #include "Application.h"
-#include <utils/Foundation/LifeManagement/ArgumentParser.hpp>
-#include <utils/Foundation/LifeManagement/Daemon.hpp>
+#include <Utils/Foundation/LifeManagement/ArgumentParser.hpp>
+#include <Utils/Foundation/LifeManagement/Daemon.hpp>
 
 int run(int argn, const char** argv)
 {

@@ -5,68 +5,15 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_FLAGS "-O3 -fPIC ${CMAKE_CXX_FLAGS}")
 
 include_directories(.)
-include_directories(HTTP)
-include_directories(utils)
-include_directories(utils/multi-threading)
+include_directories(HttpParser_Core/include)
 
-add_library(HttpParser_Core STATIC
-        HTTP/HTTPRequest.cpp
-        HTTP/HTTPRequest.hpp
-        utils/multi-threading/ITask.hpp
-        utils/multi-threading/Thread.cpp
-        utils/multi-threading/Thread.hpp
-        utils/Foundation/Exceptions/Exception.cpp
-        utils/Foundation/Exceptions/Exception.hpp
-        utils/SocketIO/ServerSocket.cpp
-        utils/SocketIO/ServerSocket.hpp
-        utils/SocketIO/Socket.cpp
-        utils/SocketIO/Socket.hpp
-        Application.cpp
-        Application.h
-        HTTP/HTTPResponse.hpp
-        HTTP/HTTPResponse.cpp
-        utils/Foundation/Serializable.hpp
-        HTTP/HTTPResponseHead.hpp
-        HTTP/HTTPResponseHead.cpp
-        HTTP/Base.hpp
-        utils/SocketIO/SocketBuffer.cpp
-        utils/SocketIO/SocketBuffer.hpp
-        utils/Foundation/File.hpp
-        utils/Foundation/StreamIOHelper.hpp
-        utils/Foundation/BasicIO.hpp
-        utils/Foundation/StreamIOHelper.cpp
-        HTTP/HTTPEscapedString.cpp
-        HTTP/HTTPEscapedString.hpp
-        HTTP/HTTPEscapedString.hpp
-        Static/MIMETypes.hpp
-        Static/MIMETypes.cpp
-        Static/HTTPResponseCodes.hpp
-        Static/HTTPResponseCodes.cpp
-        utils/Foundation/LifeManagement/ArgumentParser.cpp
-        utils/Foundation/LifeManagement/ArgumentParser.hpp
-        utils/Foundation/Exceptions/ExitException.cpp
-        utils/Foundation/Exceptions/ExitException.hpp
-        utils/Foundation/File.cpp
-        Static/CommandLineOutput.hpp
-        utils/Foundation/LifeManagement/Daemon.cpp
-        utils/Foundation/LifeManagement/Daemon.hpp
-        Handler/IHTTPHandler.hpp
-        utils/Foundation/Plugin/IPlugin.hpp
-        utils/Foundation/Plugin/IPlugin.cpp
-        utils/Foundation/Plugin/PluginManager.cpp
-        utils/Foundation/Plugin/PluginManager.hpp
-        utils/Foundation/StringStream.hpp
-        utils/Foundation/StringStream.cpp
-        HTTP/EnumToString.cpp
-        HTTP/HTTPHeaders.cpp
-        HTTP/HTTPHeaders.hpp)
-
-add_executable(HttpParser main.cpp)
+add_executable(HttpParser Application.cpp main.cpp)
 target_link_libraries(HttpParser HttpParser_Core pthread dl)
 
 # plugins
 
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/plugins/)
 
+add_subdirectory(HttpParser_Core)
 add_subdirectory(Handler/Base)
 add_subdirectory(Test)
