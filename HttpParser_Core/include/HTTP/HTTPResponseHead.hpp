@@ -7,9 +7,9 @@
 
 #include <sstream>
 #include "../Utils/Foundation/Exceptions/Exception.hpp"
-#include "HTTP/HTTPResponseCodes.hpp"
 #include "../Utils/Foundation/Serializable.hpp"
 #include "Base.hpp"
+#include "HTTPResponseCodes.hpp"
 
 namespace greatbridf
 {
