@@ -24,12 +24,12 @@ namespace greatbridf
 
                 HTTPRequest request;
                 bool keep_alive = false;
+                socket->setTimeout(Static::KEEP_ALIVE_DEFAULT_TIMEOUT);
                 while (stream >> request)
                 {
                     HTTPResponse response;
                     if (request.headers().get("Connection") == "keep-alive")
                     {
-                        socket->setTimeout(5); // default
                         response.headers().set("Keep-Alive", "timeout=" + std::to_string(socket->getTimeout()));
                         keep_alive = true;
                     }
@@ -62,6 +62,7 @@ namespace greatbridf
                 }
 
                 stream.setstate(std::ios::eofbit);
+                socket->close();
             }
             catch (Exception& e)
             {

@@ -63,8 +63,9 @@ namespace greatbridf
     void Socket::setTimeout(int _timeout)
     {
         timeout = _timeout;
-        ::setsockopt(socket, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout));
-        ::setsockopt(socket, SOL_SOCKET, SO_SNDTIMEO, &timeout, sizeof(timeout));
+        timeval val{ timeout, 0 };
+        ::setsockopt(socket, SOL_SOCKET, SO_RCVTIMEO, &val, sizeof(val));
+        ::setsockopt(socket, SOL_SOCKET, SO_SNDTIMEO, &val, sizeof(val));
     }
 
     int Socket::getTimeout()

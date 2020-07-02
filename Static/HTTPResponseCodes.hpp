@@ -11,6 +11,8 @@
 namespace greatbridf::Static
 {
     const std::map<int, std::string>& httpResponseCodes();
+
+    constexpr unsigned int KEEP_ALIVE_DEFAULT_TIMEOUT = 5; // seconds
 }
 
 #endif //_HTTPRESPONSECODES_HPP_
