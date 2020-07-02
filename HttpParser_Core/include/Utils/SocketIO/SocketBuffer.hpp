@@ -7,7 +7,7 @@
 
 #include <streambuf>
 
-#include <Utils/SocketIO/Socket.hpp>
+#include "Socket.hpp"
 
 namespace greatbridf
 {

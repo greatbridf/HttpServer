@@ -8,7 +8,7 @@
 #include <string>
 #include <fstream>
 #include <unistd.h>
-#include <Utils/Foundation/MIMETypes.hpp>
+#include "MIMETypes.hpp"
 #include <filesystem>
 
 namespace greatbridf

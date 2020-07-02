@@ -5,7 +5,7 @@
 #include <cerrno>
 #include <memory>
 
-#include <Utils/Foundation/Exceptions/ExitException.hpp>
+#include "../Foundation/Exceptions/ExitException.hpp"
 
 namespace greatbridf
 {

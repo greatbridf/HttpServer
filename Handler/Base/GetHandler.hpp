@@ -5,7 +5,7 @@
 #ifndef _GETHANDLER_HPP_
 #define _GETHANDLER_HPP_
 
-#include <Handler/IHTTPHandler.hpp>
+#include <Utils/Foundation/Plugin/IHTTPHandler.hpp>
 #include <Utils/Foundation/Plugin/IPlugin.hpp>
 
 namespace greatbridf

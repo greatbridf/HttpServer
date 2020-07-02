@@ -5,8 +5,8 @@
 #ifndef _DAEMON_HPP_
 #define _DAEMON_HPP_
 
-#include <Utils/Foundation/File.hpp>
-#include <Utils/Foundation/Exceptions/ExitException.hpp>
+#include "../File.hpp"
+#include "../Exceptions/ExitException.hpp"
 #include <zconf.h>
 #include <functional>
 

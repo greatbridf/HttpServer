@@ -5,8 +5,8 @@
 #ifndef _IHTTPHANDLER_HPP_
 #define _IHTTPHANDLER_HPP_
 
-#include <HTTP/HTTPRequest.hpp>
-#include <HTTP/HTTPResponse.hpp>
+#include "../../../HTTP/HTTPRequest.hpp"
+#include "../../../HTTP/HTTPResponse.hpp"
 
 namespace greatbridf
 {
