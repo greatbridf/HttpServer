@@ -3,75 +3,6 @@
 
 namespace greatbridf
 {
-    class Task : public ITask
-    {
-     private:
-        std::unique_ptr<Socket> socket;
-        PluginManager& manager;
-     public:
-        explicit Task(std::unique_ptr<Socket> _socket, PluginManager& _manager)
-            : socket(std::move(_socket)), manager(_manager)
-        {
-        }
-
-        void run() override
-        {
-            try
-            {
-                IO::log("Connection from " + socket->getIP() + ':' + std::to_string(socket->getPort()));
-                SocketBuffer buffer(*socket);
-                std::iostream stream(&buffer);
-
-                HTTPRequest request;
-                bool keep_alive = false;
-                socket->setTimeout(Static::KEEP_ALIVE_DEFAULT_TIMEOUT);
-                while (stream >> request)
-                {
-                    HTTPResponse response;
-                    if (request.headers().get("Connection") == "keep-alive")
-                    {
-                        response.headers().set("Keep-Alive", "timeout=" + std::to_string(socket->getTimeout()));
-                        keep_alive = true;
-                    }
-                    else
-                    {
-                        response.headers().set("Connection", "close");
-                        keep_alive = false;
-                    }
-
-                    bool handled = false;
-                    for (const auto& item : this->manager.getPlugins())
-                    {
-                        if (item->getType() != IPlugin::PluginType::Handler) continue;
-                        auto handler = item->handlerType();
-                        if (handler->isSuitable(request))
-                        {
-                            handler->handle(request, stream, response);
-                            handled = true;
-                            break;
-                        }
-                    }
-
-                    if (!handled)
-                    {
-                        response.setResponseCode(400);
-                        stream << response << std::flush;
-                    }
-
-                    if (!keep_alive) break;
-                }
-
-                stream.setstate(std::ios::eofbit);
-                socket->close();
-            }
-            catch (Exception& e)
-            {
-                IO::log("Error encountered", std::cerr);
-                IO::log(e.what(), std::cerr);
-            }
-        }
-    };
-
     Application* app = nullptr;
 
     int Application::run()
@@ -97,7 +28,7 @@ namespace greatbridf
             while (true)
             {
                 auto socket = this->ss->accept();
-                this->pool.add(std::make_unique<Task>(std::move(socket), std::ref(this->manager)));
+                this->pool.add(std::make_unique<RequestHandler>(std::move(socket), std::ref(this->manager)));
             }
         }
         catch (ExitException& exit)

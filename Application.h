@@ -21,6 +21,17 @@ namespace greatbridf
         PluginManager manager{};
         ArgumentParser args;
     };
+
+    class RequestHandler : public virtual ITask
+    {
+     private:
+        std::unique_ptr<Socket> socket;
+        PluginManager& manager;
+
+     public:
+        RequestHandler(std::unique_ptr<Socket> _socket, PluginManager& _manager);
+        void run() override;
+    };
 }
 
 #endif

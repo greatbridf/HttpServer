@@ -7,7 +7,7 @@ set(CMAKE_CXX_FLAGS "-O3 -fPIC ${CMAKE_CXX_FLAGS}")
 include_directories(.)
 include_directories(HttpParser_Core/include)
 
-add_executable(HttpParser Application.cpp main.cpp)
+add_executable(HttpParser Application.cpp main.cpp src/RequestHandler.cpp)
 target_link_libraries(HttpParser HttpParser_Core pthread dl)
 
 # plugins
