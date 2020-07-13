@@ -7,6 +7,10 @@ httpParser.out.dSYM/
 
 # cmake
 cmake-build-debug/
+cmake-build-remotedebug/
 
 # macos stuff
 .DS_Store
+
+# idea
+.idea/
