@@ -6,6 +6,7 @@
 #include <memory>
 
 #include <HttpParser_Core.hpp>
+#include <marco_definitions.hpp>
 
 namespace greatbridf
 {

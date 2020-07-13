@@ -24,17 +24,10 @@ namespace greatbridf
             dlclose(this->handles[i]);
         }
     }
-    void PluginManager::loadPlugins()
+    void PluginManager::loadPlugins(const std::string& dir)
     {
         std::filesystem::directory_iterator iter;
-        if (std::filesystem::exists("./plugins"))
-        {
-            iter = std::filesystem::directory_iterator("./plugins/");
-        }
-        else
-        {
-            iter = std::filesystem::directory_iterator("./");
-        }
+        iter = std::filesystem::directory_iterator(dir);
         std::filesystem::directory_iterator end;
         std::error_code err;
         for (; iter != end and !err; iter.increment(err))
@@ -43,7 +36,7 @@ namespace greatbridf
             if (ext == PLUGIN_EXTENSION)
             {
                 auto name = iter->path().filename().stem().string();
-                auto handle = dlopen(std::string("./plugins/").append(name).append(ext).c_str(), RTLD_NOW);
+                auto handle = dlopen(std::string(dir).append(name).append(ext).c_str(), RTLD_NOW);
                 name = name.substr(3);
                 auto func = (IPlugin* (*)())dlsym(handle, "registerPlugin");
                 this->plugins.push_back(func());

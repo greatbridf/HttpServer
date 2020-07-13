@@ -46,6 +46,6 @@ namespace greatbridf
     Application::Application(int argn, const char** argv)
         : args(argn, argv)
     {
-        this->manager.loadPlugins();
+        this->manager.loadPlugins(__PREFIX "/lib/HttpParser/plugins/");
     }
 }
