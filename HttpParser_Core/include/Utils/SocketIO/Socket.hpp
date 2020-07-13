@@ -10,10 +10,12 @@
 #include <stdexcept>
 #include <string>
 
+#include "../Foundation.hpp"
+
 namespace greatbridf
 {
 
-    class Socket
+    class Socket : public NonCopyable
     {
         friend class SocketBuffer;
 
