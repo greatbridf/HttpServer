@@ -14,6 +14,11 @@ RequestHandler::RequestHandler(std::unique_ptr<Socket> _socket,
 {
 }
 
+bool is_site_suitable(const Site& site, const HTTPRequest& request)
+{
+    return ::std::regex_match(request.getQueryPath(), ::std::regex(site.rule));
+}
+
 void RequestHandler::run()
 {
     try
@@ -40,16 +45,24 @@ void RequestHandler::run()
             }
 
             bool handled = false;
-            for (const auto& item : this->manager.getPlugins())
+            auto sites = app->configs().sites();
+            auto plugins = manager.getPlugins();
+            for (const auto& site : sites)
             {
-                if (item->getType() != IPlugin::PluginType::Handler) continue;
-                auto handler = item->handlerType();
-                if (handler->isSuitable(request))
+                if (!is_site_suitable(site, request))
                 {
-                    handler->handle(request, stream, response, (void*)&app->configs().sites()[0]);
-                    handled = true;
-                    break;
+                    continue;
                 }
+                for (const auto& plugin : plugins)
+                {
+                    if (!strcmp(plugin->getName(), site.handler.c_str()))
+                    {
+                        plugin->handlerType()->handle(request, stream, response, (void*)&site);
+                        handled = true;
+                        break;
+                    }
+                }
+                if (handled) break;
             }
 
             if (!handled)

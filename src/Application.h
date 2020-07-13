@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <memory>
+#include <regex>
 
 #include <HttpParser_Core.hpp>
 #include <marco_definitions.hpp>
