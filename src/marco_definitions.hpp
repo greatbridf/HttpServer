@@ -8,5 +8,6 @@
 #ifndef __PREFIX
 #define __PREFIX "/usr/local"
 #endif
+#define _GREATBRIDF_PLUGIN_DIRECTORY __PREFIX "/lib/HttpParser/plugins/"
 
 #endif //_MARCO_DEFINITIONS_HPP_
