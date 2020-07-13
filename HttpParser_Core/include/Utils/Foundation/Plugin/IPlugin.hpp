@@ -25,6 +25,7 @@ namespace greatbridf
         const char* getName() const;
         PluginType getType() const;
         IHTTPHandler* handlerType() const;
+        const void* getRawData() const;
      protected:
         const char* name = nullptr;
         void* impl = nullptr;

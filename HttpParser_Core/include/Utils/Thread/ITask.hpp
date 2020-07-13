@@ -1,11 +1,13 @@
 #pragma once
 
+#include "../Foundation.hpp"
+
 namespace greatbridf
 {
 
-    struct ITask
+    struct ITask : public virtual Interface
     {
-        virtual ~ITask() = default;
+        ~ITask() override = default;
         virtual void run() = 0;
     };
 
