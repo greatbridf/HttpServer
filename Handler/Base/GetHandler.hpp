@@ -15,7 +15,7 @@ namespace greatbridf
      public:
         ~GetHandler() override;
         bool isSuitable(HTTPRequest& request) override;
-        HandleResult handle(HTTPRequest& request, std::iostream& stream, HTTPResponse& response) override;
+        HandleResult handle(HTTPRequest& request, std::iostream& stream, HTTPResponse& response, void* data) override;
     };
 
     class Plugin : public IPlugin

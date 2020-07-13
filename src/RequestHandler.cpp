@@ -5,6 +5,9 @@
 
 using namespace greatbridf;
 
+// TODO: a better way instead of global objects
+extern greatbridf::Application* app;
+
 RequestHandler::RequestHandler(std::unique_ptr<Socket> _socket,
     PluginManager& _manager)
     : socket(std::move(_socket)), manager(_manager)
@@ -43,7 +46,7 @@ void RequestHandler::run()
                 auto handler = item->handlerType();
                 if (handler->isSuitable(request))
                 {
-                    handler->handle(request, stream, response);
+                    handler->handle(request, stream, response, (void*)&app->configs().sites()[0]);
                     handled = true;
                     break;
                 }

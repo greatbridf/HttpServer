@@ -20,12 +20,14 @@ include_directories(third-party)
 SET(HEADER
         src/Application.h
         src/marco_definitions.hpp
+        src/Configurations.hpp
         )
 
 SET(SOURCE
         main.cpp
         src/Application.cpp
         src/RequestHandler.cpp
+        src/Configurations.cpp
         )
 
 add_executable(HttpParser ${HEADER} ${SOURCE})

@@ -15,8 +15,10 @@ namespace greatbridf
         return request.getRequestType() == HTTPRequestType::POST;
     }
 
-    IHTTPHandler::HandleResult PostHandler::handle(HTTPRequest& request, std::iostream& stream, HTTPResponse& response)
+    IHTTPHandler::HandleResult
+    PostHandler::handle(HTTPRequest& request, std::iostream& stream, HTTPResponse& response, void* _)
     {
+        // TODO: make use of site information
         response.setResponseCode(200);
 
         auto length = request.bodySize();

@@ -3,7 +3,8 @@
 
 namespace greatbridf
 {
-    Application* app = nullptr;
+    // TODO: a better way instead of global objects
+    extern "C" Application* app = nullptr;
 
     int Application::run()
     {
@@ -44,8 +45,23 @@ namespace greatbridf
         return 0;
     }
     Application::Application(int argn, const char** argv)
-        : args(argn, argv)
+        : args(argn, argv), _configs((const std::string&)_GREATBRIDF_CONFIG_PATH)
     {
-        this->manager.loadPlugins(_GREATBRIDF_PLUGIN_DIRECTORY);
+        if (args.hasOption("--plugins"))
+        {
+            this->manager.loadPlugins(args.getOption("--plugins"));
+        }
+        else if (_configs.has_option("plugin_path"))
+        {
+            this->manager.loadPlugins(_configs.global_option("plugin_path"));
+        }
+        else
+        {
+            this->manager.loadPlugins(_GREATBRIDF_PLUGIN_DIRECTORY);
+        }
+    }
+    const Configurations& Application::configs() const
+    {
+        return _configs;
     }
 }

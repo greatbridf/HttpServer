@@ -4,6 +4,7 @@
 
 #include <Utils/Foundation/File.hpp>
 #include <Utils/Foundation/StreamIOHelper.hpp>
+#include <src/Application.h>
 #include "GetHandler.hpp"
 
 namespace greatbridf
@@ -47,11 +48,12 @@ namespace greatbridf
     }
 
     IHTTPHandler::HandleResult
-    GetHandler::handle(HTTPRequest& request, std::iostream& stream, HTTPResponse& response)
+    GetHandler::handle(HTTPRequest& request, std::iostream& stream, HTTPResponse& response, void* data)
     {
         auto& path = request.getQueryPath();
+        auto site_information = (Site*)data;
 
-        File file(std::filesystem::path("." + path));
+        File file(std::filesystem::path(__PREFIX + site_information->path + path));
         if (!file.good())
         {
             response.setResponseCode(404);

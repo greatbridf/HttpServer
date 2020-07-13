@@ -7,6 +7,7 @@
 
 #include <HttpParser_Core.hpp>
 #include <marco_definitions.hpp>
+#include <Configurations.hpp>
 
 namespace greatbridf
 {
@@ -16,11 +17,15 @@ namespace greatbridf
         explicit Application(int argn, const char** argv);
         int run();
 
+        const Configurations& configs() const;
+
      private:
         std::unique_ptr<ServerSocket> ss;
         ThreadPool pool;
         PluginManager manager{};
         ArgumentParser args;
+
+        Configurations _configs;
     };
 
     class RequestHandler : public virtual ITask

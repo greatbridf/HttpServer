@@ -22,7 +22,8 @@ namespace greatbridf
 
         ~IHTTPHandler() override = default;
         virtual bool isSuitable(HTTPRequest& request) = 0;
-        virtual HandleResult handle(HTTPRequest& request, std::iostream& stream, HTTPResponse& response) = 0;
+        virtual HandleResult
+        handle(HTTPRequest& request, std::iostream& stream, HTTPResponse& response, void* data) = 0;
     };
 }
 
