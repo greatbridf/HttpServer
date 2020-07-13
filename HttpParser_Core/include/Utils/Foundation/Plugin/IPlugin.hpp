@@ -5,11 +5,12 @@
 #ifndef _IPLUGIN_HPP_
 #define _IPLUGIN_HPP_
 
+#include "../Types.hpp"
 #include "IHTTPHandler.hpp"
 
 namespace greatbridf
 {
-    class IPlugin
+    class IPlugin : public virtual Interface
     {
      public:
         enum class PluginType
@@ -19,7 +20,7 @@ namespace greatbridf
         };
 
         explicit IPlugin(const char* _name, PluginType _type);
-        virtual ~IPlugin() = default;
+        ~IPlugin() override = default;
 
         const char* getName() const;
         PluginType getType() const;
