@@ -6,16 +6,7 @@
 #define _HTTPPARSER_CORE_HPP_
 
 #include "HTTP/Base.hpp"
-#include "Utils/Foundation/Exceptions/Exception.hpp"
-#include "Utils/Foundation/Exceptions/ExitException.hpp"
-#include "Utils/Foundation/LifeManagement/ArgumentParser.hpp"
-#include "Utils/Foundation/LifeManagement/Daemon.hpp"
-#include "Utils/Foundation/Plugin/IPlugin.hpp"
-#include "Utils/Foundation/Plugin/PluginManager.hpp"
-#include "Utils/Foundation/File.hpp"
-#include "Utils/Foundation/MIMETypes.hpp"
-#include "Utils/Foundation/StreamIOHelper.hpp"
-#include "Utils/Foundation/StringStream.hpp"
+#include "Utils/Foundation.hpp"
 #include "Utils/SocketIO/ServerSocket.hpp"
 #include "Utils/SocketIO/Socket.hpp"
 #include "Utils/SocketIO/SocketBuffer.hpp"
