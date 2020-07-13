@@ -18,12 +18,17 @@ include_directories(src)
 include_directories(third-party)
 
 SET(HEADER
-        src/marco_definitions.hpp)
+        src/Application.h
+        src/marco_definitions.hpp
+        )
 
 SET(SOURCE
-        src/RequestHandler.cpp)
+        main.cpp
+        src/Application.cpp
+        src/RequestHandler.cpp
+        )
 
-add_executable(HttpParser Application.cpp main.cpp ${HEADER} ${SOURCE})
+add_executable(HttpParser ${HEADER} ${SOURCE})
 target_link_libraries(HttpParser HttpParser_Core pthread dl)
 
 # plugins
