@@ -21,3 +21,7 @@ greatbridf::IHTTPHandler* greatbridf::IPlugin::handlerType() const
 {
     return (greatbridf::IHTTPHandler*)this->impl;
 }
+const void* greatbridf::IPlugin::getRawData() const
+{
+    return impl;
+}

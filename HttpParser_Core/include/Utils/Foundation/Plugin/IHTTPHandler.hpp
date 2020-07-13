@@ -5,12 +5,13 @@
 #ifndef _IHTTPHANDLER_HPP_
 #define _IHTTPHANDLER_HPP_
 
+#include "../Types.hpp"
 #include "../../../HTTP/HTTPRequest.hpp"
 #include "../../../HTTP/HTTPResponse.hpp"
 
 namespace greatbridf
 {
-    class IHTTPHandler
+    class IHTTPHandler : public virtual Interface
     {
      public:
         enum class HandleResult
@@ -19,7 +20,7 @@ namespace greatbridf
             FAILURE,
         };
 
-        virtual ~IHTTPHandler() = default;
+        ~IHTTPHandler() override = default;
         virtual bool isSuitable(HTTPRequest& request) = 0;
         virtual HandleResult handle(HTTPRequest& request, std::iostream& stream, HTTPResponse& response) = 0;
     };

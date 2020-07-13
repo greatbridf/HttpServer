@@ -6,6 +6,44 @@ set(CMAKE_CXX_FLAGS "-O3 -fPIC ${CMAKE_CXX_FLAGS}")
 
 include_directories(include)
 
+set(HEADER
+        include/HTTP/HTTPResponseHead.hpp
+        include/HTTP/HTTPResponseCodes.hpp
+        include/HTTP/HTTPResponse.hpp
+        include/HTTP/HTTPRequest.hpp
+        include/HTTP/HTTPHeaders.hpp
+        include/HTTP/HTTPEscapedString.hpp
+        include/HTTP/Base.hpp
+
+        include/Utils/Foundation.hpp
+        include/Utils/Foundation/Exceptions/Exception.hpp
+        include/Utils/Foundation/Exceptions/ExitException.hpp
+        include/Utils/Foundation/LifeManagement/ArgumentParser.hpp
+        include/Utils/Foundation/LifeManagement/Daemon.hpp
+        include/Utils/Foundation/Plugin/IHTTPHandler.hpp
+        include/Utils/Foundation/Plugin/IPlugin.hpp
+        include/Utils/Foundation/Plugin/PluginManager.hpp
+        include/Utils/Foundation/BasicIO.hpp
+        include/Utils/Foundation/Exceptions.hpp
+        include/Utils/Foundation/File.hpp
+        include/Utils/Foundation/LifeManagement.hpp
+        include/Utils/Foundation/MIMETypes.hpp
+        include/Utils/Foundation/Plugin.hpp
+        include/Utils/Foundation/Serializable.hpp
+        include/Utils/Foundation/StreamIOHelper.hpp
+        include/Utils/Foundation/StringStream.hpp
+        include/Utils/Foundation/Types.hpp
+
+        include/Utils/SocketIO/ServerSocket.hpp
+        include/Utils/SocketIO/Socket.hpp
+        include/Utils/SocketIO/SocketBuffer.hpp
+
+        include/Utils/Thread/Thread.hpp
+        include/Utils/Thread/ITask.hpp
+
+        include/HttpParser_Core.hpp
+        )
+
 set(SOURCE
         src/Utils/Foundation/Exceptions/Exception.cpp
         src/Utils/Foundation/Exceptions/ExitException.cpp
@@ -30,4 +68,4 @@ set(SOURCE
         src/HTTP/HTTPResponseHead.cpp
         )
 
-add_library(HttpParser_Core ${SOURCE})
+add_library(HttpParser_Core ${SOURCE} ${HEADER})

@@ -5,14 +5,7 @@
 #include <fstream>
 #include <memory>
 
-#include <HTTP/HTTPRequest.hpp>
-#include <HTTP/HTTPResponse.hpp>
-#include <Utils/SocketIO/SocketBuffer.hpp>
-#include <Utils/Foundation/BasicIO.hpp>
-#include <Utils/Foundation/Plugin/PluginManager.hpp>
-#include <Utils/SocketIO/ServerSocket.hpp>
-#include <Utils/Thread/Thread.hpp>
-#include <Utils/Foundation/LifeManagement/ArgumentParser.hpp>
+#include <HttpParser_Core.hpp>
 
 namespace greatbridf
 {
