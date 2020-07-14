@@ -53,6 +53,18 @@ namespace greatbridf
         auto& path = request.getQueryPath();
         auto site_information = (Site*)data;
 
+        if (!isSuitable(request))
+        {
+            return IHTTPHandler::HandleResult::FAILURE;
+        }
+
+        // ignore trailing data
+        auto& size = request.headers().get("Content-Length");
+        if (!size.empty())
+        {
+            stream.ignore(std::stoi(size));
+        }
+
         File file(std::filesystem::path(__PREFIX + site_information->path + path));
         if (!file.good())
         {

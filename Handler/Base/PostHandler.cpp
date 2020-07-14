@@ -21,6 +21,11 @@ namespace greatbridf
         // TODO: make use of site information
         response.setResponseCode(200);
 
+        if (!isSuitable(request))
+        {
+            return IHTTPHandler::HandleResult::FAILURE;
+        }
+
         auto length = request.bodySize();
         if (length > 0)
         {

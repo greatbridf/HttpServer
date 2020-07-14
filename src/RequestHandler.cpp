@@ -57,9 +57,12 @@ void RequestHandler::run()
                 {
                     if (!strcmp(plugin->getName(), site.handler.c_str()))
                     {
-                        plugin->handlerType()->handle(request, stream, response, (void*)&site);
-                        handled = true;
-                        break;
+                        auto result = plugin->handlerType()->handle(request, stream, response, (void*)&site);
+                        if (result == IHTTPHandler::HandleResult::SUCCESS)
+                        {
+                            handled = true;
+                            break;
+                        }
                     }
                 }
                 if (handled) break;
@@ -69,6 +72,12 @@ void RequestHandler::run()
             {
                 response.setResponseCode(400);
                 stream << response << std::flush;
+                // 防止粘包
+                auto& size = request.headers().get("Content-Length");
+                if (!size.empty())
+                {
+                    stream.ignore(std::stoi(size));
+                }
             }
 
             if (!keep_alive) break;
