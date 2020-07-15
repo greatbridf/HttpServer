@@ -8,6 +8,7 @@ namespace greatbridf
     {
         const static int opt = 1;
         ::setsockopt(this->_socket, SOL_SOCKET, SO_REUSEPORT, &opt, sizeof(opt));
+        setTimeout(0);
 
         int code = bind(this->_socket, (sockaddr*)&this->_addr, sizeof(sockaddr));
         if (code < 0)
