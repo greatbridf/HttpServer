@@ -23,7 +23,7 @@ void RequestHandler::run()
 {
     try
     {
-        IO::log("Connection from " + socket->getIP() + ':' + std::to_string(socket->getPort()));
+        IO::log("Connection from " + socket->ip() + ':' + std::to_string(socket->port()));
         SocketBuffer buffer(*socket);
         std::iostream stream(&buffer);
 
@@ -35,7 +35,7 @@ void RequestHandler::run()
             HTTPResponse response;
             if (request.headers().get("Connection") == "keep-alive")
             {
-                response.headers().set("Keep-Alive", "timeout=" + std::to_string(socket->getTimeout()));
+                response.headers().set("Keep-Alive", "timeout=" + std::to_string(socket->timeout()));
                 keep_alive = true;
             }
             else

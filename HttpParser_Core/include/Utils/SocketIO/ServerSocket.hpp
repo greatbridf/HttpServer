@@ -10,18 +10,15 @@
 namespace greatbridf
 {
 
-    class ServerSocket : public Socket
+    class ServerSocket : public BasicSocket
     {
      public:
-        ServerSocket(Socket::SocketType type, int port);
-        ServerSocket(ServerSocket& ss) = delete;
-        ServerSocket(const ServerSocket& ss) = delete;
-        ~ServerSocket();
+        ServerSocket(BasicSocket::Type type, unsigned int port);
 
         void listen();
         std::unique_ptr<Socket> accept();
 
-        const static unsigned int queueLength = 5;
+        const static unsigned int queueLength = _GREATBRIDF_SOCKET_QUEUE_MAX_LENGTH;
     };
 
 }

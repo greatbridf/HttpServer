@@ -21,7 +21,7 @@ namespace greatbridf
         });
         signal(SIGPIPE, SIG_IGN);
         auto port = this->args.hasOption("-p") ? this->args.getOption("-p") : "8080";
-        this->ss = std::make_unique<ServerSocket>(Socket::SocketType::TCP, atoi(port.c_str()));
+        this->ss = std::make_unique<ServerSocket>(BasicSocket::Type::TCP, atoi(port.c_str()));
         this->ss->listen();
 
         try

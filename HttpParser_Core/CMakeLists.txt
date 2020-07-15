@@ -42,6 +42,7 @@ set(HEADER
         include/Utils/Thread/ITask.hpp
 
         include/HttpParser_Core.hpp
+        include/constants.hpp
         )
 
 set(SOURCE
