@@ -3,25 +3,23 @@
 namespace greatbridf
 {
 
-    ServerSocket::ServerSocket(Socket::SocketType type, int port)
-        : Socket(type, "", port)
+    ServerSocket::ServerSocket(BasicSocket::Type type, unsigned int port)
+        : BasicSocket(type, "", port)
     {
-
         const static int opt = 1;
-        ::setsockopt(this->socket, SOL_SOCKET, SO_REUSEPORT, &opt, sizeof(opt));
+        ::setsockopt(this->_socket, SOL_SOCKET, SO_REUSEPORT, &opt, sizeof(opt));
+        setTimeout(0);
 
-        int code = bind(this->socket, (sockaddr*)&this->addr, sizeof(sockaddr));
+        int code = bind(this->_socket, (sockaddr*)&this->_addr, sizeof(sockaddr));
         if (code < 0)
-            throw std::runtime_error("unable to bind port");
+            throw Exception("unable to bind port");
     }
-
-    ServerSocket::~ServerSocket() = default;
 
     void ServerSocket::listen()
     {
-        int code = ::listen(this->socket, queueLength);
+        int code = ::listen(this->_socket, queueLength);
         if (code < 0)
-            throw std::runtime_error("unable to listen");
+            throw Exception("unable to listen");
     }
 
     std::unique_ptr<Socket> ServerSocket::accept()
@@ -29,7 +27,7 @@ namespace greatbridf
         sockaddr_in addr{};
         int len = sizeof(sockaddr_in);
 
-        int socket = ::accept(this->socket, (sockaddr*)&addr, (socklen_t*)&len);
+        int socket = ::accept(this->_socket, (sockaddr*)&addr, (socklen_t*)&len);
         if (socket < 0)
         {
             if (errno == 9)
@@ -38,7 +36,7 @@ namespace greatbridf
             }
             else
             {
-                throw std::runtime_error("cannot accept connection");
+                throw Exception("cannot accept connection");
             }
         }
 

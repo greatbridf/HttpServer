@@ -3,8 +3,7 @@
 
 namespace greatbridf
 {
-    // TODO: a better way instead of global objects
-    extern "C" Application* app = nullptr;
+    Application* app = nullptr;
 
     int Application::run()
     {
@@ -21,7 +20,7 @@ namespace greatbridf
         });
         signal(SIGPIPE, SIG_IGN);
         auto port = this->args.hasOption("-p") ? this->args.getOption("-p") : "8080";
-        this->ss = std::make_unique<ServerSocket>(Socket::SocketType::TCP, atoi(port.c_str()));
+        this->ss = std::make_unique<ServerSocket>(BasicSocket::Type::TCP, atoi(port.c_str()));
         this->ss->listen();
 
         try
@@ -45,23 +44,19 @@ namespace greatbridf
         return 0;
     }
     Application::Application(int argn, const char** argv)
-        : args(argn, argv), _configs((const std::string&)_GREATBRIDF_CONFIG_PATH)
+        : args(argn, argv)
     {
         if (args.hasOption("--plugins"))
         {
             this->manager.loadPlugins(args.getOption("--plugins"));
         }
-        else if (_configs.has_option("plugin_path"))
+        else if (global_configs().has_option("plugin_path"))
         {
-            this->manager.loadPlugins(_configs.global_option("plugin_path"));
+            this->manager.loadPlugins(global_configs().global_option("plugin_path"));
         }
         else
         {
             this->manager.loadPlugins(_GREATBRIDF_PLUGIN_DIRECTORY);
         }
-    }
-    const Configurations& Application::configs() const
-    {
-        return _configs;
     }
 }

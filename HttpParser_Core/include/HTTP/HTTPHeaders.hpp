@@ -21,6 +21,8 @@ namespace greatbridf
 
         const std::string& get(const std::string& key) const;
 
+        bool has(const std::string& key) const;
+
         void clear();
 
         const std::map<std::string, std::string>& raw() const;

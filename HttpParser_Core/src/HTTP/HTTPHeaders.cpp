@@ -19,7 +19,11 @@ namespace greatbridf
     }
     const std::string& HTTPHeaders::get(const std::string& key) const
     {
-        return this->_headers.find(key) == this->_headers.end() ? NULL_STRING : this->_headers.at(key);
+        return has(key) ? this->_headers.at(key) : NULL_STRING;
+    }
+    bool HTTPHeaders::has(const std::string& key) const
+    {
+        return !(this->_headers.find(key) == this->_headers.end());
     }
     void HTTPHeaders::clear()
     {

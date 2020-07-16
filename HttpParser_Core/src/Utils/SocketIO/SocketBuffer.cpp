@@ -25,8 +25,8 @@ namespace greatbridf
 
     int SocketBuffer::underflow()
     {
-        if (socket.closed) return EOF;
-        ssize_t n = ::recv(socket.socket, eback(), BUF_SIZE, 0);
+        if (socket.state() == BasicSocket::State::Closed) return EOF;
+        ssize_t n = ::recv(socket._socket, eback(), BUF_SIZE, 0);
 
         if (n <= 0)
         {
@@ -43,14 +43,14 @@ namespace greatbridf
 
     int SocketBuffer::sync()
     {
-        if (socket.closed) return EOF;
+        if (socket.state() == BasicSocket::State::Closed) return EOF;
 
         size_t sent = 0;
         size_t total = pptr() - pbase();
 
         while (sent < total)
         {
-            ssize_t n = ::send(socket.socket, writeBuf, total - sent, 0);
+            ssize_t n = ::send(socket._socket, writeBuf, total - sent, 0);
 
             if (n > 0)
             {

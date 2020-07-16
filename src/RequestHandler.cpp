@@ -5,9 +5,6 @@
 
 using namespace greatbridf;
 
-// TODO: a better way instead of global objects
-extern greatbridf::Application* app;
-
 RequestHandler::RequestHandler(std::unique_ptr<Socket> _socket,
     PluginManager& _manager)
     : socket(std::move(_socket)), manager(_manager)
@@ -23,7 +20,7 @@ void RequestHandler::run()
 {
     try
     {
-        IO::log("Connection from " + socket->getIP() + ':' + std::to_string(socket->getPort()));
+        IO::log("Connection from " + socket->ip() + ':' + std::to_string(socket->port()));
         SocketBuffer buffer(*socket);
         std::iostream stream(&buffer);
 
@@ -35,7 +32,7 @@ void RequestHandler::run()
             HTTPResponse response;
             if (request.headers().get("Connection") == "keep-alive")
             {
-                response.headers().set("Keep-Alive", "timeout=" + std::to_string(socket->getTimeout()));
+                response.headers().set("Keep-Alive", "timeout=" + std::to_string(socket->timeout()));
                 keep_alive = true;
             }
             else
@@ -45,7 +42,7 @@ void RequestHandler::run()
             }
 
             bool handled = false;
-            auto sites = app->configs().sites();
+            auto sites = global_configs().sites();
             auto plugins = manager.getPlugins();
             for (const auto& site : sites)
             {
@@ -57,9 +54,12 @@ void RequestHandler::run()
                 {
                     if (!strcmp(plugin->getName(), site.handler.c_str()))
                     {
-                        plugin->handlerType()->handle(request, stream, response, (void*)&site);
-                        handled = true;
-                        break;
+                        auto result = plugin->handlerType()->handle(request, stream, response, (void*)&site);
+                        if (result == IHTTPHandler::HandleResult::SUCCESS)
+                        {
+                            handled = true;
+                            break;
+                        }
                     }
                 }
                 if (handled) break;
@@ -69,6 +69,12 @@ void RequestHandler::run()
             {
                 response.setResponseCode(400);
                 stream << response << std::flush;
+                // 防止粘包
+                auto& size = request.headers().get("Content-Length");
+                if (!size.empty())
+                {
+                    stream.ignore(std::stoi(size));
+                }
             }
 
             if (!keep_alive) break;

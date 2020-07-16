@@ -15,7 +15,7 @@ namespace greatbridf
     class SocketBuffer : public std::streambuf
     {
      public:
-        const static size_t BUF_SIZE = 16 * 1024;
+        const static size_t BUF_SIZE = _GREATBRIDF_BUFFER_SIZE;
 
         explicit SocketBuffer(Socket& socket);
         ~SocketBuffer() override;

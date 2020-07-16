@@ -97,9 +97,20 @@ namespace greatbridf
 
         // Create session
         setsid();
+
         // Set UMask
         umask(0);
-        // TODO: close stdio
+
+        // Set pwd to root ( / )
+        chdir("/");
+
+        // Close stdin stdout stderr
+        auto null_file = ::fopen("/dev/null", "rw");
+        int null_fd = ::fileno(null_file);
+
+        ::dup2(null_fd, STDIN_FILENO);
+        ::dup2(null_fd, STDOUT_FILENO);
+        ::dup2(null_fd, STDERR_FILENO);
         return static_cast<ExitCode>(func(argn, argv));
     }
 }

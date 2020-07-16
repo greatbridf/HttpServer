@@ -14,4 +14,3 @@ add_library(PostHandler SHARED
         PostHandler.cpp)
 target_link_libraries(GetHandler HttpParser_Core)
 target_link_libraries(PostHandler HttpParser_Core)
-set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/plugins/)

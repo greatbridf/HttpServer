@@ -11,49 +11,67 @@
 #include <string>
 
 #include "../Foundation.hpp"
+#include "../../constants.hpp"
 
 namespace greatbridf
 {
-
-    class Socket : public NonCopyable
+    class BasicSocket : public NonCopyable
     {
-        friend class SocketBuffer;
-
      public:
-        const static unsigned long BUFSIZE = 1024;
-
-        enum class SocketType
+        const static size_t _buf_size = _GREATBRIDF_BUFFER_SIZE;
+        enum class Type
         {
             TCP = IPPROTO_TCP,
             UDP = IPPROTO_UDP
         };
 
-        Socket(SocketType type, const char* ip, int port);
-        Socket(int socket, sockaddr_in addr);
-        Socket(Socket& obj) = delete;
-        Socket(const Socket& obj) = delete;
-        ~Socket();
+        enum class State
+        {
+            Ready,
+            Listening,
+            Connected,
+            Closed
+        };
 
-        const std::string& getIP() const;
-        int getPort() const;
+        BasicSocket(Type type, const char* ip, unsigned int port);
+        BasicSocket(int socket, sockaddr_in addr);
+        ~BasicSocket();
 
-        void setTimeout(int _timeout);
-        int getTimeout();
+        const std::string& ip() const;
+        unsigned int port() const;
 
-        // TODO add state flag
-        void connect();
+        int setTimeout(unsigned int _timeout);
+        unsigned int timeout() const;
+
+        State state() const;
 
         void close();
 
      protected:
-        int socket;
+        int _socket;
 
-        std::string ip;
-        int port;
-        sockaddr_in addr{};
+        std::string _ip;
 
-        int timeout;
-        bool closed = false;
+        unsigned int _port;
+
+        sockaddr_in _addr;
+
+        unsigned int _timeout;
+
+        State _state;
+
+        void _set_state(State state);
+    };
+
+    class Socket : public BasicSocket
+    {
+        friend class SocketBuffer;
+
+     public:
+        Socket(Type type, const char* ip, unsigned int port);
+        Socket(int socket, sockaddr_in addr);
+
+        void connect();
     };
 
 }
