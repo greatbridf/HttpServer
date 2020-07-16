@@ -65,7 +65,7 @@ namespace greatbridf
             stream.ignore(std::stoi(size));
         }
 
-        File file(std::filesystem::path(__PREFIX + site_information->path + path));
+        File file(std::filesystem::path(site_information->path + path));
         if (!file.good())
         {
             response.setResponseCode(404);
