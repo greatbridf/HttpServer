@@ -1,0 +1,10 @@
+{
+    "plugin_paths": "",
+    "sites": [
+        {
+            "rule": "^.*$",
+            "handler": "http_request_handler_get",
+            "path": "/"
+        }
+    ]
+}
