@@ -26,12 +26,6 @@ namespace greatbridf
     };
 }
 
-extern "C"
-{
-greatbridf::IPlugin* registerPlugin()
-{
-    return new greatbridf::Plugin();
-}
-}
+__GREATBRIDF_DEFINE_PLUGIN_(Plugin);
 
 #endif //_GETHANDLER_HPP_

@@ -12,5 +12,10 @@ add_library(GetHandler SHARED
 add_library(PostHandler SHARED
         PostHandler.hpp
         PostHandler.cpp)
+add_library(PlainTextHandler SHARED
+        PlainText.hpp
+        PlainText.cpp
+)
 target_link_libraries(GetHandler HttpParser_Core)
 target_link_libraries(PostHandler HttpParser_Core)
+target_link_libraries(PlainTextHandler HttpParser_Core)
