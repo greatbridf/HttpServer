@@ -35,7 +35,7 @@ target_link_libraries(HttpParser HttpParser_Core pthread dl)
 
 # plugins
 
-file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/plugins/)
+#file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/plugins/)
 
 add_subdirectory(HttpParser_Core)
 add_subdirectory(Handler/Base)
