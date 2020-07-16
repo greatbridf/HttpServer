@@ -12,6 +12,7 @@
 #include "Foundation/BasicIO.hpp"
 #include "Foundation/File.hpp"
 #include "Foundation/MIMETypes.hpp"
+#include "Foundation/PosixCall.hpp"
 #include "Foundation/Serializable.hpp"
 #include "Foundation/StreamIOHelper.hpp"
 #include "Foundation/StringStream.hpp"

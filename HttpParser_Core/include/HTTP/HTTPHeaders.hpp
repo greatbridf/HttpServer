@@ -20,6 +20,8 @@ namespace greatbridf
             this->_headers[key] = std::to_string(value);
         }
 
+        void unset(const std::string& key);
+
         const std::string& get(const std::string& key) const;
 
         bool has(const std::string& key) const;

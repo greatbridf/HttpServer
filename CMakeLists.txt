@@ -40,6 +40,7 @@ SET(SOURCE
 add_executable(HttpParser ${HEADER} ${SOURCE})
 target_link_libraries(HttpParser HttpParser_Core pthread dl)
 target_link_libraries(HttpParser GetHandler PostHandler PlainTextHandler)
+target_link_libraries(HttpParser NodeJS)
 
 # plugins
 
@@ -48,4 +49,5 @@ file(COPY ${CMAKE_SOURCE_DIR}/Static/ConfigTemplate.json DESTINATION ${CMAKE_BIN
 
 add_subdirectory(HttpParser_Core)
 add_subdirectory(Handler/Base)
+add_subdirectory(Handler/Servlet)
 add_subdirectory(Test)

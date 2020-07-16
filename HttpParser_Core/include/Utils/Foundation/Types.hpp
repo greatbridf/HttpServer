@@ -5,8 +5,12 @@
 #ifndef _TYPES_HPP_
 #define _TYPES_HPP_
 
+#include <sys/types.h>
+
 namespace greatbridf
 {
+    typedef unsigned char byte;
+
     class NonCopyable
     {
      public:

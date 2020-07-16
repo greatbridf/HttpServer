@@ -49,6 +49,7 @@ set(HEADER
 
         include/HttpParser_Core.hpp
         include/constants.hpp
+        include/Utils/Foundation/PosixCall.hpp
         )
 
 set(SOURCE
@@ -73,6 +74,7 @@ set(SOURCE
         src/HTTP/HTTPResponse.cpp
         src/HTTP/HTTPResponseCodes.cpp
         src/HTTP/HTTPResponseHead.cpp
+        src/Utils/Foundation/pipe_exec.cpp
         )
 
 add_library(HttpParser_Core ${SOURCE} ${HEADER})
