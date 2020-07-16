@@ -23,4 +23,10 @@
 #define _GREATBRIDF_PLUGIN_EXTENSION ".so"
 #endif
 
+// Daemon outputs
+#define _GREATBRIDF_DAEMON_BADARGS "unexpected options"
+#define _GREATBRIDF_DAEMON_PERMISSION_DENIED "permission denied"
+#define _GREATBRIDF_DAEMON_NOT_RUNNING "program is not running"
+#define _GREATBRIDF_DAEMON_ALREADY_RUNNING "program is already running"
+
 #endif //_CONSTANTS_HPP_

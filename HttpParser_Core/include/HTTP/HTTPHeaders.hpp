@@ -7,6 +7,7 @@
 
 #include <map>
 #include <string>
+#include <algorithm>
 
 namespace greatbridf
 {

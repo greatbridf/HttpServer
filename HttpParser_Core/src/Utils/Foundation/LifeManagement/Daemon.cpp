@@ -9,8 +9,8 @@
 #include <functional>
 
 #include <Utils/Foundation/LifeManagement/Daemon.hpp>
-#include <Static/CommandLineOutput.hpp>
 #include <Utils/Foundation/BasicIO.hpp>
+#include <constants.hpp>
 
 namespace greatbridf
 {
@@ -52,17 +52,16 @@ namespace greatbridf
         switch (code)
         {
         case BadArgs:
-            std::cerr << Static::CommandLineOutput::badArgs << '\n'
-                      << Static::CommandLineOutput::help << std::endl;
+            std::cerr << _GREATBRIDF_DAEMON_BADARGS << '\n' << std::endl;
             break;
         case AlreadyRunning:
-            std::cerr << Static::CommandLineOutput::alreadyRunning << std::endl;
+            std::cerr <<_GREATBRIDF_DAEMON_ALREADY_RUNNING << std::endl;
             break;
         case PermissionDenied:
-            std::cerr << Static::CommandLineOutput::permissionDenied << std::endl;
+            std::cerr << _GREATBRIDF_DAEMON_PERMISSION_DENIED << std::endl;
             break;
         case NotRunning:
-            std::cerr << Static::CommandLineOutput::notRunning << std::endl;
+            std::cerr << _GREATBRIDF_DAEMON_NOT_RUNNING << std::endl;
             break;
         case Normal:
         default:

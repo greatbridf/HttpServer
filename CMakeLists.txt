@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
 project(HttpParser)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 if (CMAKE_BUILD_TYPE STREQUAL Debug)
     set(CMAKE_CXX_FLAGS "-g -fPIC ${CMAKE_CXX_FLAGS}")
 elseif (CMAKE_BUILD_TYPE STREQUAL Release)
@@ -16,6 +16,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib/HttpParser/plugins)
 
 if (CMAKE_BUILD_TYPE STREQUAL Debug)
     add_definitions(-D__PREFIX=\"${CMAKE_BINARY_DIR}\")
+    add_definitions(-D_GREATBRIDF_CONFIG_PATH=\"${CMAKE_BINARY_DIR}/etc/ConfigTemplate.json\")
 endif ()
 
 include_directories(.)
@@ -38,10 +39,12 @@ SET(SOURCE
 
 add_executable(HttpParser ${HEADER} ${SOURCE})
 target_link_libraries(HttpParser HttpParser_Core pthread dl)
+target_link_libraries(HttpParser GetHandler PostHandler PlainTextHandler)
 
 # plugins
 
 #file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/plugins/)
+file(COPY ${CMAKE_SOURCE_DIR}/Static/ConfigTemplate.json DESTINATION ${CMAKE_BINARY_DIR}/etc)
 
 add_subdirectory(HttpParser_Core)
 add_subdirectory(Handler/Base)

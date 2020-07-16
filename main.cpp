@@ -3,6 +3,7 @@
 #include <Utils/Foundation/LifeManagement/Daemon.hpp>
 
 #include <iostream>
+#include <string>
 
 greatbridf::Configurations* __configs = nullptr;
 const greatbridf::Configurations& greatbridf::global_configs()
