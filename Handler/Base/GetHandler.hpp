@@ -17,13 +17,6 @@ namespace greatbridf
         bool isSuitable(HTTPRequest& request) override;
         HandleResult handle(HTTPRequest& request, std::iostream& stream, HTTPResponse& response, void* data) override;
     };
-
-    class Plugin : public IPlugin
-    {
-     public:
-        Plugin();
-        ~Plugin() override;
-    };
 }
 
 __GREATBRIDF_DEFINE_PLUGIN_(Plugin);
