@@ -17,4 +17,10 @@
 #define _GREATBRIDF_SOCKET_QUEUE_MAX_LENGTH 16
 #endif
 
+#ifdef __APPLE__
+#define _GREATBRIDF_PLUGIN_EXTENSION ".dylib"
+#elif __unix__
+#define _GREATBRIDF_PLUGIN_EXTENSION ".so"
+#endif
+
 #endif //_CONSTANTS_HPP_

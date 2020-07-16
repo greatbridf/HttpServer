@@ -7,12 +7,6 @@
 #include <filesystem>
 #include <dlfcn.h>
 
-#ifdef __APPLE__
-#define PLUGIN_EXTENSION ".dylib"
-#else
-#define PLUGIN_EXTENSION ".so"
-#endif
-
 namespace greatbridf
 {
     PluginManager::~PluginManager()
@@ -32,16 +26,16 @@ namespace greatbridf
         std::error_code err;
         for (; iter != end and !err; iter.increment(err))
         {
-            auto ext = iter->path().extension().string();
-            if (ext == PLUGIN_EXTENSION)
-            {
-                auto name = iter->path().filename().stem().string();
-                auto handle = dlopen(std::string(dir).append(name).append(ext).c_str(), RTLD_NOW);
-                name = name.substr(3);
-                auto func = (IPlugin* (*)())dlsym(handle, "registerPlugin");
-                this->plugins.push_back(func());
-                this->handles.push_back(handle);
-            }
+            auto path = iter->path();
+            auto ext = path.extension().string();
+
+            if (ext != _GREATBRIDF_PLUGIN_EXTENSION) continue;
+
+            auto handle = dlopen(path.c_str(), RTLD_NOW);
+            auto func = (PluginRegisterFunction)dlsym(handle, "registerPlugin");
+
+            this->plugins.push_back(func());
+            this->handles.push_back(handle);
         }
     }
     const std::vector<IPlugin*>& PluginManager::getPlugins() const

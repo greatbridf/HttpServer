@@ -6,11 +6,14 @@
 #define _PLUGINMANAGER_HPP_
 
 #include "IPlugin.hpp"
+#include "../../../constants.hpp"
 
 #include <vector>
 
 namespace greatbridf
 {
+    typedef IPlugin*(*PluginRegisterFunction)();
+
     class PluginManager
     {
      public:
