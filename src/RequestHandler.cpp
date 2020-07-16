@@ -5,9 +5,6 @@
 
 using namespace greatbridf;
 
-// TODO: a better way instead of global objects
-extern greatbridf::Application* app;
-
 RequestHandler::RequestHandler(std::unique_ptr<Socket> _socket,
     PluginManager& _manager)
     : socket(std::move(_socket)), manager(_manager)
@@ -45,7 +42,7 @@ void RequestHandler::run()
             }
 
             bool handled = false;
-            auto sites = app->configs().sites();
+            auto sites = global_configs().sites();
             auto plugins = manager.getPlugins();
             for (const auto& site : sites)
             {
