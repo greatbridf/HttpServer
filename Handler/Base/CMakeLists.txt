@@ -25,3 +25,10 @@ add_library(PlainTextHandler SHARED
 target_link_libraries(GetHandler HttpParser_Core)
 target_link_libraries(PostHandler HttpParser_Core)
 target_link_libraries(PlainTextHandler HttpParser_Core)
+
+# install
+
+install(
+        TARGETS GetHandler PostHandler PlainTextHandler
+        LIBRARY DESTINATION lib/HttpParser/plugins
+)

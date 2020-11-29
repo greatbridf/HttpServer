@@ -15,3 +15,10 @@ include_directories(.)
 add_library(NodeJS SHARED
         NodeJS.hpp NodeJS.cpp)
 target_link_libraries(NodeJS HttpParser_Core)
+
+# install
+
+install(
+    TARGETS NodeJS
+    LIBRARY DESTINATION lib/HttpParser/plugins
+)

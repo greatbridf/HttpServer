@@ -29,6 +29,14 @@ int main(int argn, const char** argv)
 
     auto args = greatbridf::ArgumentParser(argn, argv);
 
+    if (args.hasOption("--print-compile-flags"))
+    {
+        std::cout << "__PREFIX: " << __PREFIX << std::endl;
+        std::cout << "_GREATBRIDF_PLUGIN_DIRECTORY: " << _GREATBRIDF_PLUGIN_DIRECTORY << std::endl;
+        std::cout << "_GREATBRIDF_CONFIG_PATH: " << _GREATBRIDF_CONFIG_PATH << std::endl;
+        return 0;
+    }
+
     if (args.hasOption("-c"))
     {
         load_configurations(args.getOption("-c"));
@@ -39,14 +47,6 @@ int main(int argn, const char** argv)
     }
 
     auto daemon = greatbridf::Daemon("HttpParser");
-
-    if (args.hasOption("--print-compile-flags"))
-    {
-        std::cout << "__PREFIX: " << __PREFIX << std::endl;
-        std::cout << "_GREATBRIDF_PLUGIN_DIRECTORY: " << _GREATBRIDF_PLUGIN_DIRECTORY << std::endl;
-        std::cout << "_GREATBRIDF_CONFIG_PATH: " << _GREATBRIDF_CONFIG_PATH << std::endl;
-        return 0;
-    }
 
     if (!args.hasOption("-d"))
         return run(argn, argv);

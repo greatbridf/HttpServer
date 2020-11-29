@@ -11,7 +11,7 @@
 #define _GREATBRIDF_PLUGIN_DIRECTORY __PREFIX "/lib/HttpParser/plugins"
 
 #ifndef _GREATBRIDF_CONFIG_PATH
-#define _GREATBRIDF_CONFIG_PATH __PREFIX "/etc/HttpParser.conf.json"
+#define _GREATBRIDF_CONFIG_PATH __PREFIX "/etc/HttpParser/config.json"
 #endif
 
 #endif //_MARCO_DEFINITIONS_HPP_
