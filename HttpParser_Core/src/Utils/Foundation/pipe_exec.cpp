@@ -6,7 +6,7 @@
 #include <constants.hpp>
 
 #include <unistd.h>
-#include <wait.h>
+#include <sys/wait.h>
 
 namespace greatbridf
 {
