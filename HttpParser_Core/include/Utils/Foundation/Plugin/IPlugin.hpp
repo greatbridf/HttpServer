@@ -5,6 +5,21 @@
 #ifndef _IPLUGIN_HPP_
 #define _IPLUGIN_HPP_
 
+#define __GREATBRIDF_DEFINE_PLUGIN_(plugin_name) \
+namespace greatbridf {\
+    class plugin_name : public IPlugin\
+    {\
+    public:\
+        plugin_name();\
+        ~plugin_name();\
+    };\
+}\
+\
+extern "C" greatbridf::IPlugin* registerPlugin()\
+{\
+    return new greatbridf::plugin_name();\
+}
+
 #include "../Types.hpp"
 #include "IHTTPHandler.hpp"
 

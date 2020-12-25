@@ -1,5 +1,4 @@
 {
-    "plugin_paths": "",
     "sites": [
         {
             "rule": "^.*$",

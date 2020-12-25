@@ -17,4 +17,16 @@
 #define _GREATBRIDF_SOCKET_QUEUE_MAX_LENGTH 16
 #endif
 
+#ifdef __APPLE__
+#define _GREATBRIDF_PLUGIN_EXTENSION ".dylib"
+#elif __unix__
+#define _GREATBRIDF_PLUGIN_EXTENSION ".so"
+#endif
+
+// Daemon outputs
+#define _GREATBRIDF_DAEMON_BADARGS "unexpected options"
+#define _GREATBRIDF_DAEMON_PERMISSION_DENIED "permission denied"
+#define _GREATBRIDF_DAEMON_NOT_RUNNING "program is not running"
+#define _GREATBRIDF_DAEMON_ALREADY_RUNNING "program is already running"
+
 #endif //_CONSTANTS_HPP_

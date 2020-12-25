@@ -49,4 +49,8 @@ namespace greatbridf
         is.ignore(2, '\n');
         return is;
     }
+    void HTTPHeaders::unset(const std::string& key)
+    {
+        this->_headers.erase(key);
+    }
 }

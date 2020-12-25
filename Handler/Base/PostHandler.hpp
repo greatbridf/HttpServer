@@ -17,21 +17,8 @@ namespace greatbridf
         bool isSuitable(HTTPRequest& request) override;
         HandleResult handle(HTTPRequest& request, std::iostream& stream, HTTPResponse& response, void* data) override;
     };
-
-    class PostPlugin : public IPlugin
-    {
-     public:
-        PostPlugin();
-        ~PostPlugin() override;
-    };
 }
 
-extern "C"
-{
-greatbridf::IPlugin* registerPlugin()
-{
-    return new greatbridf::PostPlugin();
-}
-}
+__GREATBRIDF_DEFINE_PLUGIN_(PostPlugin);
 
 #endif //_POSTHANDLER_HPP_

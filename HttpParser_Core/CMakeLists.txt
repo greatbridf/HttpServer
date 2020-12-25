@@ -1,8 +1,14 @@
 cmake_minimum_required(VERSION 3.15)
 project(HttpParser_Core)
 
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_FLAGS "-O3 -fPIC ${CMAKE_CXX_FLAGS}")
+set(CMAKE_CXX_STANDARD 17)
+if (CMAKE_BUILD_TYPE STREQUAL Debug)
+    set(CMAKE_CXX_FLAGS "-g -fPIC ${CMAKE_CXX_FLAGS}")
+elseif (CMAKE_BUILD_TYPE STREQUAL Release)
+    set(CMAKE_CXX_FLAGS "-O3 -fPIC ${CMAKE_CXX_FLAGS}")
+elseif (CMAKE_BUILD_TYPE STREQUAL RelWithDebInfo)
+    set(CMAKE_CXX_FLAGS "-g -O3 -fPIC ${CMAKE_CXX_FLAGS}")
+endif()
 
 include_directories(include)
 
@@ -43,6 +49,7 @@ set(HEADER
 
         include/HttpParser_Core.hpp
         include/constants.hpp
+        include/Utils/Foundation/PosixCall.hpp
         )
 
 set(SOURCE
@@ -67,6 +74,7 @@ set(SOURCE
         src/HTTP/HTTPResponse.cpp
         src/HTTP/HTTPResponseCodes.cpp
         src/HTTP/HTTPResponseHead.cpp
+        src/Utils/Foundation/pipe_exec.cpp
         )
 
 add_library(HttpParser_Core ${SOURCE} ${HEADER})

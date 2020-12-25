@@ -7,6 +7,7 @@
 
 #include <map>
 #include <string>
+#include <algorithm>
 
 namespace greatbridf
 {
@@ -18,6 +19,8 @@ namespace greatbridf
         {
             this->_headers[key] = std::to_string(value);
         }
+
+        void unset(const std::string& key);
 
         const std::string& get(const std::string& key) const;
 

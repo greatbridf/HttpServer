@@ -1,24 +1,22 @@
 //
-// Created by David Mike on 2020/5/1.
+// Created by David Mike on 2020/7/16
 //
 
-#ifndef _GETHANDLER_HPP_
-#define _GETHANDLER_HPP_
+#ifndef _HANDLER_PLAINTEXT_HPP_
+#define _HANDLER_PLAINTEXT_HPP_
 
-#include <Utils/Foundation/Plugin/IHTTPHandler.hpp>
 #include <Utils/Foundation/Plugin/IPlugin.hpp>
 
 namespace greatbridf
 {
-    class GetHandler : public IHTTPHandler
+    class PlainTextHandler : public IHTTPHandler
     {
      public:
-        ~GetHandler() override;
         bool isSuitable(HTTPRequest& request) override;
         HandleResult handle(HTTPRequest& request, std::iostream& stream, HTTPResponse& response, void* data) override;
     };
 }
 
-__GREATBRIDF_DEFINE_PLUGIN_(Plugin);
+__GREATBRIDF_DEFINE_PLUGIN_(PlainText);
 
-#endif //_GETHANDLER_HPP_
+#endif
