@@ -49,7 +49,7 @@ namespace greatbridf
     }
     HTTPVersion Parse::Version(const std::string& str)
     {
-        if (str == "HTTP/1.1")
+        if (str == "HTTP/1.1" or str == "HTTP/1.0")
         {
             return HTTPVersion::ONE;
         }
