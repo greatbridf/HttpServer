@@ -3,7 +3,8 @@
 //
 
 #include "PlainText.hpp"
-#include <src/Configurations.hpp>
+
+#include <Utils/Foundation/Plugin/Site.hpp>
 
 namespace greatbridf
 {

@@ -17,9 +17,7 @@ endif()
 
 add_definitions(-D__PREFIX=\"${CMAKE_INSTALL_PREFIX}\")
 
-include_directories(.)
 include_directories(HttpParser_Core/include)
-include_directories(src)
 include_directories(third-party)
 
 SET(HEADER
@@ -36,6 +34,7 @@ SET(SOURCE
         )
 
 add_executable(HttpParser ${HEADER} ${SOURCE})
+target_include_directories(HttpParser PRIVATE src)
 target_link_libraries(HttpParser HttpParser_Core pthread dl)
 add_dependencies(HttpParser GetHandler PostHandler PlainTextHandler NodeJS)
 

@@ -4,9 +4,9 @@
 
 #include "NodeJS.hpp"
 
-#include <src/Configurations.hpp>
-#include <src/Application.h>
 #include <Utils/Foundation/PosixCall.hpp>
+#include <Utils/Foundation/Plugin/Site.hpp>
+#include <Utils/Foundation/BasicIO.hpp>
 
 bool greatbridf::NodeJSHandler::isSuitable(HTTPRequest& request)
 {
@@ -24,16 +24,7 @@ greatbridf::NodeJSHandler::handle(HTTPRequest& request, std::iostream& stream, H
         stream.ignore(std::stoi(size));
     }
 
-    const auto& config = global_configs();
-    ::std::string node_path;
-    if (config.has_option("node_path"))
-    {
-        node_path = config.global_option("node_path");
-    }
-    else
-    {
-        node_path = _GREATBRIDF_NODE_PATH;
-    }
+    ::std::string node_path = _GREATBRIDF_NODE_PATH;
 
     char* const args[] =
         {

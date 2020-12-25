@@ -8,6 +8,11 @@ namespace greatbridf
         this->msg = msg;
     }
 
+    Exception::Exception(std::string msg)
+    {
+        this->msg = msg;
+    }
+
     const char* Exception::what() const noexcept
     {
         return this->msg.c_str();

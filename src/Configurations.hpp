@@ -16,13 +16,6 @@ using json = nlohmann::json;
 
 namespace greatbridf
 {
-    struct Site
-    {
-        std::string rule;
-        std::string handler;
-        std::string path;
-    };
-
     class Configurations : public NonCopyable
     {
      public:

@@ -7,5 +7,6 @@
 
 #include "Plugin/IPlugin.hpp"
 #include "Plugin/PluginManager.hpp"
+#include "Plugin/Site.hpp"
 
 #endif //_PLUGIN_HPP_

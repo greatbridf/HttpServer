@@ -10,6 +10,7 @@ namespace greatbridf
     {
      public:
         explicit Exception(const char* msg);
+        explicit Exception(std::string msg);
 
         const char* what() const noexcept override;
 
