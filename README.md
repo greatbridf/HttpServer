@@ -13,3 +13,9 @@ cmake --config=Release -DCMAKE_INSTALL_PREFIX=<install prefix> <destination>
 cd <destination>
 make && make install
 ```
+
+# usage
+to show compile flags, run:
+``` bash
+./HttpParser --print-compile-flags
+```
