@@ -15,3 +15,9 @@ build/
 
 # idea
 .idea/
+
+# cache
+.cache/
+
+# compile_commands for YCM and etc.
+compile_commands.json

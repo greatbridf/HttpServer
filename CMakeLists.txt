@@ -9,6 +9,13 @@ set(CMAKE_CXX_STANDARD 17)
 if (CMAKE_BUILD_TYPE STREQUAL Debug)
     set(CMAKE_CXX_FLAGS "-g -fPIC ${CMAKE_CXX_FLAGS}")
     set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR})
+    set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+    if (EXISTS "${CMAKE_CURRENT_BINARY_DIR}/compile_commands.json")
+        execute_process(COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                ${CMAKE_CURRENT_BINARY_DIR}/compile_commands.json
+                ${CMAKE_CURRENT_SOURCE_DIR}/compile_commands.json
+                )
+    endif()
 elseif (CMAKE_BUILD_TYPE STREQUAL Release)
     set(CMAKE_CXX_FLAGS "-O3 -fPIC ${CMAKE_CXX_FLAGS}")
 elseif (CMAKE_BUILD_TYPE STREQUAL RelWithDebInfo)
